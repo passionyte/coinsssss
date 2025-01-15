@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Clicker</title>
+        <script src="game.js" defer></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <div id="loading" style="width: 100%; height: 100%">
+            <a class="text">Loading!</a>
+        </div>
+        <div id="main" class="text" style="float: left; width: 50%" hidden>
+            <a style="height: 8%; font-size: 60px; display: block">Coinsssss</a>
+            <br>
+            <a id="clicks" style="font-size: 20px">0 coins</a>
+            <br>
+            <a id="clicksps" style="font-size: 14px">0 coins/s</a>
+            <div> <!--This is how you write a comment in case you inevitably forget-->
+                <button id="bigbutton" class="bigbutton" style="opacity: 0%; z-index: 1"></button>
+                <img src="" class="bigbutton">
+            </div>
+        </div>
+        <div id="main2" class="text" style="float: right; width: 40%" hidden>
+            <a style="height: 8%; font-size: 40px; display: block">Shop</a>
+            <div style="display: block; margin-bottom: 2%">
+                <button class="text" id="structures">Structures</button>
+                <button class="text" id="upgrades">Upgrades</button>
+            </div>
+            <div id="items"> 
+                <div class="item" id="itemdummy" hidden>
+                    <img src="A" style="width: 100px; height: 100px; float: left; margin-right: 10px">
+                    <a class="itemtext" style="font-size: 16px">Title</a>
+                    <a class="itemtext" style="font-size: 12px; margin-bottom: 20px">Description ghyrhfjikldehueijiorfbfbigebighrwfgyiergiy8ihygihogwfihgiupegyiregioffgiofriu</a>
+                    <button class="text" style="display: block">Purchase for 0 coins</button>
+                </div> 
+            </div>
+        </div>
+    </body>
+</html>
