@@ -20,7 +20,7 @@ let stats = {
 
 const items = {
     structures: [
-        Clicker = {Cost: 15, CoinsPs: 0.1, Description: "Click click click"}
+        Clicker = {Name: "Clicker", Cost: 15, CoinsPs: 0.1, Description: "Click click click"}
     ],
     upgrades: [
         DoubleClick = {Name: "Double Click", Cost: 100, CoinsPc: 1, Description: "Doubles your coins per click"}
@@ -43,22 +43,23 @@ function save() {
 }
 
 function shop(type) {
-    console.log(type)
     const list = items[type]
 
     if (list) {
-        console.log("found list")
+        itemlist.innerHTML = null
+
         for (const item in list) {
             const data = list[item]
 
             if (!data.Hidden && !stats.Purchased[item] && data.Cost) {
                 let clone = itemdummy.cloneNode(true)
+                const c = clone.children
 
-                clone[0].src = data.Icon || ""
-                clone[1].innerText = data.Name || item
-                clone[2].innerText = data.Description || "No description"
+                c[0].src = data.Icon || ""
+                c[1].innerText = data.Name || "No name"
+                c[2].innerText = data.Description || "No description"
 
-                const button = clone[3]
+                const button = c[3]
                 button.innerText = `Purchase for ${data.Cost} coins`
                 button.addEventListener("click", _=> {
                     if (stats.Coins >= data.Cost) {
@@ -90,12 +91,14 @@ function shop(type) {
 // Listeners
 
 bigbutton.addEventListener("click", _ => {
-    console.log("Clicked")
     stats.Coins += stats.CoinsPc
     clicks.innerText = `${stats.Coins} coins`
 })
 
 structb.addEventListener("click", _ => {
-    console.log("Structures clicked")
     shop("structures")
+})
+
+upgb.addEventListener("click", _ => {
+    shop("upgrades")
 })
