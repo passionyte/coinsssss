@@ -16,9 +16,12 @@ let stats = {
     Coins: 0,
     CoinsPs: 0,
     CoinsPc: 1,
+    CoinsMPc: 0, // Ps bonus given to Pc from the fractal below
+    CoinsPcPs: 0, // Fraction of Ps given to Pc
     Purchased: {},
     Structures: {}
 }
+let loaded = false
 
 const items = {
     structures: [
@@ -26,7 +29,7 @@ const items = {
         Miner = {Name: "Miner", Cost: 100, CoinsPs: 1, Description: "Hire a miner to mine more coins."},
         Trader = {Name: "Trader", Cost: 800, CoinsPs: 4, Description: "Hire a 'Professional' coin trader to make more coins."},
         Business = {Name: "Business", Cost: 2000, CoinsPs: 20, Description: "Start a business to exchange goods and services for more coins."},
-        Factory = {Name: "Factory", Cost: 16000, CoinsPs: 100, Description: "Why not build a Factory that produces coins?"}
+        Factory = {Name: "Factory", Cost: 16000, CoinsPs: 128, Description: "Why not build a Factory that produces coins?"}
     ],
     upgrades: [
         DoubleClick = {Name: "Double Click", Cost: 100, CoinsPc: 1, Description: "Doubles your coins per click!"},
@@ -34,13 +37,14 @@ const items = {
         TripleClick = {Name: "Triple Click", Cost: 500, CoinsPc: 1, Description: "Increases your coins per click to 3!", Requirements: {Stats: {CoinsPc: 2}}},
         IronPickaxe = {Name: "Iron Pickaxe", Cost: 2000, StructName: "Miner", StructMult: 2, CoinsPs: 0, Description: "Upgrade pickaxes from Stone to Iron. Miners are twice as efficient!", Requirements: {Structures: {Miner: 1}}},
         QuadClick = {Name: "Quad Click", Cost: 1337, CoinsPc: 1, Description: "Increases your coins per click to 4!", Requirements: {Stats: {CoinsPc: 3}}},
-        Scamming = {Name: "Scamming", Cost: 10000, StructName: "Trader", StructMult: 2, CoinsPs: 0, Description: "Scam rich people! Traders are twice as efficient!", Requirements: {Structures: {Trader: 1}}},
+        Scamming = {Name: "Scamming", Cost: 7777, StructName: "Trader", StructMult: 2, CoinsPs: 0, Description: "Scam rich people! Traders are twice as efficient!", Requirements: {Structures: {Trader: 1}}},
         EightBallClick = {Name: "8-Ball Click", Cost: 8888, CoinsPc: 2, Multiply: true, Description: "Magic 8 Ball... Give me more coins... Doubles your coins per click!", Requirements: {Stats: {CoinsPc: 4}}},
         Enterprise = {Name: "Enterprise", Cost: 30000, StructName: "Business", StructMult: 2, CoinsPs: 0, Description: "Surely giving your businesses a fancy name will attract more customers... Businesses are twice as efficient!", Requirements: {Structures: {Business: 1}}},
         OilMachine = {Name: "Well-Oiled Machines", Cost: 80000, StructName: "Factory", StructMult: 2, CoinsPs: 0, Description: "Upgrade the machines in your factory to industry standard. Factories are twice as efficient!", Requirements: {Structures: {Factory: 1}}},
         StoneMouse = {Name: "Stone Mouse", Cost: 1000, StructName: "Clicker", StructMult: 2, CoinsPs: 0, Description: "Clonk clonk clonk... Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 10}}},
-        GoldPickaxe = {Name: "Gold Pickaxe", Cost: 10000, StructName: "Miner", StructMult: 2, CoinsPs: 0, Description: "Upgrade pickaxes from Iron to Gold. Must be better... right? Miners are twice as efficient!", Requirements: {Structures: {Miner: 10}}},
-        ShowerThoughts = {Name: "Shower Thoughts", Cost: 66661, StructName: "Trader", StructMult: 2, CoinsPs: 0, Description: "So... how *else* can we scam people...? Darn! Dropped the soap again! Traders are twice as efficient!", Requirements: {Structures: {Trader: 10}}},
+        GoldPickaxe = {Name: "Gold Pickaxe", Cost: 5000, StructName: "Miner", StructMult: 2, CoinsPs: 0, Description: "Upgrade pickaxes from Iron to Gold. Must be better... right? Miners are twice as efficient!", Requirements: {Structures: {Miner: 10}}},
+        ShowerThoughts = {Name: "Shower Thoughts", Cost: 16661, StructName: "Trader", StructMult: 2, CoinsPs: 0, Description: "So... how *else* can we scam people...? Darn! Dropped the soap again! Traders are twice as efficient!", Requirements: {Structures: {Trader: 10}}},
+        DreamersClick = {Name: "Dreamer's Click", Cost: 20000, CoinsPcPs: 0.1, Description: "Zzzzzz.... coins.... Clicking earns 10% of your coins per second!", Requirements: {Stats: {CoinsPc: 8}}},
     ]
 }
 
@@ -52,7 +56,22 @@ function smartround(x) { // For when you don't want a billion decimals in a numb
 
 function refresh() {
     clicks.innerText = `${Math.floor(stats.Coins)} coins`
-    prod.innerText = `${smartround(stats.CoinsPs)} coins/s`
+    prod.innerText = `${smartround(stats.CoinsPs + stats.CoinsMPc)} coins/s`
+}
+
+function get(table, x) {
+    let count = 0
+    let result
+
+    for (const thing in table) {
+        if (count == x) {
+            result = thing
+            break
+        }
+        count++
+    }
+
+    return result
 }
 
 function load() {
@@ -60,9 +79,11 @@ function load() {
     const data = localStorage.getItem("Data")
 
     if (data) {
-        for (const thing in data) {
-            if (stats[thing]) {
-                stats[thing] = data[thing]
+        const savedata = JSON.parse(data)
+
+        for (let thing in savedata) {
+            if (stats[thing] != null) {
+                stats[thing] = savedata[thing]
             }
         }
     }
@@ -82,10 +103,14 @@ function load() {
     document.getElementById("loading").hidden = true
     document.getElementById("main").hidden = false
     document.getElementById("main2").hidden = false
+
+    loaded = true
 }
 
 function save() {
-    localStorage.setItem("Data", stats)
+    if (stats.Coins > 0 && loaded) {
+        localStorage.setItem("Data", JSON.stringify(stats))
+    }
 }
 
 function find(array, string) {
@@ -164,11 +189,17 @@ function shop(type) {
                                         const prod = (sdata.Ps * sdata.Amount)
 
                                         stats.CoinsPs += ((prod * data.StructMult) - prod)
+                                        stats.CoinsMPc = (stats.CoinsPs * stats.CoinsPcPs)
                                         sdata.Ps *= data.StructMult
                                     }
                                     else {
                                         if (type == "structures" && buff == "CoinsPs") {
                                             stats[buff] += stats.Structures[data.Name].Ps
+                                            stats.CoinsMPc = (stats.CoinsPs * stats.CoinsPcPs)
+                                        }
+                                        else if (buff == "CoinsPcPs") {
+                                            stats.CoinsPcPs += data[buff]
+                                            stats.CoinsMPc = (stats.CoinsPs * stats.CoinsPcPs)
                                         }
                                         else {
                                             stats[buff] += data[buff]
@@ -207,7 +238,7 @@ upgb.addEventListener("click", _ => {
 // Hard coded shit
 
 setInterval(_ => {
-    stats.Coins += (stats.CoinsPs / 100)
+    stats.Coins += ((stats.CoinsPs + stats.CoinsMPc) / 100)
     refresh()
 }, 10)
 setInterval(_=> {
