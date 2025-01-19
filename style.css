@@ -1,8 +1,5 @@
-.bigbutton {
-    width: 400px;
-    height: 400px;
-    margin-top: 100px;
-    position: absolute
+body {
+    background-image: linear-gradient(rgb(255, 230, 120), rgb(255, 240, 160));
 }
 
 .text {
@@ -10,11 +7,15 @@
 }
 
 .item {
-    background-color: rgb(150, 150, 150);
+    background-color: rgb(226, 165, 59);
     width: 70%;
     height: fit-content;
     padding-bottom: 2%;
     padding-right: 2%;
+    border-color: rgb(190, 140, 45);
+    border-style: solid;
+    border-width: medium;
+    margin-bottom: 2%
 }
 
 .itemtext {

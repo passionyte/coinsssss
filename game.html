@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Clicker</title>
+        <title>Coinsssss!</title>
         <script src="game.js" defer></script>
         <link rel="stylesheet" href="style.css">
     </head>
@@ -10,18 +10,22 @@
             <a class="text">Loading!</a>
         </div>
         <div id="main" class="text" style="float: left; width: 50%" hidden>
-            <a style="height: 8%; font-size: 60px; display: block">Coinsssss</a>
+            <a style="height: 6%; font-size: 60px; display: block"><b>Coinsssss!</b></a>
+            <a style="height: 2%; font-size: 16px; display: block"><i>A game by Passionyte</i></a>
             <br>
-            <a id="clicks" style="font-size: 20px">0 coins</a>
-            <br>
-            <a id="clicksps" style="font-size: 14px">0 coins/s</a>
+            <div style="background-color: rgb(50, 50, 50, 0.75); width: 50%">
+                <a id="clicks" style="font-size: 20px; color: white;">0 coins</a>
+                <br>
+                <a id="clicksps" style="font-size: 14px; color: white;">0 coins/s</a>
+            </div>
             <div> <!--This is how you write a comment in case you inevitably forget-->
-                <button id="bigbutton" class="bigbutton" style="opacity: 0%; z-index: 1"></button>
-                <img src="" class="bigbutton">
+                <div id="bigbutton" class="bigbutton" style="background-image: url(images/coin.png); margin-top: 50px; display: block; height: 250px; width: 250px; -webkit-user-drag: none;">
+                   <!--<a id="numdummy" hidden>+1</a>-->
+                </div>
             </div>
         </div>
         <div id="main2" class="text" style="float: right; width: 40%" hidden>
-            <a style="height: 8%; font-size: 40px; display: block">Shop</a>
+            <a style="height: 8%; font-size: 40px; display: block"><b>Shop</b></a>
             <div style="display: block; margin-bottom: 2%">
                 <button class="text" id="structures">Structures</button>
                 <button class="text" id="upgrades">Upgrades</button>
@@ -30,7 +34,7 @@
                 <div class="item" id="itemdummy" hidden>
                     <img src="" style="aspect-ratio: inherit; height: 42px; width: 42px; float: left; margin-right: 10px">
                     <a class="itemtext" style="font-size: 16px">Title</a>
-                    <a class="itemtext" style="font-size: 12px; margin-bottom: 20px">Description ghyrhfjikldehueijiorfbfbigebighrwfgyiergiy8ihygihogwfihgiupegyiregioffgiofriu</a>
+                    <a class="itemtext" style="font-size: 12px; margin-bottom: 20px">Description</a>
                     <button class="text" style="display: block">Purchase for 0 coins</button>
                 </div> 
             </div>

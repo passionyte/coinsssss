@@ -22,31 +22,50 @@ let stats = {
 
 const items = {
     structures: [
-        Clicker = {Name: "Clicker", Cost: 15, CoinsPs: 0.1, Description: "Click click click"},
-        Miner = {Name: "Miner", Cost: 100, CoinsPs: 1, Description: "Hire a miner to mine more coins"},
-        Trader = {Name: "Trader", Cost: 500, CoinsPs: 3, Description: "Hire a 'Professional' coin trader to make more coins"}
+        Clicker = {Name: "Clicker", Cost: 15, CoinsPs: 0.1, Description: "Click click click..."},
+        Miner = {Name: "Miner", Cost: 100, CoinsPs: 1, Description: "Hire a miner to mine more coins."},
+        Trader = {Name: "Trader", Cost: 800, CoinsPs: 4, Description: "Hire a 'Professional' coin trader to make more coins."},
+        Business = {Name: "Business", Cost: 2000, CoinsPs: 20, Description: "Start a business to exchange goods and services for more coins."},
+        Factory = {Name: "Factory", Cost: 16000, CoinsPs: 100, Description: "Why not build a Factory that produces coins?"}
     ],
     upgrades: [
-        DoubleClick = {Name: "Double Click", Cost: 100, CoinsPc: 1, Description: "Doubles your coins per click"},
-        WoodMouse = {Name: "Wood Mouse", Cost: 200, StructName: "Clicker", StructMult: 2, CoinsPs: 0, Description: "Clank clank clank... Clickers are twice as efficient"},
-        TripleClick = {Name: "Triple Click", Cost: 500, CoinsPc: 1, Description: "Increases your coins per click to 3"},
-        IronPickaxe = {Name: "Iron Pickaxe", Cost: 2000, StructName: "Miner", StructMult: 2, CoinsPs: 0, Description: "Upgrade the pickaxe from Stone to Iron. Miners are twice as efficient"}
+        DoubleClick = {Name: "Double Click", Cost: 100, CoinsPc: 1, Description: "Doubles your coins per click!"},
+        WoodMouse = {Name: "Wood Mouse", Cost: 200, StructName: "Clicker", StructMult: 2, CoinsPs: 0, Description: "Clank clank clank... Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 1}}},
+        TripleClick = {Name: "Triple Click", Cost: 500, CoinsPc: 1, Description: "Increases your coins per click to 3!", Requirements: {Stats: {CoinsPc: 2}}},
+        IronPickaxe = {Name: "Iron Pickaxe", Cost: 2000, StructName: "Miner", StructMult: 2, CoinsPs: 0, Description: "Upgrade pickaxes from Stone to Iron. Miners are twice as efficient!", Requirements: {Structures: {Miner: 1}}},
+        QuadClick = {Name: "Quad Click", Cost: 1337, CoinsPc: 1, Description: "Increases your coins per click to 4!", Requirements: {Stats: {CoinsPc: 3}}},
+        Scamming = {Name: "Scamming", Cost: 10000, StructName: "Trader", StructMult: 2, CoinsPs: 0, Description: "Scam rich people! Traders are twice as efficient!", Requirements: {Structures: {Trader: 1}}},
+        EightBallClick = {Name: "8-Ball Click", Cost: 8888, CoinsPc: 2, Multiply: true, Description: "Magic 8 Ball... Give me more coins... Doubles your coins per click!", Requirements: {Stats: {CoinsPc: 4}}},
+        Enterprise = {Name: "Enterprise", Cost: 30000, StructName: "Business", StructMult: 2, CoinsPs: 0, Description: "Surely giving your businesses a fancy name will attract more customers... Businesses are twice as efficient!", Requirements: {Structures: {Business: 1}}},
+        OilMachine = {Name: "Well-Oiled Machines", Cost: 80000, StructName: "Factory", StructMult: 2, CoinsPs: 0, Description: "Upgrade the machines in your factory to industry standard. Factories are twice as efficient!", Requirements: {Structures: {Factory: 1}}},
+        StoneMouse = {Name: "Stone Mouse", Cost: 1000, StructName: "Clicker", StructMult: 2, CoinsPs: 0, Description: "Clonk clonk clonk... Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 10}}},
+        GoldPickaxe = {Name: "Gold Pickaxe", Cost: 10000, StructName: "Miner", StructMult: 2, CoinsPs: 0, Description: "Upgrade pickaxes from Iron to Gold. Must be better... right? Miners are twice as efficient!", Requirements: {Structures: {Miner: 10}}},
+        ShowerThoughts = {Name: "Shower Thoughts", Cost: 66661, StructName: "Trader", StructMult: 2, CoinsPs: 0, Description: "So... how *else* can we scam people...? Darn! Dropped the soap again! Traders are twice as efficient!", Requirements: {Structures: {Trader: 10}}},
     ]
 }
 
 // Functions
 
+function smartround(x) { // For when you don't want a billion decimals in a number and instead 'n' decimals
+    return (Math.round(x * 10) / 10)
+}
+
 function refresh() {
-    clicks.innerText = `${Math.round(stats.Coins)} coins`
-    prod.innerText = `${stats.CoinsPs} coins/s`
+    clicks.innerText = `${Math.floor(stats.Coins)} coins`
+    prod.innerText = `${smartround(stats.CoinsPs)} coins/s`
 }
 
 function load() {
-    document.getElementById("loading").hidden = true
-    document.getElementById("main").hidden = false
-    document.getElementById("main2").hidden = false
-
     // Data
+    const data = localStorage.getItem("Data")
+
+    if (data) {
+        for (const thing in data) {
+            if (stats[thing]) {
+                stats[thing] = data[thing]
+            }
+        }
+    }
 
     for (const structure in items.structures) {
         const data = items.structures[structure]
@@ -58,10 +77,15 @@ function load() {
             }
         }
     }
+
+    // Interface
+    document.getElementById("loading").hidden = true
+    document.getElementById("main").hidden = false
+    document.getElementById("main2").hidden = false
 }
 
 function save() {
-    
+    localStorage.setItem("Data", stats)
 }
 
 function find(array, string) {
@@ -77,6 +101,27 @@ function find(array, string) {
     return (result)
 }
 
+function available(reqs) {
+    for (const type in reqs) {
+        if (type == "Structures") {
+            for (const struct in reqs[type]) {
+                if (stats.Structures[struct].Amount < reqs[type][struct]) {
+                    return false
+                }
+            }
+        }
+        else {
+            for (const stat in reqs[type]) {
+                if (stats[stat] < reqs[type][stat]) {
+                    return false
+                }
+            }
+        }
+    }
+
+    return true
+}
+
 function shop(type) {
     if (type) {
         const list = items[type]
@@ -87,7 +132,7 @@ function shop(type) {
             for (const item in list) {
                 const data = list[item]
 
-                if (!data.Hidden && (type == "structures" || !find(stats.Purchased, data.Name)) && data.Cost) {
+                if (!data.Hidden && (type == "structures" || !find(stats.Purchased, data.Name)) && data.Cost && available(data.Requirements)) {
                     const clone = itemdummy.cloneNode(true)
                     const c = clone.children
     
@@ -162,8 +207,11 @@ upgb.addEventListener("click", _ => {
 // Hard coded shit
 
 setInterval(_ => {
-    stats.Coins += stats.CoinsPs
+    stats.Coins += (stats.CoinsPs / 100)
     refresh()
-}, 1000)
+}, 10)
+setInterval(_=> {
+    save()
+}, 30000)
 
-load()
+setTimeout(load, 1000)
