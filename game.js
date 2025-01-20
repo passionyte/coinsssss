@@ -189,22 +189,20 @@ function shop(type) {
                                         const prod = (sdata.Ps * sdata.Amount)
 
                                         stats.CoinsPs += ((prod * data.StructMult) - prod)
-                                        stats.CoinsMPc = (stats.CoinsPs * stats.CoinsPcPs)
                                         sdata.Ps *= data.StructMult
                                     }
                                     else {
                                         if (type == "structures" && buff == "CoinsPs") {
                                             stats[buff] += stats.Structures[data.Name].Ps
-                                            stats.CoinsMPc = (stats.CoinsPs * stats.CoinsPcPs)
                                         }
                                         else if (buff == "CoinsPcPs") {
                                             stats.CoinsPcPs += data[buff]
-                                            stats.CoinsMPc = (stats.CoinsPs * stats.CoinsPcPs)
                                         }
                                         else {
                                             stats[buff] += data[buff]
                                         }
                                     }
+                                    stats.CoinsMPc = (stats.CoinsPs * stats.CoinsPcPs)
                                 }
                             }
                             refresh()
