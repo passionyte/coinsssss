@@ -61,6 +61,10 @@ const items = {
         SuperFullTime = {Name: "Super Full-Time", Cost: 400000, StructName: "Business", StructMult: 2, Description: "So workers thought full-time was a lot? You say: Nah. Businesses are twice as efficient!", Requirements: {Structures: {Business: 25}}},
         Nuclear = {Name: "Nuclear Mechanics", Cost: 1000000, StructName: "Factory", StructMult: 2, Description: "Radioactive. Factories are twice as efficient!", Requirements: {Structures: {Factory: 25}}},
         SilverFortune = {Name: "Silver Fortune", Cost: 1000000, CoinsPsMult: 0.25, Description: "'Second is the best' Gives 25% production multiplier.", Requirements: {Stats: {CoinsPsMult: 1.1}}},
+        EightSquared = {Name: "8^2", Cost: 900000, StructName: "EightBall", StructMult: 2, Description: "8 squared is 64! 8-Balls are twice as efficient!", Requirements: {Structures: {EightBall: 1}}},
+        EightCubed = {Name: "8^3", Cost: 4000000, StructName: "EightBall", StructMult: 2, Description: "8 cubed is 512! 8-Balls are twice as efficient!", Requirements: {Structures: {EightBall: 10}}},
+        Investors = {Name: "Investors", Cost: 2000000, StructName: "Currency", StructMult: 2, Description: "Get top of the line investors to well.. endorse coins! Currencies are twice as efficient!", Requirements: {Structures: {Currency: 1}}},
+        Supercharged = {Name: "Supercharged", Cost: 6000000, StructName: "Alchemy", StructMult: 2, Description: "Supercharged SCIENCE! Alchemy Labs are twice as efficient!", Requirements: {Structures: {Alchemy: 1}}},
     ]
 }
 
