@@ -101,7 +101,7 @@ function load() {
         else {
             const amt = stats.Structures[data.Name].Amount
             if (amt > 0) {
-                data.Cost = Math.floor((data.Cost * (1.1 * amt)))
+                data.Cost = Math.floor((data.Cost * (1 + (0.1 * amt))))
             }
         }
     }
