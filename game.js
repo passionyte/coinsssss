@@ -45,7 +45,7 @@ const items = {
         Scamming = {Name: "Scamming", Cost: 7777, StructName: "Trader", StructMult: 2, Description: "Scam rich people! Traders are twice as efficient!", Requirements: {Structures: {Trader: 1}}},
         EightBallClick = {Name: "8-Ball Click", Cost: 8888, CoinsPc: 2, Multiply: true, Description: "Magic 8 Ball... Give me more coins... Doubles your coins per click!", Requirements: {Stats: {CoinsPc: 4}}},
         Enterprise = {Name: "Enterprise", Cost: 25000, StructName: "Business", StructMult: 2, Description: "Surely giving your businesses a fancy name will attract more customers... Businesses are twice as efficient!", Requirements: {Structures: {Business: 1}}},
-        OilMachine = {Name: "Well-Oiled Machines", Cost: 70000, StructName: "Factory", StructMult: 2, Description: "Upgrade the machines in your factory to industry standard. Factories are twice as efficient!", Requirements: {Structures: {Factory: 1}}},
+        OilMachine = {Name: "Well-Oiled Machines", Cost: 70000, StructName: "Factory", StructMult: 2, Description: "Upgrade the machines in your factories to industry standard. Factories are twice as efficient!", Requirements: {Structures: {Factory: 1}}},
         StoneMouse = {Name: "Stone Mouse", Cost: 1000, StructName: "Clicker", StructMult: 2, Description: "Clonk clonk clonk... Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 10}}},
         GoldPickaxe = {Name: "Gold Pickaxe", Cost: 5000, StructName: "Miner", StructMult: 2, Description: "Upgrade pickaxes from Iron to Gold. Must be better... right? Miners are twice as efficient!", Requirements: {Structures: {Miner: 10}}},
         ShowerThoughts = {Name: "Shower Thoughts", Cost: 10000, StructName: "Trader", StructMult: 2, Description: "So... how *else* can we scam people...? Darn! Dropped the soap again! Traders are twice as efficient!", Requirements: {Structures: {Trader: 10}}},
@@ -61,10 +61,10 @@ const items = {
         SuperFullTime = {Name: "Super Full-Time", Cost: 400000, StructName: "Business", StructMult: 2, Description: "So workers thought full-time was a lot? You say: Nah. Businesses are twice as efficient!", Requirements: {Structures: {Business: 25}}},
         Nuclear = {Name: "Nuclear Mechanics", Cost: 1000000, StructName: "Factory", StructMult: 2, Description: "Radioactive. Factories are twice as efficient!", Requirements: {Structures: {Factory: 25}}},
         SilverFortune = {Name: "Silver Fortune", Cost: 1000000, CoinsPsMult: 0.25, Description: "'Second is the best' Gives 25% production multiplier.", Requirements: {Stats: {CoinsPsMult: 1.1}}},
-        EightSquared = {Name: "8^2", Cost: 900000, StructName: "EightBall", StructMult: 2, Description: "8 squared is 64! 8-Balls are twice as efficient!", Requirements: {Structures: {EightBall: 1}}},
-        EightCubed = {Name: "8^3", Cost: 4000000, StructName: "EightBall", StructMult: 2, Description: "8 cubed is 512! 8-Balls are twice as efficient!", Requirements: {Structures: {EightBall: 10}}},
+        EightSquared = {Name: "8^2", Cost: 900000, StructName: "8-Ball", StructMult: 2, Description: "8 squared is 64! 8-Balls are twice as efficient!", Requirements: {Structures: {["8-Ball"]: 1}}},
+        EightCubed = {Name: "8^3", Cost: 4000000, StructName: "8-Ball", StructMult: 2, Description: "8 cubed is 512! 8-Balls are twice as efficient!", Requirements: {Structures: {["8-Ball"]: 10}}},
         Investors = {Name: "Investors", Cost: 2000000, StructName: "Currency", StructMult: 2, Description: "Get top of the line investors to well.. endorse coins! Currencies are twice as efficient!", Requirements: {Structures: {Currency: 1}}},
-        Supercharged = {Name: "Supercharged", Cost: 6000000, StructName: "Alchemy", StructMult: 2, Description: "Supercharged SCIENCE! Alchemy Labs are twice as efficient!", Requirements: {Structures: {Alchemy: 1}}},
+        Supercharged = {Name: "Supercharged", Cost: 6000000, StructName: "Alchemy Lab", StructMult: 2, Description: "Supercharged SCIENCE! Alchemy Labs are twice as efficient!", Requirements: {Structures: {["Alchemy Lab"]: 1}}},
     ]
 }
 
