@@ -62,7 +62,7 @@ const items = {
         CoinApprovedClick = {Name: "Coin-Approved Click", Cost: 150000, CoinsPc: 12, Multiply: true, Description: "The name speaks for itself. Base coins per click is multiplied by 12.", Requirements: {Stats: {CoinsPc: 8}}},
         SuperFullTime = {Name: "Super Full-Time", Cost: 400000, StructName: "Business", StructMult: 2, Description: "So workers thought full-time was a lot? You say: Nah. Businesses are twice as efficient!", Requirements: {Structures: {Business: 25}}},
         Nuclear = {Name: "Nuclear Mechanics", Cost: 1000000, StructName: "Factory", StructMult: 2, Description: "Radioactive. Factories are twice as efficient!", Requirements: {Structures: {Factory: 25}}},
-        SilverFortune = {Name: "Silver Fortune", Cost: 1000000, CoinsPsMult: 0.25, Description: "'Second is the best' Gives 15% production multiplier.", Requirements: {Stats: {CoinsPsMult: 1.1}}},
+        SilverFortune = {Name: "Silver Fortune", Cost: 1000000, CoinsPsMult: 0.15, Description: "'Second is the best' Gives 15% production multiplier.", Requirements: {Stats: {CoinsPsMult: 1.1}}},
         EightSquared = {Name: "8^2", Cost: 900000, StructName: "8-Ball", StructMult: 2, Description: "8 squared is 64! 8-Balls are twice as efficient!", Requirements: {Structures: {["8-Ball"]: 1}}},
         EightCubed = {Name: "8^3", Cost: 4000000, StructName: "8-Ball", StructMult: 2, Description: "8 cubed is 512! 8-Balls are twice as efficient!", Requirements: {Structures: {["8-Ball"]: 10}}},
         Investors = {Name: "Investors", Cost: 2000000, StructName: "Currency", StructMult: 2, Description: "Get top of the line investors to well.. endorse coins! Currencies are twice as efficient!", Requirements: {Structures: {Currency: 1}}},
@@ -78,7 +78,11 @@ const items = {
         Atomic = {Name: "Atomic Mechanics", Cost: 26000000, StructName: "Factory", StructMult: 2, Description: "ATOMIC. Factories are twice as efficient!", Requirements: {Structures: {Factory: 50}}},
         YeahScience = {Name: "YEAH SCIENCE!", Cost: 52000000, StructName: "Research Facility", StructMult: 2, Description: "Just go berzerk with your science. Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 10}}},
         Optimization = {Name: "Optimization", Cost: 168000000, StructName: "Matter Refiner", StructMult: 2, Description: "Make some absurdly expensive optimizations to your Matter Refiners for 'maximum' coin output. Matter Refiners are twice as efficient!", Requirements: {Structures: {["Matter Refiner"]: 1}}},
-        AdvancedPrograms = {Name: "Advanced Programs", Cost: 2140000000, StructName: "The Matrix", StructMult: 2, Description: "Get your tech gurus from the Research Facilities and in the Matrix to design better programs for COINS... And Only COINS... The Matrixes are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 1}}}
+        AdvancedPrograms = {Name: "Advanced Programs", Cost: 2140000000, StructName: "The Matrix", StructMult: 2, Description: "Get your tech gurus from the Research Facilities and in the Matrix to design better programs for COINS... And Only COINS... The Matrixes are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 1}}},
+        UniversalDevotion = {Name: "Universal Devotion", Cost: 192000000, StructName: "Currency", StructMult: 2, Description: "Ensure your coin currencies have become universally adopted. Currencies are twice as efficient!", Requirements: {Structures: {Currency: 25}}},
+        WhatComesAfterEightCubed = {Name: "What comes after 8^3", Cost: 44000000, StructName: "8-Ball", StructMult: 2, Description: "8^4 is 4096! 8-Balls are twice as efficient!", Requirements: {Structures: {["8-Ball"]: 25}}},
+        CoolerNumber = {Name: "Cooler Number", Cost: 204800000, StructName: "8-Ball", StructMult: 2, Description: "8^5 is 32768! Cool, right? I don't know what this has to do with 8-Balls. Just don't sink my cue. 8-Balls are twice as efficient!", Requirements: {Structures: {["8-Ball"]: 50}}},
+        MiningCompany = {Name: "Mining Company", Cost: 240000, StructName: "Business", StructMult: 2, OtherBoosts: {Miner: 4}, Description: "Starting a mining company kills two birds with one stone. Businesses are twice as efficient, Miners are 4 times as efficient!", Requirements: {Structures: {["Miner"]: 25, ["Business"]: 10}}}
     ]
 }
 
@@ -113,7 +117,8 @@ function load() {
         if (!stats.Structures[data.Name]) {
             stats.Structures[data.Name] = {
                 Amount: 0,
-                Ps: data.CoinsPs
+                Ps: data.CoinsPs,
+                Mult: 1
             }
         }
         else {
@@ -233,6 +238,22 @@ function shop(type) {
                                     }
                                 }
                             }
+
+                            const otherboosts = data.OtherBoosts
+                            if (otherboosts) {
+                                for (const name in otherboosts) {
+                                    const boost = otherboosts[name]
+
+                                    const sdata = stats.Structures[name]
+
+                                    sdata.Mult += boost
+
+                                    const prod = sdata.Ps
+                                    sdata.Ps = ((prod * sdata.Mult) - prod)
+                                    stats.CoinsPs += (sdata.Ps - prod)
+                                }
+                            }
+
                             stats.CoinsMPc = (stats.CoinsPs * stats.CoinsPcPs)
                             
                             refresh()
