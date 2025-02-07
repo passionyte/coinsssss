@@ -25,3 +25,10 @@ body {
     text-wrap: wrap;
     word-wrap: break-word;
 }
+
+.stat {
+    background-color: rgb(226, 165, 59);
+    width: 100%;
+    display: none;
+    height: 5%;
+}

@@ -17,12 +17,15 @@ let stats = {
     CoinsPs: 0,
     CoinsPc: 1,
     CoinsMPc: 0, // Ps bonus given to Pc from the fractal below
-    CoinsPcPs: 0, // Fraction of Ps given to Pc
-    CoinsPsMult: 1, // Actual multiplier
+    CoinsPcPs: 0,
+    CoinsPsMult: 1,
+    TotalCoins: 0,
+    Clicks: 0,
     Purchased: {},
     Structures: {}
 }
 let loaded = false
+let menuopen
 const fps = 30
 
 const items = {
@@ -103,7 +106,14 @@ const items = {
         LackOfIdeas = {Name: "Lack of Ideas", Cost: 781000000, StructName: "Currency", OtherBoosts: {Trader: 2}, Description: "Yeah, you heard me. But you can turn a lack of ideas into an idea! Profit!!! Traders and Currencies are twice as efficient!", Requirements: {Structures: {Currency: 50}}},
         BrainAge = {Name: "Brain Age", Cost: 95000000, StructName: "Trader", Description: "Training your brain every day will give you better scamming skills. Traders are twice as efficient!", Requirements: {Structures: {Trader: 100}}},
         Executives = {Name: "Executives", Cost: 2640000000, StructName: "Currency", OtherBoosts: {Trader: 4}, Description: "Turn the most senior of your Traders whom you are collaborating with into Executives for maximum corporative efficiency. Traders are 4 times as efficient, Currencies are twice as efficient!", Requirements: {Structures: {Currency: 100}}},
+        Ultrascience = {Name: "Ultrascience", Cost: 7500000000, StructName: "Research Facility", Description: "Ultrascience > Superscience. Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 100}}},
+        AdvancedAdapter = {Name: "Advanced Adapter", Cost: 133700000, StructName: "Research Facility", OtherBoosts: {Clicker: 1337}, Description: "This extremely advanced adapter makes Clickers competent! Research Facilities are twice as efficient, Clickers are 1337 times as efficient!", Requirements: {Structures: {["Research Facility"]: 5, Clicker: 100}}},
+        MoonstoneMouse = {Name: "Moonstone Mouse", Cost: 4500000, StructName: "Clicker", Description: "I'm gonna steal the MOOOOOON...stone. Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 150}}}
     ]
+}
+
+const acvs = {
+
 }
 
 // Functions
@@ -290,10 +300,47 @@ function shop(type) {
     }
 }
 
+function menu(type) {
+    const ui = document.getElementById(type)
+
+    if (menuopen && menuopen != type) {
+        document.getElementById(menuopen).hidden = true
+    }
+
+    if (ui && ui.hidden) {
+        document.getElementById("menulabel").innerText = type.toUpperCase()
+
+        menuopen = type
+        ui.hidden = false
+
+        if (type == "stats") {
+            ui.innerHTML = null
+
+            for (const stat in stats) {
+                const me = stats[stat]
+
+                if (typeof(me) == "number") {
+                    const entry = document.getElementById("statdummy").cloneNode()
+                    entry.innerText = `${stat} : ${me}`
+                    entry.style.display = "block"
+                    ui.appendChild(entry)
+                }
+            }
+        } 
+    }
+    else {
+        document.getElementById("menulabel").innerText = ""
+        ui.hidden = true
+    }
+}
+
 // Listeners
 
 bigbutton.addEventListener("click", _ => {
-    stats.Coins += (stats.CoinsPc + stats.CoinsMPc)
+    const x = (stats.CoinsPc + stats.CoinsMPc)
+    stats.Coins += x
+    stats.TotalCoins += x
+    stats.Clicks++
     refresh()
 })
 
@@ -305,10 +352,20 @@ upgb.addEventListener("click", _ => {
     shop("upgrades")
 })
 
-// Hard coded shit
+document.getElementById("statsbutton").addEventListener("click", _ => {
+    menu("stats")
+})
+
+document.getElementById("settingsbutton").addEventListener("click", _ => {
+    menu("settings")
+})
+
+// Hard coded crap
 
 setInterval(_ => {
-    stats.Coins += ((stats.CoinsPs * stats.CoinsPsMult) / fps)
+    const x = ((stats.CoinsPs * stats.CoinsPsMult) / fps)
+    stats.Coins += x
+    stats.TotalCoins += x
     refresh()
 }, fps)
 setInterval(_=> {
