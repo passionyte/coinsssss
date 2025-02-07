@@ -32,3 +32,12 @@ body {
     display: none;
     height: 5%;
 }
+
+.menu {
+    background-color: rgb(255, 210, 100);
+    font-family:'Courier New', Courier, monospace;
+    height: 100%;
+    border-color: rgb(200, 160, 65);
+    border-style: solid;
+    border-width: thick;
+}

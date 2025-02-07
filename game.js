@@ -26,6 +26,8 @@ let stats = {
 }
 let loaded = false
 let menuopen
+
+const version = "0.011 Alpha"
 const fps = 30
 
 const items = {
@@ -75,7 +77,7 @@ const items = {
         DiamondFortune = {Name: "Diamond Fortune", Cost: 9000000001, CoinsPsMult: 1, Description: "Didn't think you'd get this far, so here, take this! Gives 100% production multiplier.", Requirements: {Stats: {CoinsPsMult: 2}}},
         BrandEndorse = {Name: "Brand Endorsements", Cost: 16000000, StructName: "Currency", Description: "Why have investors endorse your coins when you can have brands do the same? Currencies are twice as efficient!", Requirements: {Structures: {Currency: 10}}},
         DiamondPickaxe = {Name: "Diamond Pickaxe", Cost: 400000, StructName: "Miner", Description: "Upgrade pickaxes from Platinum to Diamond. MINING AWAY... Miners are twice as efficient!", Requirements: {Structures: {Miner: 50}}},
-        ObsidianMouse = {Name: "Obsidian Mouse", Cost: 54000, StructName: "Clicker", Description: "Clonck clonck clonck... Patience is all you need... Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 50}}},
+        ObsidianMouse = {Name: "Obsidian Mouse", Cost: 104000, StructName: "Clicker", Description: "Clonck clonck clonck... Patience is all you need... Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 50}}},
         Collaboration = {Name: "Collaboration", Cost: 12000000, StructName: "Trader", OtherBoosts: {Currency: 2}, Description: "Well, judging by the amount of Traders you've acquired and the price of this upgrade... We'd just assume that you have a currency going. Why not collaborate! Traders and Currencies are twice as efficient!", Requirements: {Structures: {Trader: 50, Currency: 1}}},
         SuperUnion = {Name: "Super Union", Cost: 9900000, StructName: "Business", Description: "A union that is pro-working Super Full-Time hours! Businesses are twice as efficient!", Requirements: {Structures: {Business: 50}}},
         Atomic = {Name: "Atomic Mechanics", Cost: 26000000, StructName: "Factory", Description: "ATOMIC. Factories are twice as efficient!", Requirements: {Structures: {Factory: 50}}},
@@ -87,14 +89,14 @@ const items = {
         CoolerNumber = {Name: "Cooler Number", Cost: 204800000, StructName: "8-Ball", Description: "8^5 is 32768! Cool, right? I don't know what this has to do with 8-Balls. Just don't sink my cue. 8-Balls are twice as efficient!", Requirements: {Structures: {["8-Ball"]: 50}}},
         MiningCompany = {Name: "Mining Company", Cost: 240000, StructName: "Business", OtherBoosts: {Miner: 4}, Description: "Starting a mining company kills two birds with one stone. Businesses are twice as efficient, Miners are 4 times as efficient!", Requirements: {Structures: {Miner: 25, Business: 10}}},
         Condensers = {Name: "Condensers", Cost: 1048000000, StructName: "Matter Refiner", Description: "Condense management of refinement for more streamlined coin production. Matter Refiners are twice as efficient.", Requirements: {Structures: {["Matter Refiner"]: 10}}},
-        TitaniumMouse = {Name: "Titanium Mouse", Cost: 480000, StructName: "Clicker", Description: "A material perfect for endless rapid clicking. Clickers are twice as efficient.", Requirements: {Structures: {Clicker: 100}}},
+        TitaniumMouse = {Name: "Titanium Mouse", Cost: 4800000, StructName: "Clicker", Description: "A material perfect for endless rapid clicking. Clickers are twice as efficient.", Requirements: {Structures: {Clicker: 100}}},
         BloodstonePickaxe = {Name: "Bloodstone Pickaxe", Cost: 2100000, StructName: "Miner", Description: "Upgrade pickaxes from Diamond to Bloodstone, a very very hard material harvested from the depths of the underworld beating out the power of even diamonds. Miners are twice as efficient.", Requirements: {Structures: {Miner: 100}}},
         TheTruth = {Name: "The Truth", Cost: 10200000000, StructName: "The Matrix", Description: "All I can offer is the truth about coins. Nothing more. The Matrixes are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 10}}},
         HandsOnHeadsOn = {Name: "Hands on, Heads on.", Cost: 240000000, StructName: "Research Facility", Description: "Name explains it completely. Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 25}}},
         Superscience = {Name: "Superscience", Cost: 1600000000, StructName: "Research Facility", Description: "Extremely fast science. No need to distract others with YEAH SCIENCE! Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 50}}},
         LearningProgress = {Name: "Learning Progress", Cost: 1200000000, StructName: "Matter Refiner", OtherBoosts: {["Research Facility"]: 2}, Description: "You know what they say, practice makes perfect. Research Facilities and Matter Refiners are twice as efficient.", Requirements: {Structures: {["Matter Refiner"]: 5, ["Research Facility"]: 10}}},
         Industrialization = {Name: "Industrialization", Cost: 2900000000, StructName: "Matter Refiner", OtherBoosts: {Factory : 8}, Description: "Incorporate Matter Refiners into Factories. Matter Refiners are twice as efficient, Factories are 8 times as efficient!", Requirements: {Structures: {["Matter Refiner"]: 10, Factory: 50}}},
-        DevilsClick = {Name: "Devil's Click", Cost: 666666666, CoinsPc: 666, Multiply: true, Description: "The pure opposite of God's click. Base coins per click is multiplied by 666.", Requirements: {Stats: {CoinsPc: 96}}},
+        DevilsClick = {Name: "Devil's Click", Cost: 66666666, CoinsPc: 666, Multiply: true, Description: "The pure opposite of God's click. Base coins per click is multiplied by 666.", Requirements: {Stats: {CoinsPc: 96}}},
         GodsClick = {Name: "God's Click", Cost: 2100000000, CoinsPcPs: 0.05, Description: "Now this, this is holy. And also expensive. Clicking earns 5% of your coins per second!", Requirements: {Stats: {CoinsPcPs: 0.05}}},
         PureGenius = {Name: "Pure Genius", Cost: 8000000000, StructName: "Research Facility", Description: "Extremely smart science. Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 100}}},
         KeepingBusy = {Name: "Keeping Busy", Cost: 81000000, StructName: "Business", Description: "Just always be busy... Must be robot workers. Businesses are twice as efficient!", Requirements: {Structures: {Business: 100}}},
@@ -108,7 +110,9 @@ const items = {
         Executives = {Name: "Executives", Cost: 2640000000, StructName: "Currency", OtherBoosts: {Trader: 4}, Description: "Turn the most senior of your Traders whom you are collaborating with into Executives for maximum corporative efficiency. Traders are 4 times as efficient, Currencies are twice as efficient!", Requirements: {Structures: {Currency: 100}}},
         Ultrascience = {Name: "Ultrascience", Cost: 7500000000, StructName: "Research Facility", Description: "Ultrascience > Superscience. Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 100}}},
         AdvancedAdapter = {Name: "Advanced Adapter", Cost: 133700000, StructName: "Research Facility", OtherBoosts: {Clicker: 1337}, Description: "This extremely advanced adapter makes Clickers competent! Research Facilities are twice as efficient, Clickers are 1337 times as efficient!", Requirements: {Structures: {["Research Facility"]: 5, Clicker: 100}}},
-        MoonstoneMouse = {Name: "Moonstone Mouse", Cost: 4500000, StructName: "Clicker", Description: "I'm gonna steal the MOOOOOON...stone. Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 150}}}
+        MoonstoneMouse = {Name: "Moonstone Mouse", Cost: 55000000, StructName: "Clicker", Description: "I'm gonna steal the MOOOOOON...stone. Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 200}}},
+        AntimatterSupport = {Name: "Antimatter Support", Cost: 100000000000, StructName: "Matter Refiner", Description: "Your Research Facilities can truly accomplish anything huh? Matter Refiners are twice as efficient.", Requirements: {Structures: {["Matter Refiner"]: 100}}},
+        PalladiumPickaxe = {Name: "Palladium Pickaxe", Cost: 190000000, StructName: "Miner", Description: "Upgrade pickaxes from Bloodstone to Palladium, an extremely rare and absurdly expensive mineral forged from fragments of meteors and the Earth's core. Miners are twice as efficient.", Requirements: {Structures: {Miner: 200}}},
     ]
 }
 
@@ -321,7 +325,7 @@ function menu(type) {
 
                 if (typeof(me) == "number") {
                     const entry = document.getElementById("statdummy").cloneNode()
-                    entry.innerText = `${stat} : ${me}`
+                    entry.innerText = `${stat} : ${smartround(me)}`
                     entry.style.display = "block"
                     ui.appendChild(entry)
                 }
@@ -361,6 +365,8 @@ document.getElementById("settingsbutton").addEventListener("click", _ => {
 })
 
 // Hard coded crap
+
+document.getElementById("version").innerText = `v${version}`
 
 setInterval(_ => {
     const x = ((stats.CoinsPs * stats.CoinsPsMult) / fps)
