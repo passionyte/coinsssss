@@ -27,7 +27,7 @@ let stats = {
 let loaded = false
 let menuopen
 
-const version = "0.012 Alpha"
+const version = "0.012_1 Alpha"
 const fps = 30
 
 const items = {
