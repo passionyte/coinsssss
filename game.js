@@ -166,9 +166,9 @@ function load() {
 
     // Interface
     document.getElementById("loading").hidden = true
-    document.getElementById("main").hidden = false
-    document.getElementById("main2").hidden = false
-    document.getElementById("main3").hidden = false
+    document.getElementById("main").style.display = "inline"
+    document.getElementById("main2").style.display = "inline"
+    document.getElementById("main3").style.display = "inline"
 
     loaded = true
 }
