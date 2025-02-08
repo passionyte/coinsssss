@@ -27,7 +27,7 @@ let stats = {
 let loaded = false
 let menuopen
 
-const version = "0.011 Alpha"
+const version = "0.012 Alpha"
 const fps = 30
 
 const items = {
@@ -96,8 +96,8 @@ const items = {
         Superscience = {Name: "Superscience", Cost: 1600000000, StructName: "Research Facility", Description: "Extremely fast science. No need to distract others with YEAH SCIENCE! Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 50}}},
         LearningProgress = {Name: "Learning Progress", Cost: 1200000000, StructName: "Matter Refiner", OtherBoosts: {["Research Facility"]: 2}, Description: "You know what they say, practice makes perfect. Research Facilities and Matter Refiners are twice as efficient.", Requirements: {Structures: {["Matter Refiner"]: 5, ["Research Facility"]: 10}}},
         Industrialization = {Name: "Industrialization", Cost: 2900000000, StructName: "Matter Refiner", OtherBoosts: {Factory : 8}, Description: "Incorporate Matter Refiners into Factories. Matter Refiners are twice as efficient, Factories are 8 times as efficient!", Requirements: {Structures: {["Matter Refiner"]: 10, Factory: 50}}},
-        DevilsClick = {Name: "Devil's Click", Cost: 66666666, CoinsPc: 666, Multiply: true, Description: "The pure opposite of God's click. Base coins per click is multiplied by 666.", Requirements: {Stats: {CoinsPc: 96}}},
-        GodsClick = {Name: "God's Click", Cost: 2100000000, CoinsPcPs: 0.05, Description: "Now this, this is holy. And also expensive. Clicking earns 5% of your coins per second!", Requirements: {Stats: {CoinsPcPs: 0.05}}},
+        DevilsClick = {Name: "Devil's Click", Cost: 6666666, CoinsPc: 666, Multiply: true, Description: "The pure opposite of God's click. Base coins per click is multiplied by 666.", Requirements: {Stats: {CoinsPc: 96}}},
+        GodsClick = {Name: "God's Click", Cost: 21000000, CoinsPcPs: 0.05, Description: "Now this, this is holy. And also expensive. Clicking earns 5% of your coins per second!", Requirements: {Stats: {CoinsPcPs: 0.05}}},
         PureGenius = {Name: "Pure Genius", Cost: 8000000000, StructName: "Research Facility", Description: "Extremely smart science. Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 100}}},
         KeepingBusy = {Name: "Keeping Busy", Cost: 81000000, StructName: "Business", Description: "Just always be busy... Must be robot workers. Businesses are twice as efficient!", Requirements: {Structures: {Business: 100}}},
         Uber = {Name: "Uber Mechanics", Cost: 200000000, StructName: "Factory", Description: "UBER. Factories are twice as efficient!", Requirements: {Structures: {Factory: 100}}},
@@ -113,11 +113,10 @@ const items = {
         MoonstoneMouse = {Name: "Moonstone Mouse", Cost: 55000000, StructName: "Clicker", Description: "I'm gonna steal the MOOOOOON...stone. Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 200}}},
         AntimatterSupport = {Name: "Antimatter Support", Cost: 100000000000, StructName: "Matter Refiner", Description: "Your Research Facilities can truly accomplish anything huh? Matter Refiners are twice as efficient.", Requirements: {Structures: {["Matter Refiner"]: 100}}},
         PalladiumPickaxe = {Name: "Palladium Pickaxe", Cost: 190000000, StructName: "Miner", Description: "Upgrade pickaxes from Bloodstone to Palladium, an extremely rare and absurdly expensive mineral forged from fragments of meteors and the Earth's core. Miners are twice as efficient.", Requirements: {Structures: {Miner: 200}}},
-    ]
-}
+    ],
+    achievements: {
 
-const acvs = {
-
+    }
 }
 
 // Functions
@@ -279,13 +278,15 @@ function shop(type) {
                                 for (const name in otherboosts) {
                                     const boost = otherboosts[name]
 
-                                    const sdata = stats.Structures[name]
+                                    if (!boost.isNaN()) {
+                                        const sdata = stats.Structures[name]
 
-                                    sdata.Mult += boost
-
-                                    const prod = sdata.Ps
-                                    sdata.Ps = ((prod * sdata.Mult) - prod)
-                                    stats.CoinsPs += (sdata.Ps - prod)
+                                        sdata.Mult += boost
+    
+                                        const prod = sdata.Ps
+                                        sdata.Ps = ((prod * sdata.Mult) - prod)
+                                        stats.CoinsPs += (sdata.Ps - prod)
+                                    }
                                 }
                             }
 
