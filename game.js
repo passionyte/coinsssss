@@ -168,6 +168,7 @@ function load() {
     document.getElementById("loading").hidden = true
     document.getElementById("main").hidden = false
     document.getElementById("main2").hidden = false
+    document.getElementById("main3").hidden = false
 
     loaded = true
 }
