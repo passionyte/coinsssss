@@ -279,15 +279,13 @@ function shop(type) {
                                 for (const name in otherboosts) {
                                     const boost = otherboosts[name]
 
-                                    if (!isNaN(boost)) {
-                                        const sdata = stats.Structures[name]
+                                    const sdata = stats.Structures[name]
 
-                                        sdata.Mult += boost
-    
-                                        const prod = sdata.Ps
-                                        sdata.Ps = ((prod * sdata.Mult) - prod)
-                                        stats.CoinsPs += (sdata.Ps - prod)
-                                    }
+                                    sdata.Mult += boost
+
+                                    const prod = sdata.Ps
+                                    sdata.Ps = ((prod * sdata.Mult) - prod)
+                                    stats.CoinsPs += (sdata.Ps - prod)
                                 }
                             }
 
