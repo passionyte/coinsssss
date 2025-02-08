@@ -278,7 +278,7 @@ function shop(type) {
                                 for (const name in otherboosts) {
                                     const boost = otherboosts[name]
 
-                                    if (!boost.isNaN()) {
+                                    if (!isNaN(boost)) {
                                         const sdata = stats.Structures[name]
 
                                         sdata.Mult += boost
