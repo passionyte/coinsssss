@@ -26,8 +26,9 @@ let stats = {
 }
 let loaded = false
 let menuopen
+let menurf
 
-const version = "0.012_2 Alpha"
+const version = "0.015 Alpha"
 const fps = 30
 
 const items = {
@@ -41,7 +42,9 @@ const items = {
         Currency = {Name: "Currency", Cost: 500000, CoinsPs: 2800, Description: "Now you must mean serious business. Convince people to start paying solely in coins."},
         Research = {Name: "Research Facility", Cost: 3200000, CoinsPs: 12000, Description: "Research facilities which prioritize finding new ways to make coins."},
         MatterRefiner = {Name: "Matter Refiner", Cost: 48000000, CoinsPs: 50000, Description: "Developed by your research facilities, you can now refine matter to the point where it turns into coins."},
-        Matrix = {Name: "The Matrix", Cost: 600000000, CoinsPs: 400000, Description: "Didn't see this coming, did you? Now choose a coin... red or blue..."}
+        Planet = {Name: "Planet", Cost: 256000000, CoinsPs: 200000, Description: "Why rely on mere objects when you can just create new planets filled to the brim with coins?"},
+        Matrix = {Name: "The Matrix", Cost: 6000000000, CoinsPs: 1999000, Description: "Didn't see this coming, did you? Now choose a coin... red or blue..."}
+        
     ],
     upgrades: [
         DoubleClick = {Name: "Double Click", Cost: 100, CoinsPc: 1, Description: "Doubles your coins per click!"},
@@ -83,7 +86,7 @@ const items = {
         Atomic = {Name: "Atomic Mechanics", Cost: 26000000, StructName: "Factory", Description: "ATOMIC. Factories are twice as efficient!", Requirements: {Structures: {Factory: 50}}},
         YeahScience = {Name: "YEAH SCIENCE!", Cost: 52000000, StructName: "Research Facility", Description: "Just go berzerk with your science. Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 10}}},
         Optimization = {Name: "Optimization", Cost: 168000000, StructName: "Matter Refiner", Description: "Make some absurdly expensive optimizations to your Matter Refiners for 'maximum' coin output. Matter Refiners are twice as efficient!", Requirements: {Structures: {["Matter Refiner"]: 1}}},
-        AdvancedPrograms = {Name: "Advanced Programs", Cost: 2140000000, StructName: "The Matrix", Description: "Get your tech gurus from the Research Facilities and in the Matrix to design better programs for COINS... And Only COINS... The Matrixes are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 1}}},
+        AdvancedPrograms = {Name: "Advanced Programs", Cost: 21400000000, StructName: "The Matrix", Description: "Get your tech gurus from the Research Facilities and in the Matrix to design better programs for COINS... And Only COINS... The Matrixes are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 1}}},
         UniversalDevotion = {Name: "Universal Devotion", Cost: 192000000, StructName: "Currency", Description: "Ensure your coin currencies have become universally adopted. Currencies are twice as efficient!", Requirements: {Structures: {Currency: 25}}},
         WhatComesAfterEightCubed = {Name: "What comes after 8^3", Cost: 44000000, StructName: "8-Ball", Description: "8^4 is 4096! 8-Balls are twice as efficient!", Requirements: {Structures: {["8-Ball"]: 25}}},
         CoolerNumber = {Name: "Cooler Number", Cost: 204800000, StructName: "8-Ball", Description: "8^5 is 32768! Cool, right? I don't know what this has to do with 8-Balls. Just don't sink my cue. 8-Balls are twice as efficient!", Requirements: {Structures: {["8-Ball"]: 50}}},
@@ -91,7 +94,7 @@ const items = {
         Condensers = {Name: "Condensers", Cost: 1048000000, StructName: "Matter Refiner", Description: "Condense management of refinement for more streamlined coin production. Matter Refiners are twice as efficient.", Requirements: {Structures: {["Matter Refiner"]: 10}}},
         TitaniumMouse = {Name: "Titanium Mouse", Cost: 4800000, StructName: "Clicker", Description: "A material perfect for endless rapid clicking. Clickers are twice as efficient.", Requirements: {Structures: {Clicker: 100}}},
         BloodstonePickaxe = {Name: "Bloodstone Pickaxe", Cost: 2100000, StructName: "Miner", Description: "Upgrade pickaxes from Diamond to Bloodstone, a very very hard material harvested from the depths of the underworld beating out the power of even diamonds. Miners are twice as efficient.", Requirements: {Structures: {Miner: 100}}},
-        TheTruth = {Name: "The Truth", Cost: 10200000000, StructName: "The Matrix", Description: "All I can offer is the truth about coins. Nothing more. The Matrixes are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 10}}},
+        TheTruth = {Name: "The Truth", Cost: 92000000000, StructName: "The Matrix", Description: "All I can offer is the truth about coins. Nothing more. The Matrixes are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 10}}},
         HandsOnHeadsOn = {Name: "Hands on, Heads on.", Cost: 240000000, StructName: "Research Facility", Description: "Name explains it completely. Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 25}}},
         Superscience = {Name: "Superscience", Cost: 1600000000, StructName: "Research Facility", Description: "Extremely fast science. No need to distract others with YEAH SCIENCE! Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 50}}},
         LearningProgress = {Name: "Learning Progress", Cost: 1200000000, StructName: "Matter Refiner", OtherBoosts: {["Research Facility"]: 2}, Description: "You know what they say, practice makes perfect. Research Facilities and Matter Refiners are twice as efficient.", Requirements: {Structures: {["Matter Refiner"]: 5, ["Research Facility"]: 10}}},
@@ -113,10 +116,28 @@ const items = {
         MoonstoneMouse = {Name: "Moonstone Mouse", Cost: 55000000, StructName: "Clicker", Description: "I'm gonna steal the MOOOOOON...stone. Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 200}}},
         AntimatterSupport = {Name: "Antimatter Support", Cost: 100000000000, StructName: "Matter Refiner", Description: "Your Research Facilities can truly accomplish anything huh? Matter Refiners are twice as efficient.", Requirements: {Structures: {["Matter Refiner"]: 100}}},
         PalladiumPickaxe = {Name: "Palladium Pickaxe", Cost: 190000000, StructName: "Miner", Description: "Upgrade pickaxes from Bloodstone to Palladium, an extremely rare and absurdly expensive mineral forged from fragments of meteors and the Earth's core. Miners are twice as efficient.", Requirements: {Structures: {Miner: 200}}},
+        ArtificialIntelligence = {Name: "A.I.", Cost: 820000000, StructName: "Trader", Description: "What's the point of relying on stupid human brains for scamming? Traders are twice as efficient!", Requirements: {Structures: {Trader: 200}}},
+        CoinLanding = {Name: "Coin Landing", Cost: 600000000, StructName: "Planet", Description: "Fake landing on your own planet! Planets are twice as efficient!", Requirements: {Structures: {Planet: 1}}},
+        TotalExcavation = {Name: "Total Excavation", Cost: 3650000000, StructName: "Planet", Description: "'We care about nature', they say as they rip apart planets... Planets are twice as efficient!", Requirements: {Structures: {Planet: 10}}},
+        CoolDiscoveries = {Name: "Cool Discoveries", Cost: 940000000, StructName: "Planet", Description: "COOOOOL!!!!! Planets are twice as efficient!", Requirements: {Structures: {Planet: 25}}},
+        PlanetaryMutations = {Name: "Planetary Mutations", Cost: 20000000000, StructName: "Planet", Description: "Two planets mutated into one?! Well this is weird! Planets are twice as efficient!", Requirements: {Structures: {Planet: 50}}},
+        RefiningTheUnknown = {Name: "Refining The Unknown", Cost: 25000000000, StructName: "Planet", OtherBoosts: {["Matter Refiner"]: 2}, Description: "Great idea to refine things you haven't even fully evaluated yet... Planets and Matter Refiners are twice as efficient!", Requirements: {Structures: {Planet: 10, ["Research Facility"]: 25}}},
+        MEGAPlanets = {Name: "MEGA Planets", Cost: 64000000000, StructName: "Planet", Description: "MEGA Planets for a MEGA price! Planets are twice as efficient!", Requirements: {Structures: {Planet: 100}}}
     ],
     achievements: {
 
     }
+}
+const fancynames = { // Any string you want to look fancy
+    CoinsPs: "Coins per sec.",
+    CoinsPsMult: "Coins per sec. multiplier",
+    CoinsPc: "Coins per click",
+    CoinsPcPs: "Coins per click (% of PS)",
+    CoinsMPc: "Coins per click PS bonus",
+    TotalCoins: "Total coins"
+}
+const settings = {
+
 }
 
 // Functions
@@ -304,11 +325,33 @@ function shop(type) {
     }
 }
 
+function doStats() {
+    const ui = document.getElementById("stats")
+    ui.innerHTML = null
+
+    for (const stat in stats) {
+        const me = stats[stat]
+
+        if (typeof(me) == "number") {
+            const entry = document.getElementById("statdummy").cloneNode(true)
+            const c = entry.children
+            c[0].innerText = `${fancynames[stat] || stat} : `
+            c[1].innerText = smartround(me)
+            entry.style.display = "block"
+            ui.appendChild(entry)
+        }
+    }
+}
+
 function menu(type) {
     const ui = document.getElementById(type)
 
     if (menuopen && menuopen != type) {
         document.getElementById(menuopen).hidden = true
+        if (menurf) {
+            clearInterval(menurf)
+            menurf = null
+        }
     }
 
     if (ui && ui.hidden) {
@@ -318,23 +361,18 @@ function menu(type) {
         ui.hidden = false
 
         if (type == "stats") {
-            ui.innerHTML = null
-
-            for (const stat in stats) {
-                const me = stats[stat]
-
-                if (typeof(me) == "number") {
-                    const entry = document.getElementById("statdummy").cloneNode()
-                    entry.innerText = `${stat} : ${smartround(me)}`
-                    entry.style.display = "block"
-                    ui.appendChild(entry)
-                }
-            }
+            doStats()
+            menurf = setInterval(doStats, 2000)
         } 
     }
     else {
         document.getElementById("menulabel").innerText = ""
         ui.hidden = true
+
+        if (menurf) {
+            clearInterval(menurf)
+            menurf = null
+        }
     }
 }
 
