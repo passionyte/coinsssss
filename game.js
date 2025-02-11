@@ -28,7 +28,7 @@ let loaded = false
 let menuopen
 let menurf
 
-const version = "0.016 Alpha"
+const version = "0.018 Alpha"
 const fps = 30
 
 const items = {
@@ -124,6 +124,9 @@ const items = {
         RefiningTheUnknown = {Name: "Refining The Unknown", Cost: 25000000000, StructName: "Planet", OtherBoosts: {["Matter Refiner"]: 2}, Description: "Great idea to refine things you haven't even fully evaluated yet... Planets and Matter Refiners are twice as efficient!", Requirements: {Structures: {Planet: 10, ["Research Facility"]: 25}}},
         MEGAPlanets = {Name: "MEGA Planets", Cost: 64000000000, StructName: "Planet", Description: "MEGA Planets for a MEGA price! Planets are twice as efficient!", Requirements: {Structures: {Planet: 100}}},
         PalladiumFortune = {Name: "Palladium Fortune", Cost: 562000000000, CoinsPsMult: 2.5, Description: "Can we get much higher, higher... Gives 250% production multiplier.", Requirements: {Stats: {CoinsPsMult: 5}}},
+        UnstableEconomy = {Name: "Unstable Economy", Cost: 500000000, StructName: "Business", OtherBoosts: {Currency: 2, Trader: 2}, Description: "Name explains it in whole... Businesses, Traders and Currencies are twice as efficient!", Requirements: {Structures: {Business: 200, Trader: 1, Currency: 1}}},
+        GalacticDuplication = {Name: "Galactic Duplication", Cost: 200000000000, StructName: "The Matrix", OtherBoosts: {Planet: 2}, Description: "You know, a lot of the upgrade names in this game are pretty straight forward so I don't usually need to make a large description but I do anyway because... I don't know. The Matrixes and Planets are twice as efficient!", Requirement: {Structures: {["The Matrix"]: 25, Planet: 50}}},
+        JoiningTeams = {Name: "Joining Teams", Cost: 330000000, StructName: "Business", StructMult: 16, OtherBoosts: {["Research Facility"]: 2}, Description: "Joining your Research Facilities and Businesses under the same umbrella will likely help massively for collaboration! Businesses are 16 times as efficient, Research Facilities are twice as efficient!", Requirements: {Structures: {Business: 100, ["Research Facility"]: 25}}}
     ],
     achievements: {
 
@@ -140,26 +143,34 @@ const fancynames = { // Any string you want to look fancy
 const settings = {
 
 }
-const abbrs = {
-
+const abbrs = { // Number abbreviations
+    [1e15]: "quadrillion",
+    [1e12]: "trillion",
+    [1e9]: "billion",
+    [1e6]: "million",
 }
 
 // Functions
 
 function abbreviate(x) {
-    if (x > 1e6) {
+    let largest
 
-
+    for (const i in abbrs) {
+        if (x >= i && (!largest || i > largest)) {
+           largest = i
+        }
     }
+
+    return largest && `${smartround((x / largest))} ${abbrs[largest]}`|| x
 }
 
 function smartround(x) { // For when you don't want a billion decimals in a number
-    return (Math.round(x * 10) / 10)
+    return (Math.round(x * 100) / 100)
 }
 
 function refresh() {
-    clicks.innerText = `${Math.floor(stats.Coins)} coins`
-    prod.innerText = `${smartround(stats.CoinsPs * stats.CoinsPsMult)} coins/s`
+    clicks.innerText = `${abbreviate(Math.floor(stats.Coins))} coins`
+    prod.innerText = `${abbreviate(smartround(stats.CoinsPs * stats.CoinsPsMult))} coins/s`
 }
 
 function load() {
@@ -264,7 +275,7 @@ function shop(type) {
                     c[2].innerText = data.Description || "No description"
     
                     const button = c[3]
-                    button.innerText = `Purchase for ${data.Cost} coins`
+                    button.innerText = `Purchase for ${abbreviate(data.Cost)} coins`
                     button.addEventListener("click", _=> {
                         if (stats.Coins >= data.Cost) {
                             stats.Coins -= data.Cost
@@ -347,7 +358,7 @@ function doStats() {
             const entry = document.getElementById("statdummy").cloneNode(true)
             const c = entry.children
             c[0].innerText = `${fancynames[stat] || stat} : `
-            c[1].innerText = smartround(me)
+            c[1].innerText = abbreviate(smartround(me))
             entry.style.display = "block"
             ui.appendChild(entry)
         }
