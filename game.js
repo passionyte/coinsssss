@@ -111,7 +111,7 @@ const items = {
         LackOfIdeas = {Name: "Lack of Ideas", Cost: 781000000, StructName: "Currency", OtherBoosts: {Trader: 2}, Description: "Yeah, you heard me. But you can turn a lack of ideas into an idea! Profit!!! Traders and Currencies are twice as efficient!", Requirements: {Structures: {Currency: 50}}},
         BrainAge = {Name: "Brain Age", Cost: 95000000, StructName: "Trader", Description: "Training your brain every day will give you better scamming skills. Traders are twice as efficient!", Requirements: {Structures: {Trader: 100}}},
         Executives = {Name: "Executives", Cost: 2640000000, StructName: "Currency", OtherBoosts: {Trader: 4}, Description: "Turn the most senior of your Traders whom you are collaborating with into Executives for maximum corporative efficiency. Traders are 4 times as efficient, Currencies are twice as efficient!", Requirements: {Structures: {Currency: 100}}},
-        Ultrascience = {Name: "Ultrascience", Cost: 7500000000, StructName: "Research Facility", Description: "Ultrascience > Superscience. Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 100}}},
+        Ultrascience = {Name: "Ultrascience", Cost: 7500000000, StructName: "Research Facility", Description: "Ultrascience > Superscience. Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 200}}},
         AdvancedAdapter = {Name: "Advanced Adapter", Cost: 133700000, StructName: "Research Facility", OtherBoosts: {Clicker: 1337}, Description: "This extremely advanced adapter makes Clickers competent! Research Facilities are twice as efficient, Clickers are 1337 times as efficient!", Requirements: {Structures: {["Research Facility"]: 5, Clicker: 100}}},
         MoonstoneMouse = {Name: "Moonstone Mouse", Cost: 55000000, StructName: "Clicker", Description: "I'm gonna steal the MOOOOOON...stone. Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 200}}},
         AntimatterSupport = {Name: "Antimatter Support", Cost: 100000000000, StructName: "Matter Refiner", Description: "Your Research Facilities can truly accomplish anything huh? Matter Refiners are twice as efficient.", Requirements: {Structures: {["Matter Refiner"]: 100}}},
@@ -140,8 +140,18 @@ const fancynames = { // Any string you want to look fancy
 const settings = {
 
 }
+const abbrs = {
+
+}
 
 // Functions
+
+function abbreviate(x) {
+    if (x > 1e6) {
+
+
+    }
+}
 
 function smartround(x) { // For when you don't want a billion decimals in a number
     return (Math.round(x * 10) / 10)
