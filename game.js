@@ -389,7 +389,6 @@ function doStats() {
 }
 
 function doSettings() {
-    console.log("HI")
     const ui = document.getElementById("settings")
     ui.innerHTML = null
 
