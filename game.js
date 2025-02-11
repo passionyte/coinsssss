@@ -28,7 +28,7 @@ let loaded = false
 let menuopen
 let menurf
 
-const version = "0.015 Alpha"
+const version = "0.016 Alpha"
 const fps = 30
 
 const items = {
@@ -119,10 +119,11 @@ const items = {
         ArtificialIntelligence = {Name: "A.I.", Cost: 820000000, StructName: "Trader", Description: "What's the point of relying on stupid human brains for scamming? Traders are twice as efficient!", Requirements: {Structures: {Trader: 200}}},
         CoinLanding = {Name: "Coin Landing", Cost: 600000000, StructName: "Planet", Description: "Fake landing on your own planet! Planets are twice as efficient!", Requirements: {Structures: {Planet: 1}}},
         TotalExcavation = {Name: "Total Excavation", Cost: 3650000000, StructName: "Planet", Description: "'We care about nature', they say as they rip apart planets... Planets are twice as efficient!", Requirements: {Structures: {Planet: 10}}},
-        CoolDiscoveries = {Name: "Cool Discoveries", Cost: 940000000, StructName: "Planet", Description: "COOOOOL!!!!! Planets are twice as efficient!", Requirements: {Structures: {Planet: 25}}},
+        CoolDiscoveries = {Name: "Cool Discoveries", Cost: 9400000000, StructName: "Planet", Description: "COOOOOL!!!!! Planets are twice as efficient!", Requirements: {Structures: {Planet: 25}}},
         PlanetaryMutations = {Name: "Planetary Mutations", Cost: 20000000000, StructName: "Planet", Description: "Two planets mutated into one?! Well this is weird! Planets are twice as efficient!", Requirements: {Structures: {Planet: 50}}},
         RefiningTheUnknown = {Name: "Refining The Unknown", Cost: 25000000000, StructName: "Planet", OtherBoosts: {["Matter Refiner"]: 2}, Description: "Great idea to refine things you haven't even fully evaluated yet... Planets and Matter Refiners are twice as efficient!", Requirements: {Structures: {Planet: 10, ["Research Facility"]: 25}}},
-        MEGAPlanets = {Name: "MEGA Planets", Cost: 64000000000, StructName: "Planet", Description: "MEGA Planets for a MEGA price! Planets are twice as efficient!", Requirements: {Structures: {Planet: 100}}}
+        MEGAPlanets = {Name: "MEGA Planets", Cost: 64000000000, StructName: "Planet", Description: "MEGA Planets for a MEGA price! Planets are twice as efficient!", Requirements: {Structures: {Planet: 100}}},
+        PalladiumFortune = {Name: "Palladium Fortune", Cost: 562000000000, CoinsPsMult: 2.5, Description: "Can we get much higher, higher... Gives 250% production multiplier.", Requirements: {Stats: {CoinsPsMult: 5}}},
     ],
     achievements: {
 
