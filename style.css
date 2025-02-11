@@ -28,9 +28,17 @@ body {
 
 .stat {
     background-color: rgb(226, 165, 59);
-    width: 100%;
+    border-radius: 40px;
+    padding-left: 20px;
+    padding-top: 20px;
+    width: 80%;
     display: none;
     height: 5%;
+}
+
+button {
+    background-color: rgb(255, 208, 0);
+    border-color: rgb(190, 140, 45);
 }
 
 .menu {

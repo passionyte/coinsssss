@@ -22,13 +22,15 @@ let stats = {
     TotalCoins: 0,
     Clicks: 0,
     Purchased: {},
-    Structures: {}
+    Structures: {},
+    Settings: {}
 }
 let loaded = false
 let menuopen
 let menurf
+let settingscons = []
 
-const version = "0.018 Alpha"
+const version = "0.02 Alpha"
 const fps = 30
 
 const items = {
@@ -141,6 +143,14 @@ const fancynames = { // Any string you want to look fancy
     TotalCoins: "Total coins"
 }
 const settings = {
+    ["Reset game"]: function() {
+        if (confirm("Are you sure you want to reset your game?")) {
+            localStorage.clear()
+            stats = def
+            location.reload()
+        }
+    },
+    ["Short numbers"]: true,
 
 }
 const abbrs = { // Number abbreviations
@@ -151,6 +161,10 @@ const abbrs = { // Number abbreviations
 }
 
 // Functions
+
+function bool(a) {
+    return ((a) && "ON") || "OFF"
+}
 
 function abbreviate(x) {
     let largest
@@ -204,6 +218,15 @@ function load() {
                     data.Cost = Math.floor((data.Cost * 1.1))
                 }
             }
+        }
+    }
+
+
+    for (const nm in settings) {
+        const def = settings[nm]
+
+        if (typeof(def) != "function" && (stats.Settings[nm] == null)) {
+            stats.Settings[nm] = def
         }
     }
 
@@ -365,6 +388,41 @@ function doStats() {
     }
 }
 
+function doSettings() {
+    console.log("HI")
+    const ui = document.getElementById("settings")
+    ui.innerHTML = null
+
+    for (const nm in settings) {
+        const set = settings[nm]
+
+        if (typeof(set) == "function") {
+            const entry = document.getElementById("buttondummy").cloneNode(true)
+            entry.children[0].innerText = nm
+            entry.style.display = "block"
+            ui.appendChild(entry)
+
+            settingscons.push(entry.addEventListener("click", set))
+        }
+        else if (typeof(set) == "boolean") {
+            const entry = document.getElementById("booldummy").cloneNode(true)
+
+            entry.children[0].innerText = `${nm} : ${bool(stats.Settings[nm])}`
+            entry.style.display = "block"
+            ui.appendChild(entry)
+
+            settingscons.push(entry.addEventListener("click", _ => {
+                stats.Settings[nm] = (!stats.Settings[nm])
+                for (const con in settingscons) {
+                    clearInterval(con)
+                }
+                settingscons = []
+                doSettings()
+            }))
+        }
+    }
+}
+
 function menu(type) {
     const ui = document.getElementById(type)
 
@@ -373,6 +431,12 @@ function menu(type) {
         if (menurf) {
             clearInterval(menurf)
             menurf = null
+        }
+        if (settingscons.length > 0) {
+            for (const con in settingscons) {
+                clearInterval(con)
+            }
+            settingscons = []
         }
     }
 
@@ -386,6 +450,9 @@ function menu(type) {
             doStats()
             menurf = setInterval(doStats, 2000)
         } 
+        else if (type == "settings") {
+            doSettings()
+        }
     }
     else {
         document.getElementById("menulabel").innerText = ""
@@ -394,6 +461,12 @@ function menu(type) {
         if (menurf) {
             clearInterval(menurf)
             menurf = null
+        }
+        if (settingscons.length > 0) {
+            for (const con in settingscons) {
+                clearInterval(con)
+            }
+            settingscons = []
         }
     }
 }
@@ -427,6 +500,14 @@ document.getElementById("settingsbutton").addEventListener("click", _ => {
 // Hard coded crap
 
 document.getElementById("version").innerText = `v${version}`
+
+for (const nm in settings) {
+    const def = settings[nm]
+
+    if (typeof(def) != "function") {
+        stats.Settings[nm] = def
+    }
+}
 
 setInterval(_ => {
     const x = ((stats.CoinsPs * stats.CoinsPsMult) / fps)
