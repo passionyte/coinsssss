@@ -29,7 +29,7 @@ let loaded = false
 let menuopen
 let menurf
 
-const version = "0.021_2 Alpha"
+const version = "0.021_3 Alpha"
 const fps = 30
 
 const items = {
@@ -126,7 +126,7 @@ const items = {
         MEGAPlanets = {Name: "MEGA Planets", Cost: 64000000000, StructName: "Planet", Description: "MEGA Planets for a MEGA price! Planets are twice as efficient!", Requirements: {Structures: {Planet: 100}}},
         PalladiumFortune = {Name: "Palladium Fortune", Cost: 562000000000, CoinsPsMult: 2.5, Description: "Can we get much higher, higher... Gives 250% production multiplier.", Requirements: {Stats: {CoinsPsMult: 5}}},
         UnstableEconomy = {Name: "Unstable Economy", Cost: 500000000, StructName: "Business", OtherBoosts: {Currency: 2, Trader: 2}, Description: "Name explains it in whole... Businesses, Traders and Currencies are twice as efficient!", Requirements: {Structures: {Business: 200, Trader: 1, Currency: 1}}},
-        GalacticDuplication = {Name: "Galactic Duplication", Cost: 200000000000, StructName: "The Matrix", OtherBoosts: {Planet: 2}, Description: "You know, a lot of the upgrade names in this game are pretty straight forward so I don't usually need to make a large description but I do anyway because... I don't know. The Matrixes and Planets are twice as efficient!", Requirement: {Structures: {["The Matrix"]: 25, Planet: 50}}},
+        GalacticDuplication = {Name: "Galactic Duplication", Cost: 200000000000, StructName: "The Matrix", OtherBoosts: {Planet: 2}, Description: "You know, a lot of the upgrade names in this game are pretty straight forward so I don't usually need to make a large description but I do anyway because... I don't know. The Matrixes and Planets are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 25, Planet: 50}}},
         JoiningTeams = {Name: "Joining Teams", Cost: 330000000, StructName: "Business", StructMult: 16, OtherBoosts: {["Research Facility"]: 2}, Description: "Joining your Research Facilities and Businesses under the same umbrella will likely help massively for collaboration! Businesses are 16 times as efficient, Research Facilities are twice as efficient!", Requirements: {Structures: {Business: 100, ["Research Facility"]: 25}}}
     ],
     achievements: {
