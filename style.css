@@ -28,10 +28,10 @@ body {
 
 .stat {
     background-color: rgb(226, 165, 59);
-    border-radius: 40px;
-    padding-left: 20px;
-    padding-top: 20px;
-    width: 80%;
+    border-color: rgb(190, 140, 45);
+    border-style: solid;
+    border-width: medium;
+    width: 100%;
     display: none;
     height: 5%;
 }
