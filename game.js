@@ -30,7 +30,7 @@ let menuopen
 let menurf
 let settingscons = {}
 
-const version = "0.021 Alpha"
+const version = "0.021_1 Alpha"
 const fps = 30
 
 const items = {
@@ -405,7 +405,7 @@ function doSettings() {
             entry.style.display = "block"
             ui.appendChild(entry)
 
-            settingscons.push(entry.addEventListener("click", set))
+            settingscons[entry] = entry.addEventListener("click", set)
         }
         else if (typeof(set) == "boolean") {
             const entry = document.getElementById("booldummy").cloneNode(true)
