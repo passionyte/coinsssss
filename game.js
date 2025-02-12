@@ -28,9 +28,9 @@ let stats = {
 let loaded = false
 let menuopen
 let menurf
-let settingscons = []
+let settingscons = {}
 
-const version = "0.02 Alpha"
+const version = "0.021 Alpha"
 const fps = 30
 
 const items = {
@@ -167,6 +167,10 @@ function bool(a) {
 }
 
 function abbreviate(x) {
+    if (!stats.Settings["Short numbers"]) {
+        return x
+    }
+
     let largest
 
     for (const i in abbrs) {
@@ -410,14 +414,14 @@ function doSettings() {
             entry.style.display = "block"
             ui.appendChild(entry)
 
-            settingscons.push(entry.addEventListener("click", _ => {
+            settingscons[entry] = entry.addEventListener("click", _ => {
                 stats.Settings[nm] = (!stats.Settings[nm])
-                for (const con in settingscons) {
-                    clearInterval(con)
+                for (const i in settingscons) {
+                    i.removeEventListener(settingscons[i])
                 }
-                settingscons = []
+                settingscons = {}
                 doSettings()
-            }))
+            })
         }
     }
 }
@@ -432,10 +436,10 @@ function menu(type) {
             menurf = null
         }
         if (settingscons.length > 0) {
-            for (const con in settingscons) {
-                clearInterval(con)
+            for (const i in settingscons) {
+                i.removeEventListener(settingscons[i])
             }
-            settingscons = []
+            settingscons = {}
         }
     }
 
@@ -462,10 +466,10 @@ function menu(type) {
             menurf = null
         }
         if (settingscons.length > 0) {
-            for (const con in settingscons) {
-                clearInterval(con)
+            for (const i in settingscons) {
+                i.removeEventListener(settingscons[i])
             }
-            settingscons = []
+            settingscons = {}
         }
     }
 }
