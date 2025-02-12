@@ -28,9 +28,8 @@ let stats = {
 let loaded = false
 let menuopen
 let menurf
-let settingscons = {}
 
-const version = "0.021_1 Alpha"
+const version = "0.021_2 Alpha"
 const fps = 30
 
 const items = {
@@ -405,7 +404,7 @@ function doSettings() {
             entry.style.display = "block"
             ui.appendChild(entry)
 
-            settingscons[entry] = entry.addEventListener("click", set)
+            entry.addEventListener("click", set)
         }
         else if (typeof(set) == "boolean") {
             const entry = document.getElementById("booldummy").cloneNode(true)
@@ -414,12 +413,8 @@ function doSettings() {
             entry.style.display = "block"
             ui.appendChild(entry)
 
-            settingscons[entry] = entry.addEventListener("click", _ => {
+            entry.addEventListener("click", _ => {
                 stats.Settings[nm] = (!stats.Settings[nm])
-                for (const i in settingscons) {
-                    i.removeEventListener(settingscons[i])
-                }
-                settingscons = {}
                 doSettings()
             })
         }
@@ -434,12 +429,6 @@ function menu(type) {
         if (menurf) {
             clearInterval(menurf)
             menurf = null
-        }
-        if (settingscons.length > 0) {
-            for (const i in settingscons) {
-                i.removeEventListener(settingscons[i])
-            }
-            settingscons = {}
         }
     }
 
@@ -464,12 +453,6 @@ function menu(type) {
         if (menurf) {
             clearInterval(menurf)
             menurf = null
-        }
-        if (settingscons.length > 0) {
-            for (const i in settingscons) {
-                i.removeEventListener(settingscons[i])
-            }
-            settingscons = {}
         }
     }
 }
