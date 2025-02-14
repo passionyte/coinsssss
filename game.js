@@ -31,7 +31,7 @@ let menuopen
 let shopopen
 let menurf
 
-const version = "0.026 Alpha"
+const version = "0.027 Alpha"
 const fps = 30
 
 const items = {
@@ -145,6 +145,7 @@ const fancynames = { // Any string you want to look fancy
     TotalCoins: "Total coins"
 }
 const settings = {
+    // Function button types
     ["Reset game"]: function() {
         if (confirm("Are you sure you want to reset your game?")) {
             localStorage.clear()
@@ -154,10 +155,14 @@ const settings = {
     ["Save game"]: function() {
         save()
     },
+
+    // Boolean types
     ["Auto saving"]: true,
     ["Short numbers"]: true,
-    ["Decimals"]: 2,
-    ["Dynamic site title"]: true
+    ["Dynamic site title"]: true,
+
+    // Input types
+    ["Decimals"]: 2    
 }
 const abbrs = { // Number abbreviations
     [1e15]: "quadrillion",
