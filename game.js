@@ -26,11 +26,12 @@ let stats = {
     Settings: {}
 }
 let loaded = false
+let savecd = false
 let menuopen
 let shopopen
 let menurf
 
-const version = "0.024 Alpha"
+const version = "0.026 Alpha"
 const fps = 30
 
 const items = {
@@ -150,6 +151,10 @@ const settings = {
             location.reload()
         }
     },
+    ["Save game"]: function() {
+        save()
+    },
+    ["Auto saving"]: true,
     ["Short numbers"]: true,
     ["Decimals"]: 2,
     ["Dynamic site title"]: true
@@ -265,11 +270,21 @@ function load() {
     document.getElementById("main3").style.display = "inline"
 
     loaded = true
+
+    if (stats.Settings["Auto saving"]) {
+        setInterval(_=> {
+            save()
+        }, 30000)
+    }
 }
 
 function save() {
-    if (stats.Coins > 0 && loaded) {
+    if (stats.Coins > 0 && loaded && !savecd) {
         localStorage.setItem("Data", JSON.stringify(stats))
+        savecd = true
+        setTimeout(_ => {
+            savecd = false
+        }, 15000)
     }
 }
 
@@ -558,8 +573,5 @@ setInterval(_ => {
     stats.TotalCoins += x
     refresh()
 }, fps)
-setInterval(_=> {
-    save()
-}, 30000)
 
 setTimeout(load, 1000)
