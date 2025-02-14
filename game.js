@@ -129,7 +129,7 @@ const items = {
         UnstableEconomy = {Name: "Unstable Economy", Cost: 500000000, StructName: "Business", OtherBoosts: {Currency: 2, Trader: 2}, Description: "Name explains it in whole... Businesses, Traders and Currencies are twice as efficient!", Requirements: {Structures: {Business: 200, Trader: 1, Currency: 1}}},
         GalacticDuplication = {Name: "Galactic Duplication", Cost: 200000000000, StructName: "The Matrix", OtherBoosts: {Planet: 2}, Description: "You know, a lot of the upgrade names in this game are pretty straight forward so I don't usually need to make a large description but I do anyway because... I don't know. The Matrixes and Planets are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 25, Planet: 50}}},
         JoiningTeams = {Name: "Joining Teams", Cost: 330000000, StructName: "Business", StructMult: 16, OtherBoosts: {["Research Facility"]: 2}, Description: "Joining your Research Facilities and Businesses under the same umbrella will likely help massively for collaboration! Businesses are 16 times as efficient, Research Facilities are twice as efficient!", Requirements: {Structures: {Business: 100, ["Research Facility"]: 25}}},
-        MillionDollarClick = {Name: "Million Dollar Click", Cost: 400000000, CoinsPc: 16, Mult: true, Description: "You're a millionaire! You already were. Base coins per click is multiplied by 16.", Requirements: {Stats: {CoinsPc: 63936}}}
+        MillionDollarClick = {Name: "Million Dollar Click", Cost: 250000000, CoinsPc: 16, Multiply: true, Description: "You're a millionaire! You already were. Base coins per click is multiplied by 16.", Requirements: {Stats: {CoinsPc: 63936}}}
     ],
     achievements: {
 
