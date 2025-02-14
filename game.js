@@ -31,7 +31,7 @@ let menuopen
 let shopopen
 let menurf
 
-const version = "0.027 Alpha"
+const version = "0.028 Alpha"
 const fps = 30
 
 const items = {
@@ -343,8 +343,15 @@ function shop(type) {
                     const c = clone.children
     
                     c[0].src = data.Icon || ""
-                    c[1].innerText = data.Name || "No name"
-                    c[2].innerText = data.Description || "No description"
+
+                    const sdata = stats.Structures[data.Name]
+                    if (sdata) {
+                        c[1].innerText = `${data.Name} - ${stats.Structures[data.Name].Amount}`|| "???"
+                    }
+                    else {
+                        c[1].innerText = data.Name || "???"
+                    }
+                    c[2].innerText = data.Description || "???"
     
                     const button = c[3]
                     button.innerText = `Purchase for ${abbreviate(data.Cost)} coins`
