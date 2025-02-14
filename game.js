@@ -30,7 +30,7 @@ let menuopen
 let shopopen
 let menurf
 
-const version = "0.022 Alpha"
+const version = "0.022_1 Alpha"
 const fps = 30
 
 const items = {
@@ -147,7 +147,6 @@ const settings = {
     ["Reset game"]: function() {
         if (confirm("Are you sure you want to reset your game?")) {
             localStorage.clear()
-            stats = def
             location.reload()
         }
     },
