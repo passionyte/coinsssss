@@ -30,7 +30,7 @@ let menuopen
 let shopopen
 let menurf
 
-const version = "0.023 Alpha"
+const version = "0.024 Alpha"
 const fps = 30
 
 const items = {
@@ -151,7 +151,8 @@ const settings = {
         }
     },
     ["Short numbers"]: true,
-    ["Decimals"]: 2
+    ["Decimals"]: 2,
+    ["Dynamic site title"]: true
 }
 const abbrs = { // Number abbreviations
     [1e15]: "quadrillion",
@@ -201,8 +202,17 @@ function smartround(x) { // For when you don't want a billion decimals in a numb
 }
 
 function refresh() {
-    clicks.innerText = `${abbreviate(Math.floor(stats.Coins))} coins`
+    const coins = abbreviate(Math.floor(stats.Coins))
+
+    clicks.innerText = `${coins} coins`
     prod.innerText = `${abbreviate(smartround(stats.CoinsPs * stats.CoinsPsMult))} coins/s`
+
+    if (stats.Settings["Dynamic site title"]) {
+        document.title = `${coins} coins - Passionyte's Coinsssss!`
+    }
+    else {
+        document.title = "Passionyte's Coinsssss!"
+    }
 }
 
 function load() {
