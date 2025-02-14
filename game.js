@@ -30,7 +30,7 @@ let menuopen
 let shopopen
 let menurf
 
-const version = "0.022_1 Alpha"
+const version = "0.023 Alpha"
 const fps = 30
 
 const items = {
@@ -61,7 +61,7 @@ const items = {
         StoneMouse = {Name: "Stone Mouse", Cost: 1000, StructName: "Clicker", Description: "Clonk clonk clonk... Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 10}}},
         GoldPickaxe = {Name: "Gold Pickaxe", Cost: 5000, StructName: "Miner", Description: "Upgrade pickaxes from Iron to Gold. Must be better... right? Miners are twice as efficient!", Requirements: {Structures: {Miner: 10}}},
         ShowerThoughts = {Name: "Shower Thoughts", Cost: 10000, StructName: "Trader", Description: "So... how *else* can we scam people...? Darn! Dropped the soap again! Traders are twice as efficient!", Requirements: {Structures: {Trader: 10}}},
-        DreamersClick = {Name: "Dreamer's Click", Cost: 20000, CoinsPcPs: 0.02, Description: "Zzzzzz.... coins.... Clicking earns 2% of your coins per second!", Requirements: {Stats: {CoinsPc: 8}}},
+        DreamersClick = {Name: "Dreamer's Click", Cost: 150000, CoinsPcPs: 0.02, Description: "Zzzzzz.... coins.... Clicking earns 2% of your coins per second!", Requirements: {Stats: {CoinsPc: 8}}},
         PayRaise = {Name: "Pay Raises", Cost: 120000, StructName: "Business", Description: "Increase worker morale by incorporating pay raises. Businesses are twice as efficient!", Requirements: {Structures: {Business: 10}}},
         Quantum = {Name: "Quantum Mechanics", Cost: 400000, StructName: "Factory", Description: "627% more efficient than conventional electricity... Factories are twice as efficient!", Requirements: {Structures: {Factory: 10}}},
         EightBallClick2 = {Name: "8-Ball Click Mk2", Cost: 88888, CoinsPcPs: 0.03, Description: "Yeah, that's right; ask your personal 8-Ball for another coin related wish. This is your last... Clicking earns 3% of your coins per second!", Requirements: {Stats: {CoinsPcPs: 0.02}}},
@@ -69,7 +69,7 @@ const items = {
         PlatinumPickaxe = {Name: "Platinum Pickaxe", Cost: 15000, StructName: "Miner", Description: "Upgrade pickaxes from Gold to Platinum. (Please tell me how this is efficient...) Miners are twice as efficient!", Requirements: {Structures: {Miner: 25}}},
         SteelMouse = {Name: "Steel Mouse", Cost: 9001, StructName: "Clicker", Description: "Clink clink clink... Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 25}}},
         Crypt = {Name: "Crypto", Cost: 33000, StructName: "Trader", Description: "Yeah. Now these deals make even more sense. Totally. Traders are twice as efficient!", Requirements: {Structures: {Trader: 25}}},
-        CoinApprovedClick = {Name: "Coin-Approved Click", Cost: 150000, CoinsPc: 12, Multiply: true, Description: "The name speaks for itself. Base coins per click is multiplied by 12.", Requirements: {Stats: {CoinsPc: 8}}},
+        CoinApprovedClick = {Name: "Coin-Approved Click", Cost: 20000, CoinsPc: 12, Multiply: true, Description: "The name speaks for itself. Base coins per click is multiplied by 12.", Requirements: {Stats: {CoinsPc: 8}}},
         SuperFullTime = {Name: "Super Full-Time", Cost: 400000, StructName: "Business", Description: "So workers thought full-time was a lot? You say: Nah. Businesses are twice as efficient!", Requirements: {Structures: {Business: 25}}},
         Nuclear = {Name: "Nuclear Mechanics", Cost: 1000000, StructName: "Factory", Description: "Radioactive. Factories are twice as efficient!", Requirements: {Structures: {Factory: 25}}},
         SilverFortune = {Name: "Silver Fortune", Cost: 1000000, CoinsPsMult: 0.15, Description: "'Second is the best' Gives 15% production multiplier.", Requirements: {Stats: {CoinsPsMult: 1.1}}},
@@ -186,7 +186,12 @@ function smartround(x) { // For when you don't want a billion decimals in a numb
     d = stats.Settings.Decimals
 
     if (d) {
-        d = Number(`1e${d}`)
+        if (d > 0) {
+            d = Number(`1e${d}`)
+        }
+        else {
+            return Math.round(x)
+        }
     }
     else {
         d = 100
