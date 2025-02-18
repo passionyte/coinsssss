@@ -244,7 +244,7 @@ function effect(type, args) {
        if (args.click) {
             text.innerText = `+${abbreviate((stats.CoinsPc + stats.CoinsMPc))}`
             y = (coinmpos.y + randInt(-48, 48))
-            st.left = ((coinmpos.x - 32) + randInt(-32, 32))+'px'
+            st.left = ((coinmpos.x - 16) + randInt(-32, 32))+'px'
             st.top = y+'px'
        }
        else {
