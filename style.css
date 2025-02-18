@@ -1,12 +1,14 @@
 body {
     background-image: linear-gradient(rgb(255, 230, 120), rgb(255, 240, 160));
-}
-
-.text {
+ }
+ 
+ 
+ .text {
     font-family:'Courier New', Courier, monospace
-}
-
-.item {
+ }
+ 
+ 
+ .item {
     background-color: rgb(226, 165, 59);
     width: 70%;
     height: fit-content;
@@ -16,17 +18,19 @@ body {
     border-style: solid;
     border-width: medium;
     margin-bottom: 2%
-}
-
-.itemtext {
+ }
+ 
+ 
+ .itemtext {
     width: 100%;
     height: 20%;
     display: block;
     text-wrap: wrap;
     word-wrap: break-word;
-}
-
-.stat {
+ }
+ 
+ 
+ .stat {
     background-color: rgb(226, 165, 59);
     border-color: rgb(190, 140, 45);
     border-style: solid;
@@ -34,18 +38,32 @@ body {
     width: 100%;
     display: none;
     height: 5%;
-}
-
-button {
+ }
+ 
+ 
+ button {
     background-color: rgb(255, 208, 0);
     border-color: rgb(190, 140, 45);
-}
-
-.menu {
+ }
+ 
+ 
+ .menu {
     background-color: rgb(255, 210, 100);
     font-family:'Courier New', Courier, monospace;
     height: 100%;
     border-color: rgb(200, 160, 65);
     border-style: solid;
     border-width: thick;
-}
+ }
+ 
+ 
+ .imenu {
+    margin-top: 10%
+ }
+ 
+ 
+ #numdummy {
+    font-weight: bold;
+    color:antiquewhite
+ }
+ 
