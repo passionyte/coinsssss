@@ -1,8 +1,6 @@
 // Written by Passionyte
 
-
 // Elements
-
 
 const bigbutton = document.getElementById("bigbutton")
 const clicks = document.getElementById("clicks")
@@ -13,9 +11,7 @@ const structb = document.getElementById("structures")
 const upgb = document.getElementById("upgrades")
 const effs = document.getElementById("effects")
 
-
 // Variables
-
 
 let stats = {
    Coins: 0,
@@ -35,11 +31,10 @@ let savecd = false
 let menuopen
 let shopopen
 let menurf
+let coinmpos
 
-
-const version = "0.028_2 Alpha"
+const version = "0.03 Alpha"
 const fps = 30
-
 
 const items = {
    structures: [
@@ -54,7 +49,6 @@ const items = {
        MatterRefiner = {Name: "Matter Refiner", Cost: 48000000, CoinsPs: 50000, Description: "Developed by your research facilities, you can now refine matter to the point where it turns into coins."},
        Planet = {Name: "Planet", Cost: 256000000, CoinsPs: 200000, Description: "Why rely on mere objects when you can just create new planets filled to the brim with coins?"},
        Matrix = {Name: "The Matrix", Cost: 6000000000, CoinsPs: 1999000, Description: "Didn't see this coming, did you? Now choose a coin... red or blue..."}
-      
    ],
    upgrades: [
        DoubleClick = {Name: "Double Click", Cost: 100, CoinsPc: 1, Description: "Doubles your coins per click!"},
@@ -141,7 +135,6 @@ const items = {
    ],
    achievements: {
 
-
    }
 }
 const fancynames = { // Any string you want to look fancy
@@ -164,12 +157,11 @@ const settings = {
        save()
    },
 
-
    // Boolean types
    ["Auto saving"]: true,
    ["Short numbers"]: true,
    ["Dynamic site title"]: true,
-
+   ["Text effects"]: true,
 
    // Input types
    ["Decimals"]: 2   
@@ -181,23 +173,18 @@ const abbrs = { // Number abbreviations
    [1e6]: "million",
 }
 
-
 // Functions
-
 
 function bool(a) {
    return ((a) && "ON") || "OFF"
 }
-
 
 function abbreviate(x) {
    if (!stats.Settings["Short numbers"]) {
        return x
    }
 
-
    let largest
-
 
    for (const i in abbrs) {
        if (x >= i && (!largest || i > largest)) {
@@ -205,14 +192,11 @@ function abbreviate(x) {
        }
    }
 
-
    return largest && `${smartround((x / largest))} ${abbrs[largest]}`|| x
 }
 
-
 function smartround(x) { // For when you don't want a billion decimals in a number
    d = stats.Settings.Decimals
-
 
    if (d) {
        if (d > 0) {
@@ -226,18 +210,18 @@ function smartround(x) { // For when you don't want a billion decimals in a numb
        d = 100
    }
 
-
    return (Math.round(x * d) / d)
 }
 
+function randInt(min, max) {
+    return ((max - min) * Math.random() + min)
+}
 
 function refresh() {
    const coins = abbreviate(Math.floor(stats.Coins))
 
-
    clicks.innerText = `${coins} coins`
    prod.innerText = `${abbreviate(smartround(stats.CoinsPs * stats.CoinsPsMult))} coins/s`
-
 
    if (stats.Settings["Dynamic site title"]) {
        document.title = `${coins} coins - Passionyte's Coinsssss!`
@@ -247,49 +231,63 @@ function refresh() {
    }
 }
 
+function effect(type, args) {
+   if (!stats.Settings[`${type} effects`]) {
+        return
+   }
 
-function effect(type, bounds, args) {
-   if (type == "num") {
-       const num = document.getElementById("numdummy").cloneNode()
+   if (type == "Text") {
+       const text = document.getElementById("textdummy").cloneNode()
 
-
+       const st = text.style
+       let y
        if (args.click) {
-           num.innerText = `+${abbreviate((stats.CoinsPc + stats.CoinsMPc))}`
+            text.innerText = `+${abbreviate((stats.CoinsPc + stats.CoinsMPc))}`
+            y = (coinmpos.y + randInt(-48, 48))
+            st.left = ((coinmpos.x - 64) + randInt(-32, 32))+'px'
+            st.top = y+'px'
+       }
+       else {
+            text.innerText = args.text
+            if (args.bounds) {
+                const bds = args.bounds
+
+                st.left = ((bds.right - bds.left) * Math.random() + bds.left)
+                st.top = ((bds.bottom - bds.top) * Math.random() + bds.top)
+            }
+            else {
+                const pos = args.position
+
+                st.left = pos.x
+                st.top = pos.y
+            }
        }
 
-
-       const st = num.style
-       st.top = ((bounds.top - bounds.bottom) * Math.random() + bounds.bottom)
-       st.left = ((bounds.left - bounds.right) * Math.random() + bounds.right)
        st.display = "block"
        st.opacity = 1
 
+       effs.appendChild(text)
 
-       effs.appendChild(num)
+       const insecs = (args.lifetime * 1000)
 
-
-       const tenth = (args.lifetime * 10)
-       setInterval(_ => {
-           st.opacity -= (0.5 / tenth)
-           st.bottom += tenth
-       }, (1 / tenth))
+       const anim = setInterval(_ => {
+            st.opacity -= 0.01
+            st.top = `${(y - ((1 - st.opacity) * 100))}px`
+       }, (insecs / 100))
        setTimeout(_ => {
-           // clearInterval(anim)
-           effs.removeChild(num)
-           num.remove()
-       }, (args.lifetime * 1000))
+           clearInterval(anim)
+           effs.removeChild(text)
+           text.remove()
+       }, insecs)
    }
 }
-
 
 function load() {
    // Data
    const data = localStorage.getItem("Data")
 
-
    if (data) {
        const savedata = JSON.parse(data)
-
 
        for (const thing in savedata) {
            if (stats[thing] != null) {
@@ -298,10 +296,8 @@ function load() {
        }
    }
 
-
    for (const structure in items.structures) {
        const data = items.structures[structure]
-
 
        if (!stats.Structures[data.Name]) {
            stats.Structures[data.Name] = {
@@ -320,18 +316,13 @@ function load() {
        }
    }
 
-
-
-
    for (const nm in settings) {
        const def = settings[nm]
-
 
        if (typeof(def) != "function" && (stats.Settings[nm] == null)) {
            stats.Settings[nm] = def
        }
    }
-
 
    // Interface
    document.getElementById("loading").hidden = true
@@ -339,9 +330,7 @@ function load() {
    document.getElementById("main2").style.display = "inline"
    document.getElementById("main3").style.display = "inline"
 
-
    loaded = true
-
 
    if (stats.Settings["Auto saving"]) {
        setInterval(_=> {
@@ -349,7 +338,6 @@ function load() {
        }, 30000)
    }
 }
-
 
 function save() {
    if (stats.Coins > 0 && loaded && !savecd) {
@@ -361,10 +349,8 @@ function save() {
    }
 }
 
-
 function find(array, string) {
    let result = false
-
 
    for (const i in array) {
        if (i == string) {
@@ -373,10 +359,8 @@ function find(array, string) {
        }
    }
 
-
    return (result)
 }
-
 
 function available(reqs) {
    for (const type in reqs) {
@@ -396,24 +380,20 @@ function available(reqs) {
        }
    }
 
-
    return true
 }
 
-
-function shop(type) {
+function shop(type, force) {
    if (type) {
        const list = items[type]
 
-
        if (list) {
            itemlist.innerHTML = null
-           if (type == shopopen) {
+           if (type == shopopen && !force) {
                shopopen = null  
            }
            else {
                shopopen = type
-
 
                for (const item in list) {
                    const data = list[item]
@@ -494,7 +474,7 @@ function shop(type) {
                                stats.CoinsMPc = (stats.CoinsPs * stats.CoinsPcPs)
                               
                                refresh()
-                               shop(type)
+                               shop(type, true)
                            }
                        })
       
@@ -507,15 +487,12 @@ function shop(type) {
    }
 }
 
-
 function doStats() {
    const ui = document.getElementById("stats")
    ui.innerHTML = null
 
-
    for (const stat in stats) {
        const me = stats[stat]
-
 
        if (typeof(me) == "number") {
            const entry = document.getElementById("statdummy").cloneNode(true)
@@ -528,43 +505,36 @@ function doStats() {
    }
 }
 
-
 function doSettings() {
    const ui = document.getElementById("settings")
    ui.innerHTML = null
 
-
    for (const nm in settings) {
        const set = settings[nm]
 
-
        if (typeof(set) == "function") {
            const entry = document.getElementById("buttondummy").cloneNode(true)
-
 
            const b = entry.children[0]
            b.innerText = nm
            entry.style.display = "block"
            ui.appendChild(entry)
 
-
            b.addEventListener("click", set)
        }
        else if (typeof(set) == "boolean") {
            const entry = document.getElementById("booldummy").cloneNode(true)
-
 
            const b = entry.children[0]
            b.innerText = `${nm} : ${bool(stats.Settings[nm])}`
            entry.style.display = "block"
            ui.appendChild(entry)
 
-
            b.addEventListener("click", _ => {
                stats.Settings[nm] = (!stats.Settings[nm])
                doSettings()
                if (shopopen) {
-                   shop(shopopen)
+                   shop(shopopen, true)
                }
            })
        }
@@ -576,21 +546,17 @@ function doSettings() {
            c[0].innerText = `${nm} : `
            entry.style.display = "block"
            ui.appendChild(entry)
-
-
            c[2].addEventListener("click", _ => {
                let input = c[1].value
 
-
                if (mytype == "number") {
                    input = Number(input)
-
 
                    if (!isNaN(input)) {
                        stats.Settings[nm] = input
                        doSettings()
                        if (shopopen) {
-                           shop(shopopen)
+                           shop(shopopen, true)
                        }
                    }
                }
@@ -599,10 +565,8 @@ function doSettings() {
    }
 }
 
-
 function menu(type) {
    const ui = document.getElementById(type)
-
 
    if (menuopen && menuopen != type) {
        document.getElementById(menuopen).hidden = true
@@ -612,14 +576,11 @@ function menu(type) {
        }
    }
 
-
    if (ui && ui.hidden) {
        document.getElementById("menulabel").innerText = type.toUpperCase()
 
-
        menuopen = type
        ui.hidden = false
-
 
        if (type == "stats") {
            doStats()
@@ -633,7 +594,6 @@ function menu(type) {
        document.getElementById("menulabel").innerText = ""
        ui.hidden = true
 
-
        if (menurf) {
            clearInterval(menurf)
            menurf = null
@@ -641,9 +601,7 @@ function menu(type) {
    }
 }
 
-
 // Listeners
-
 
 bigbutton.addEventListener("click", _ => {
    const x = (stats.CoinsPc + stats.CoinsMPc)
@@ -651,45 +609,40 @@ bigbutton.addEventListener("click", _ => {
    stats.TotalCoins += x
    stats.Clicks++
    refresh()
-   effect("num", bigbutton.getBoundingClientRect(), {click: true, lifetime: 2})
+   effect("Text", {click: true, lifetime: 1})
 })
 
+bigbutton.addEventListener("mousemove", ev => {
+    coinmpos = {x: ev.clientX, y: ev.clientY}
+})
 
 structb.addEventListener("click", _ => {
    shop("structures")
 })
 
-
 upgb.addEventListener("click", _ => {
    shop("upgrades")
 })
-
 
 document.getElementById("statsbutton").addEventListener("click", _ => {
    menu("stats")
 })
 
-
 document.getElementById("settingsbutton").addEventListener("click", _ => {
    menu("settings")
 })
 
-
 // Hard coded crap
-
 
 document.getElementById("version").innerText = `v${version}`
 
-
 for (const nm in settings) {
    const def = settings[nm]
-
 
    if (typeof(def) != "function") {
        stats.Settings[nm] = def
    }
 }
-
 
 setInterval(_ => {
    const x = ((stats.CoinsPs * stats.CoinsPsMult) / fps)
@@ -697,6 +650,5 @@ setInterval(_ => {
    stats.TotalCoins += x
    refresh()
 }, fps)
-
 
 setTimeout(load, 1000)

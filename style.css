@@ -2,11 +2,9 @@ body {
     background-image: linear-gradient(rgb(255, 230, 120), rgb(255, 240, 160));
  }
  
- 
  .text {
     font-family:'Courier New', Courier, monospace
  }
- 
  
  .item {
     background-color: rgb(226, 165, 59);
@@ -20,7 +18,6 @@ body {
     margin-bottom: 2%
  }
  
- 
  .itemtext {
     width: 100%;
     height: 20%;
@@ -28,7 +25,6 @@ body {
     text-wrap: wrap;
     word-wrap: break-word;
  }
- 
  
  .stat {
     background-color: rgb(226, 165, 59);
@@ -40,12 +36,10 @@ body {
     height: 5%;
  }
  
- 
  button {
     background-color: rgb(255, 208, 0);
     border-color: rgb(190, 140, 45);
  }
- 
  
  .menu {
     background-color: rgb(255, 210, 100);
@@ -56,14 +50,11 @@ body {
     border-width: thick;
  }
  
- 
  .imenu {
     margin-top: 10%
  }
  
- 
- #numdummy {
+ #textdummy {
     font-weight: bold;
     color:antiquewhite
  }
- 
