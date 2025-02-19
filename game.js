@@ -33,8 +33,7 @@ let shopopen
 let menurf
 let coinmpos
 
-const version = "0.03 Alpha"
-console.log("Hi")
+const version = "0.03_1 Alpha"
 const fps = 30
 
 const items = {
@@ -67,7 +66,7 @@ const items = {
        DreamersClick = {Name: "Dreamer's Click", Cost: 150000, CoinsPcPs: 0.02, Description: "Zzzzzz.... coins.... Clicking earns 2% of your coins per second!", Requirements: {Stats: {CoinsPc: 8}}},
        PayRaise = {Name: "Pay Raises", Cost: 120000, StructName: "Business", Description: "Increase worker morale by incorporating pay raises. Businesses are twice as efficient!", Requirements: {Structures: {Business: 10}}},
        Quantum = {Name: "Quantum Mechanics", Cost: 400000, StructName: "Factory", Description: "627% more efficient than conventional electricity... Factories are twice as efficient!", Requirements: {Structures: {Factory: 10}}},
-       EightBallClick2 = {Name: "8-Ball Click Mk2", Cost: 88888, CoinsPcPs: 0.03, Description: "Yeah, that's right; ask your personal 8-Ball for another coin related wish. This is your last... Clicking earns 3% of your coins per second!", Requirements: {Stats: {CoinsPcPs: 0.02}}},
+       EightBallClick2 = {Name: "8-Ball Click Mk2", Cost: 888888, CoinsPcPs: 0.03, Description: "Yeah, that's right; ask your personal 8-Ball for another coin related wish. This is your last... Clicking earns 3% of your coins per second!", Requirements: {Stats: {CoinsPcPs: 0.02}}},
        BronzeFortune = {Name: "Bronze Fortune", Cost: 25000, CoinsPsMult: 0.1, Description: "Not the best, but better than nothing. Gives 10% production multiplier."},
        PlatinumPickaxe = {Name: "Platinum Pickaxe", Cost: 15000, StructName: "Miner", Description: "Upgrade pickaxes from Gold to Platinum. (Please tell me how this is efficient...) Miners are twice as efficient!", Requirements: {Structures: {Miner: 25}}},
        SteelMouse = {Name: "Steel Mouse", Cost: 9001, StructName: "Clicker", Description: "Clink clink clink... Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 25}}},
@@ -243,7 +242,7 @@ function effect(type, args) {
        const st = text.style
        let y
        if (args.click) {
-            text.innerText = `+${abbreviate((stats.CoinsPc + stats.CoinsMPc))}`
+            text.innerText = `+${abbreviate(smartround((stats.CoinsPc + stats.CoinsMPc)))}`
             y = (coinmpos.y + randInt(-48, 48))
             st.left = ((coinmpos.x - 16) + randInt(-32, 32))+'px'
             st.top = y+'px'
