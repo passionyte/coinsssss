@@ -34,6 +34,7 @@ let menurf
 let coinmpos
 
 const version = "0.03 Alpha"
+console.log("Hi")
 const fps = 30
 
 const items = {
