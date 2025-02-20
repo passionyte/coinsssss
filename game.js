@@ -24,6 +24,7 @@ let stats = {
    Clicks: 0,
    Purchased: {},
    Structures: {},
+   Achievements: {},
    Settings: {}
 }
 let loaded = false
@@ -33,7 +34,7 @@ let shopopen
 let menurf
 let coinmpos
 
-const version = "0.03_1 Alpha"
+const version = "0.032 Alpha"
 const fps = 30
 
 const items = {
@@ -133,9 +134,11 @@ const items = {
        JoiningTeams = {Name: "Joining Teams", Cost: 330000000, StructName: "Business", StructMult: 16, OtherBoosts: {["Research Facility"]: 2}, Description: "Joining your Research Facilities and Businesses under the same umbrella will likely help massively for collaboration! Businesses are 16 times as efficient, Research Facilities are twice as efficient!", Requirements: {Structures: {Business: 100, ["Research Facility"]: 25}}},
        MillionDollarClick = {Name: "Million Dollar Click", Cost: 250000000, CoinsPc: 16, Multiply: true, Description: "You're a millionaire! You already were. Base coins per click is multiplied by 16.", Requirements: {Stats: {CoinsPc: 63936}}}
    ],
-   achievements: {
-
-   }
+   achievements: [
+        FirstCoin = {Name: "First Coin", Description: "Your first coin of hundreds, thousand, millions... hopefully.", Type: "Stat", Requirements: {TotalCoins: 1}},
+        StackOCoins = {Name: "Stack o' Coins", Description: "You know, 100 is a lot!!!... not.", Type: "Stat", Requirements: {TotalCoins: 100}},
+        Millionaire = {Name: "Millionaire", Description: "If I had a million coins, I'd be rich.", Type: "Stat", Requirements: {TotalCoins: 1000000}}
+   ]
 }
 const fancynames = { // Any string you want to look fancy
    CoinsPs: "Coins per sec.",
@@ -241,10 +244,11 @@ function effect(type, args) {
 
        const st = text.style
        let y
+       let pc = false
        if (args.click) {
             text.innerText = `+${abbreviate(smartround((stats.CoinsPc + stats.CoinsMPc)))}`
             y = (coinmpos.y + randInt(-48, 48))
-            st.left = ((coinmpos.x - 16) + randInt(-32, 32))+'px'
+            st.left = ((coinmpos.x - 24) + randInt(-32, 32))+'px'
             st.top = y+'px'
        }
        else {
@@ -257,10 +261,13 @@ function effect(type, args) {
             }
             else {
                 const pos = args.position
+                pc = (pos.pc)
 
-                st.left = pos.x
-                st.top = pos.y
+                st.left = pos.x + ((pc) && "%") || "px"
+                st.top = pos.y + ((pc) && "%") || "px"
             }
+
+            y = st.top
        }
 
        st.display = "block"
@@ -272,7 +279,13 @@ function effect(type, args) {
 
        const anim = setInterval(_ => {
             st.opacity -= 0.01
-            st.top = `${(y - ((1 - st.opacity) * 100))}px`
+            if (!pc) {
+                st.top = `${(y - ((1 - st.opacity) * 100))}px`
+            }
+            else {
+                st.top = `${(y - ((1 - st.opacity) * 10))}%`
+            }
+            
        }, (insecs / 100))
        setTimeout(_ => {
            clearInterval(anim)
@@ -296,9 +309,7 @@ function load() {
        }
    }
 
-   for (const structure in items.structures) {
-       const data = items.structures[structure]
-
+   for (const data in items.structures) {
        if (!stats.Structures[data.Name]) {
            stats.Structures[data.Name] = {
                Amount: 0,
@@ -360,6 +371,21 @@ function find(array, string) {
    }
 
    return (result)
+}
+
+function findfromiv(array, i, v) {
+    let result
+
+    for (let x in array) {
+        x = array[x]
+
+        if (x[i] == v) {
+            result = x
+            break
+        }
+    }
+
+    return result
 }
 
 function available(reqs) {
@@ -488,8 +514,11 @@ function shop(type, force) {
 }
 
 function doStats() {
-   const ui = document.getElementById("stats")
-   ui.innerHTML = null
+   const sui = document.getElementById("stats")
+   sui.innerHTML = null
+
+   const aui = document.getElementById("achievements")
+   aui.innerHTML = null
 
    for (const stat in stats) {
        const me = stats[stat]
@@ -500,9 +529,20 @@ function doStats() {
            c[0].innerText = `${fancynames[stat] || stat} : `
            c[1].innerText = abbreviate(smartround(me))
            entry.style.display = "block"
-           ui.appendChild(entry)
+           sui.appendChild(entry)
        }
    }
+
+    for (const acv in stats.Achievements) {
+        const entry = document.getElementById("acvdummy").cloneNode(true)
+        const c = entry.children
+
+        c[0].innerText = acv
+        c[2].innerText = findfromiv(items.achievements, "Name", acv).Description
+
+        entry.style.display = "block"
+        aui.appendChild(entry)
+    }
 }
 
 function doSettings() {
@@ -576,6 +616,8 @@ function menu(type) {
        }
    }
 
+   const aui = document.getElementById("achievements")
+   const at = document.getElementById("acvtitle")
    if (ui && ui.hidden) {
        document.getElementById("menulabel").innerText = type.toUpperCase()
 
@@ -583,14 +625,20 @@ function menu(type) {
        ui.hidden = false
 
        if (type == "stats") {
+           aui.hidden = false
+           at.hidden = false
            doStats()
            menurf = setInterval(doStats, 2000)
        }
        else if (type == "settings") {
+           aui.hidden = true
+           at.hidden = true
            doSettings()
        }
    }
    else {
+       aui.hidden = true
+       at.hidden = true
        document.getElementById("menulabel").innerText = ""
        ui.hidden = true
 
@@ -650,5 +698,20 @@ setInterval(_ => {
    stats.TotalCoins += x
    refresh()
 }, fps)
+
+setInterval(_ => {
+    for (const acv of items.achievements) {
+        if (!stats.Achievements[acv.Name]) {
+            if (acv.Type == "Stat") {
+                for (const req in acv.Requirements) {
+                    if (stats[req] >= acv.Requirements[req]) {
+                        stats.Achievements[acv.Name] = true
+                        effect("Text", {lifetime: 5, position: {x: 40, y: 75, pc: true}, text: `Unlocked: ${acv.Name}!`})
+                    }
+                }
+            }
+        }
+    }
+}, 2000)
 
 setTimeout(load, 1000)

@@ -3,7 +3,7 @@ body {
  }
  
  .text {
-    font-family:'Courier New', Courier, monospace
+    font-family: 'Kavoon', 'Courier New', Courier, monospace
  }
  
  .item {
@@ -43,7 +43,7 @@ body {
  
  .menu {
     background-color: rgb(255, 210, 100);
-    font-family:'Courier New', Courier, monospace;
+    font-family:'Kavoon', 'Courier New', Courier, monospace;
     height: 100%;
     border-color: rgb(200, 160, 65);
     border-style: solid;
@@ -51,7 +51,8 @@ body {
  }
  
  .imenu {
-    margin-top: 10%
+    margin-top: 10%;
+    margin-bottom: 10%;
  }
  
  #textdummy {
