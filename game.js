@@ -258,6 +258,8 @@ function effect(type, args) {
 
                 st.left = ((bds.right - bds.left) * Math.random() + bds.left)
                 st.top = ((bds.bottom - bds.top) * Math.random() + bds.top)
+
+                y = Number(st.top)
             }
             else {
                 const pos = args.position
@@ -265,9 +267,9 @@ function effect(type, args) {
 
                 st.left = pos.x + ((pc) && "%") || "px"
                 st.top = pos.y + ((pc) && "%") || "px"
-            }
 
-            y = st.top
+                y = pos.y
+            }
        }
 
        st.display = "block"
