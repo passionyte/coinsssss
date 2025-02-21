@@ -34,7 +34,7 @@ let shopopen
 let menurf
 let coinmpos
 
-const version = "0.036 Alpha"
+const version = "0.037 Alpha"
 const fps = 30
 
 const items = {
