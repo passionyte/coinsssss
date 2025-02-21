@@ -137,11 +137,16 @@ const items = {
    achievements: [
         FirstCoin = {Name: "First Coin", Description: "Your first coin of hundreds, thousands, millions... hopefully.", Type: "Stat", Requirements: {TotalCoins: 1}},
         StackOCoins = {Name: "Stack o' Coins", Description: "You know, 100 is a lot!!!... not.", Type: "Stat", Requirements: {TotalCoins: 100}},
+        FirstThousand = {Name: "First Thousand", Description: "Did you know, 1000 is also 1e3?", Type: "Stat", Requirements: {TotalCoins: 100}},
         Millionaire = {Name: "Millionaire", Description: "If I had a million coins, I'd be rich.", Type: "Stat", Requirements: {TotalCoins: 1000000}},
         Billionaire = {Name: "Billionaire", Description: "Now that is kinda crazy! You've really made it!", Type: "Stat", Requirements: {TotalCoins: 1000000000}},
         Trillionaire = {Name: "Trillionaire", Description: "You should stop playing now...", Type: "Stat", Requirements: {TotalCoins: 1000000000000}},
-        AMintASecond = {Name: "A Mint A Second", Description: "Every second: [Insert coin sound effect here]", Type: "Stat", Requirements: {CoinsPs: 1}},
-        CoinFlow = {Name: "Coin Flow", Description: "Sweet!!!", Type: "Stat", Requirements: {CoinsPs: 10}},
+        AMintASecond = {Name: "A Mint A Second", Description: "Every second: [Insert coin sound effect here] [1 cps]", Type: "Stat", Requirements: {CoinsPs: 1}},
+        CoinFlow = {Name: "Coin Flow", Description: "Sweet!!! [10 cps]", Type: "Stat", Requirements: {CoinsPs: 10}},
+        ADollarASecond = {Name: "A Dollar A Second", Description: "1 coin = 1 cent, 100 coins = 100 cents = 1 dollar [100 cps]", Type: "Stat", Requirements: {CoinsPs: 100}},
+        IndustryStandard = {Name: "Industry Standard", Description: "Pretty much a legitimate production line of coins! [1K cps]", Type: "Stat", Requirements: {CoinsPs: 1000}},
+        Insanity = {Name: "Insanity", Description: "You're insane. You should stop playing... [1M cps]", Type: "Stat", Requirements: {CoinsPs: 1000000}},
+        GalacticProduction = {Name: "Galactic Production", Description: "Endless amounts of coins... You have truly realized they are infinite now. [1B cps]", Type: "Stat", Requirements: {CoinsPs: 1000000000}}
    ]
 }
 const fancynames = { // Any string you want to look fancy
