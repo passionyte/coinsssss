@@ -34,7 +34,7 @@ let shopopen
 let menurf
 let coinmpos
 
-const version = "0.032 Alpha"
+const version = "0.034 Alpha"
 const fps = 30
 
 const items = {
@@ -135,9 +135,13 @@ const items = {
        MillionDollarClick = {Name: "Million Dollar Click", Cost: 250000000, CoinsPc: 16, Multiply: true, Description: "You're a millionaire! You already were. Base coins per click is multiplied by 16.", Requirements: {Stats: {CoinsPc: 63936}}}
    ],
    achievements: [
-        FirstCoin = {Name: "First Coin", Description: "Your first coin of hundreds, thousand, millions... hopefully.", Type: "Stat", Requirements: {TotalCoins: 1}},
+        FirstCoin = {Name: "First Coin", Description: "Your first coin of hundreds, thousands, millions... hopefully.", Type: "Stat", Requirements: {TotalCoins: 1}},
         StackOCoins = {Name: "Stack o' Coins", Description: "You know, 100 is a lot!!!... not.", Type: "Stat", Requirements: {TotalCoins: 100}},
-        Millionaire = {Name: "Millionaire", Description: "If I had a million coins, I'd be rich.", Type: "Stat", Requirements: {TotalCoins: 1000000}}
+        Millionaire = {Name: "Millionaire", Description: "If I had a million coins, I'd be rich.", Type: "Stat", Requirements: {TotalCoins: 1000000}},
+        Billionaire = {Name: "Billionaire", Description: "Now that is kinda crazy! You've really made it!", Type: "Stat", Requirements: {TotalCoins: 1000000000}},
+        Trillionaire = {Name: "Trillionaire", Description: "You should stop playing now...", Type: "Stat", Requirements: {TotalCoins: 1000000000000}},
+        AMintASecond = {Name: "A Mint A Second", Description: "Every second: [Insert coin sound effect here]", Type: "Stat", Requirements: {CoinsPs: 1}},
+        CoinFlow = {Name: "Coin Flow", Description: "Sweet!!!", Type: "Stat", Requirements: {CoinsPs: 10}},
    ]
 }
 const fancynames = { // Any string you want to look fancy
@@ -311,7 +315,7 @@ function load() {
        }
    }
 
-   for (const data in items.structures) {
+   for (const data of items.structures) {
        if (!stats.Structures[data.Name]) {
            stats.Structures[data.Name] = {
                Amount: 0,
@@ -359,6 +363,7 @@ function save() {
        setTimeout(_ => {
            savecd = false
        }, 15000)
+       effect("Text", {lifetime: 3, position: {x: 40, y: 75, pc: true}, text: "Saved game"})
    }
 }
 
@@ -666,6 +671,24 @@ bigbutton.addEventListener("mousemove", ev => {
     coinmpos = {x: ev.clientX, y: ev.clientY}
 })
 
+bigbutton.addEventListener("mousedown", _ => {
+    bigbutton.style.width = 48 + "%"
+    bigbutton.style.left = 1 + "%"
+    bigbutton.style.top = 1 + "%"
+})
+
+bigbutton.addEventListener("mouseup", _ => {
+    bigbutton.style.width = 50 + "%"
+    bigbutton.style.left = 0
+    bigbutton.style.top = 0
+})
+
+bigbutton.addEventListener("mouseleave", _ => {
+    bigbutton.style.width = 50 + "%"
+    bigbutton.style.left = 0
+    bigbutton.style.top = 0
+})
+
 structb.addEventListener("click", _ => {
    shop("structures")
 })
@@ -708,7 +731,7 @@ setInterval(_ => {
                 for (const req in acv.Requirements) {
                     if (stats[req] >= acv.Requirements[req]) {
                         stats.Achievements[acv.Name] = true
-                        effect("Text", {lifetime: 5, position: {x: 40, y: 75, pc: true}, text: `Unlocked: ${acv.Name}!`})
+                        effect("Text", {lifetime: 4, position: {x: 40, y: 75, pc: true}, text: `Unlocked: ${acv.Name}!`})
                     }
                 }
             }

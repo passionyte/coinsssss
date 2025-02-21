@@ -4,6 +4,9 @@
        <script src="game.js" defer></script>
        <link rel="stylesheet" href="style.css">
        <link rel="icon" type="image/x-icon" href="/images/coin.png">
+       <link rel="preconnect" href="https://fonts.googleapis.com">
+       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+       <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet">
    </head>
 
    <body>
@@ -43,7 +46,7 @@
                </div>
                <div id="acvdummy" class="stat">
                     <a style="display: contents; font-weight: bold">Achievement</a> <br>
-                    <a style="display: contents; font-style: italic;">Good job!</a>
+                    <a style="display: contents; font-style: italic; font-size: 12px">Good job!</a>
                </div>
                <div id="buttondummy" class="stat">
                    <button style="font-weight: bold">Click me</button>
@@ -58,7 +61,7 @@
                </div>
                <div id="stats" class="imenu" hidden></div>
                <a id="acvtitle" style="height: 10%; font-size: 20px; font-weight: bold" hidden>ACHIEVEMENTS</a>
-               <div id="achievements" class="imenu" hidden></div>
+               <div id="achievements" style="overflow-y: scroll;" class="imenu" hidden></div>
                <div id="settings" class="imenu" hidden></div>
            </div>
        </div>
