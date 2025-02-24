@@ -34,7 +34,7 @@ let shopopen
 let menurf
 let coinmpos
 
-const version = "0.037_1 Alpha"
+const version = "0.039 Alpha"
 const fps = 30
 
 const items = {
@@ -132,7 +132,11 @@ const items = {
        UnstableEconomy = {Name: "Unstable Economy", Cost: 500000000, StructName: "Business", OtherBoosts: {Currency: 2, Trader: 2}, Description: "Name explains it in whole... Businesses, Traders and Currencies are twice as efficient!", Requirements: {Structures: {Business: 200, Trader: 1, Currency: 1}}},
        GalacticDuplication = {Name: "Galactic Duplication", Cost: 200000000000, StructName: "The Matrix", OtherBoosts: {Planet: 2}, Description: "You know, a lot of the upgrade names in this game are pretty straight forward so I don't usually need to make a large description but I do anyway because... I don't know. The Matrixes and Planets are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 25, Planet: 50}}},
        JoiningTeams = {Name: "Joining Teams", Cost: 330000000, StructName: "Business", StructMult: 16, OtherBoosts: {["Research Facility"]: 2}, Description: "Joining your Research Facilities and Businesses under the same umbrella will likely help massively for collaboration! Businesses are 16 times as efficient, Research Facilities are twice as efficient!", Requirements: {Structures: {Business: 100, ["Research Facility"]: 25}}},
-       MillionDollarClick = {Name: "Million Dollar Click", Cost: 250000000, CoinsPc: 16, Multiply: true, Description: "You're a millionaire! You already were. Base coins per click is multiplied by 16.", Requirements: {Stats: {CoinsPc: 63936}}}
+       MillionDollarClick = {Name: "Million Dollar Click", Cost: 250000000, CoinsPc: 16, Multiply: true, Description: "You're a millionaire! You already were. Base coins per click is multiplied by 16.", Requirements: {Stats: {CoinsPc: 63936}}},
+       Ultraclick = {Name: "Ultraclick", Cost: 35143748521, CoinsPcPs: 0.07, Description: "It's like the mouse variant of the Ultrascience upgrade. Clicking earns 7% of your coins per second!", Requirements: {Stats: {CoinsPcPs: 0.1}}},
+       ImaginationIsReality = {Name: "Imagination Is Reality", Cost: 1000000000000, StructName: "The Matrix", Description: "The Matrix makes anything seem like reality. Even an absurd amount of coins. Anything you wish. The Matrixes are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 50}}},
+       EternalCoins = {Name: "Eternal Coins", Cost: 21300000000000, StructName: "The Matrix", Description: "The Matrix makes anything eternal. Even your prized coins, just for an ungodly cost. The Matrixes are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 100}}},
+       MaxedOutCoins = {Name: "Maxed Out Coins", Cost: 2147483648, CoinsPc: 32, Multiply: true, Description: "The cost is as much as the 32 bit limit! Base coins per click is multiplied by 32.", Requirements: {Stats: {CoinsPc: 1022976}}}
    ],
    achievements: [
         FirstCoin = {Name: "First Coin", Description: "Your first coin of hundreds, thousands, millions... hopefully.", Type: "Stat", Requirements: {TotalCoins: 1}},
