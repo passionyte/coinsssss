@@ -34,7 +34,7 @@ let shopopen
 let menurf
 let coinmpos
 
-const version = "0.039 Alpha"
+const version = "0.04 Alpha"
 const fps = 30
 
 const items = {
@@ -49,8 +49,9 @@ const items = {
        Research = {Name: "Research Facility", Cost: 3200000, CoinsPs: 12000, Description: "Research facilities which prioritize finding new ways to make coins."},
        MatterRefiner = {Name: "Matter Refiner", Cost: 48000000, CoinsPs: 50000, Description: "Developed by your research facilities, you can now refine matter to the point where it turns into coins."},
        Planet = {Name: "Planet", Cost: 256000000, CoinsPs: 200000, Description: "Why rely on mere objects when you can just create new planets filled to the brim with coins?"},
-       Matrix = {Name: "The Matrix", Cost: 6000000000, CoinsPs: 1999000, Description: "Didn't see this coming, did you? Now choose a coin... red or blue..."}
-   ],
+       Matrix = {Name: "The Matrix", Cost: 6000000000, CoinsPs: 1999000, Description: "Didn't see this coming, did you? Now choose a coin... red or blue..."},
+       Atomizer = {Name: "Atomizer", Cost: 300000000000, CoinsPs: 44000000, Description: "A massive advancement over the Matter Refiners, Atomizers can bend literally anything, Matrix or not, into millions of coins."}
+    ],
    upgrades: [
        DoubleClick = {Name: "Double Click", Cost: 100, CoinsPc: 1, Description: "Doubles your coins per click!"},
        WoodMouse = {Name: "Wood Mouse", Cost: 200, StructName: "Clicker", Description: "Clank clank clank... Clickers are twice as efficient!", Requirements: {Structures: {Clicker: 1}}},
@@ -136,8 +137,10 @@ const items = {
        Ultraclick = {Name: "Ultraclick", Cost: 35143748521, CoinsPcPs: 0.07, Description: "It's like the mouse variant of the Ultrascience upgrade. Clicking earns 7% of your coins per second!", Requirements: {Stats: {CoinsPcPs: 0.1}}},
        ImaginationIsReality = {Name: "Imagination Is Reality", Cost: 1000000000000, StructName: "The Matrix", Description: "The Matrix makes anything seem like reality. Even an absurd amount of coins. Anything you wish. The Matrixes are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 50}}},
        EternalCoins = {Name: "Eternal Coins", Cost: 21300000000000, StructName: "The Matrix", Description: "The Matrix makes anything eternal. Even your prized coins, just for an ungodly cost. The Matrixes are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 100}}},
-       MaxedOutCoins = {Name: "Maxed Out Coins", Cost: 2147483648, CoinsPc: 32, Multiply: true, Description: "The cost is as much as the 32 bit limit! Base coins per click is multiplied by 32.", Requirements: {Stats: {CoinsPc: 1022976}}}
-   ],
+       MaxedOutCoins = {Name: "Maxed Out Coins", Cost: 2147483648, CoinsPc: 32, Multiply: true, Description: "The cost is as much as the 32 bit limit! Base coins per click is multiplied by 32.", Requirements: {Stats: {CoinsPc: 1022976}}},
+       AtomicImplementation = {Name: "Atomic Implementation", Cost: 1600000000000, StructName: "Atomizer", Description: "You're telling me you have found the solution to turning atoms into coins but you are still using Nuclear mechanics??? Come on now... Atomizers are twice as efficient!", Requirements: {Structures: {Atomizer: 1}}},
+       PureDuplication = {Name: "Pure Duplication", Cost: 14000000000000, StructName: "Atomizer", Description: "Pure optimization allows for pure duplication. Atomizers are twice as efficient!", Requirements: {Structures: {Atomizer: 10}}},
+    ],
    achievements: [
         FirstCoin = {Name: "First Coin", Description: "Your first coin of hundreds, thousands, millions... hopefully.", Type: "Stat", Requirements: {TotalCoins: 1}},
         StackOCoins = {Name: "Stack o' Coins", Description: "You know, 100 is a lot!!!... not.", Type: "Stat", Requirements: {TotalCoins: 100}},
