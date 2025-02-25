@@ -34,7 +34,7 @@ let shopopen
 let menurf
 let coinmpos
 
-const version = "0.041 Alpha"
+const version = "0.044 Alpha"
 const fps = 30
 
 const items = {
@@ -141,21 +141,47 @@ const items = {
        AtomicImplementation = {Name: "Atomic Implementation", Cost: 1600000000000, StructName: "Atomizer", Description: "You're telling me you have found the solution to turning atoms into coins but you are still using Nuclear mechanics??? Come on now... Atomizers are twice as efficient!", Requirements: {Structures: {Atomizer: 1}}},
        PureDuplication = {Name: "Pure Duplication", Cost: 14000000000000, StructName: "Atomizer", Description: "Pure optimization allows for pure duplication. Atomizers are twice as efficient!", Requirements: {Structures: {Atomizer: 10}}},
        UberImplementation = {Name: "Uber Implementation", Cost: 40000000000000, StructName: "Atomizer", Description: "Yeah, Atomic power isn't the best. Get with the times. Atomizers are twice as efficient!", Requirements: {Structures: {Atomizer: 25}}},
-       UnobtainiumFortune = {Name: "Unobtainium Fortune", Cost: 6000000000000, CoinsPsMult: 3.5, Description: "A mysterious 'unobtainable' mineral from a different period in time and space... Gives 350% production multiplier.", Requirements: {Stats: {CoinsPsMult: 7.5}}}
+       UnobtainiumFortune = {Name: "Unobtainium Fortune", Cost: 6000000000000, CoinsPsMult: 3.5, Description: "A mysterious 'unobtainable' mineral from a different period in time and space... Gives 350% production multiplier.", Requirements: {Stats: {CoinsPsMult: 7.5}}},
+       MeteoriteMouse = {Name: "Meteorite Mouse", Cost: 16500000000, StructName: "Planet", OtherBoosts: {Cursor: 12}, Description: "Make the most of your Planets by making Cursors more competent! Planets are twice as efficient, Cursors are 12 times as efficient!", Requirements: {Structures: {Cursor: 150, Planet: 25}}},
+       OverExploration = {Name: "Over-Exploration", Cost: 40000000000, StructName: "Planet", OtherBoosts: {["Research Facility"]: 2}, Description: "Discover absolutely everything on your Planets with advanced nerds and astronauts. Planets and Research Facilities are twice as efficient!", Requirements: {Structures: {Planet: 50, ["Research Facility"]: 100}}}
     ],
    achievements: [
+        // TotalCoins
         FirstCoin = {Name: "First Coin", Description: "Your first coin of hundreds, thousands, millions... hopefully.", Type: "Stat", Requirements: {TotalCoins: 1}},
         StackOCoins = {Name: "Stack o' Coins", Description: "You know, 100 is a lot!!!... not.", Type: "Stat", Requirements: {TotalCoins: 100}},
-        FirstThousand = {Name: "First Thousand", Description: "Did you know, 1000 is also 1e3?", Type: "Stat", Requirements: {TotalCoins: 100}},
-        Millionaire = {Name: "Millionaire", Description: "If I had a million coins, I'd be rich.", Type: "Stat", Requirements: {TotalCoins: 1000000}},
-        Billionaire = {Name: "Billionaire", Description: "Now that is kinda crazy! You've really made it!", Type: "Stat", Requirements: {TotalCoins: 1000000000}},
-        Trillionaire = {Name: "Trillionaire", Description: "You should stop playing now...", Type: "Stat", Requirements: {TotalCoins: 1000000000000}},
+        FirstThousand = {Name: "First Thousand", Description: "Did you know, 1000 is also 1e3?", Type: "Stat", Requirements: {TotalCoins: 1000}},
+        Millionaire = {Name: "Millionaire", Description: "If I had a million coins, I'd be rich.", Type: "Stat", Requirements: {TotalCoins: 1e6}},
+        Billionaire = {Name: "Billionaire", Description: "Now that is kinda crazy! You've really made it!", Type: "Stat", Requirements: {TotalCoins: 1e9}},
+        Trillionaire = {Name: "Trillionaire", Description: "You should stop playing now...", Type: "Stat", Requirements: {TotalCoins: 1e12}},
+        Quadrillionaire = {Name: "Quadrillionaire", Description: "Absolute insanity.", Type: "Stat", Requirements: {TotalCoins: 1e15}},
+        // CoinsPs
         AMintASecond = {Name: "A Mint A Second", Description: "Every second: [Insert coin sound effect here] [1 cps]", Type: "Stat", Requirements: {CoinsPs: 1}},
         CoinFlow = {Name: "Coin Flow", Description: "Sweet!!! [10 cps]", Type: "Stat", Requirements: {CoinsPs: 10}},
         ADollarASecond = {Name: "A Dollar A Second", Description: "1 coin = 1 cent, 100 coins = 100 cents = 1 dollar [100 cps]", Type: "Stat", Requirements: {CoinsPs: 100}},
-        IndustryStandard = {Name: "Industry Standard", Description: "Pretty much a legitimate production line of coins! [1K cps]", Type: "Stat", Requirements: {CoinsPs: 1000}},
-        Insanity = {Name: "Insanity", Description: "You're insane. You should stop playing... [1M cps]", Type: "Stat", Requirements: {CoinsPs: 1000000}},
-        GalacticProduction = {Name: "Galactic Production", Description: "Endless amounts of coins... You have truly realized they are infinite now. [1B cps]", Type: "Stat", Requirements: {CoinsPs: 1000000000}}
+        IndustryStandard = {Name: "Industry Standard", Description: "Pretty much a legitimate production line of coins! [1K cps]", Type: "Stat", Requirements: {CoinsPs: 1e3}},
+        Insanity = {Name: "Insanity", Description: "You're insane. You should stop playing... [1M cps]", Type: "Stat", Requirements: {CoinsPs: 1e6}},
+        GalacticProduction = {Name: "Galactic Production", Description: "Endless amounts of coins... You have truly realized they are infinite now. [1B cps]", Type: "Stat", Requirements: {CoinsPs: 1e9}},
+        Outrageous = {Name: "Outrageous", Description: "That's what you are. [1T cps]", Type: "Stat", Requirements: {CoinsPs: 1e12}},
+        How = {Name: "How?!", Description: "Absolutely insane... just... How?! [1qd cps]", Type: "Stat", Requirements: {CoinsPs: 1e15}}
+        // Structures
+        ClickOlympics = {Name: "Click Olympics", Description: "Clclclclclclclclclcl- [100 Cursors]", Type: "Structures", Requirements: {Clicker: 100}},
+        MiningUniverse = {Name: "Mining Universe", Description: "So, you want to give us excavators and mining trucks yet? [100 Miners]", Type: "Structures", Requirements: {Miner: 100}},
+        TrueEconomist = {Name: "True Economist", Description: "Now do it with currencies ;) [100 Traders]", Type: "Structures", Requirements: {Trader: 100}},
+        ExpertEmployer = {Name: "Expert Employer", Description: "You could rival Wal-Mart. Maybe. Regardless, you're better than K-mart. [100 Businesses]", Type: "Structures", Requirements: {Business: 100}},
+        ProductionLineOverlord = {Name: "Production Line Overlord", Description: "Now do it with currencies ;) [100 Factories]", Type: "Structures", Requirements: {Factory: 100}},
+        CoinsBetterThanDoge = {Name: "Coinsssss > Doge", Description: "You showed that succubus of a Dogecoin promoter who is boss. [100 Currencies]", Type: "Structures", Requirements: {Currency: 100}},
+        CoinMesa = {Name: "Coin Mesa", Description: "Welcome to the Coin Mesa research facility. [100 Research Facilities]", Type: "Structures", Requirements: {["Research Facility"]: 100}},
+        IsThereAnyMatterLeft = {Name: "Is there any matter left?", Description: "No, seriously. [100 Matter Refiners]", Type: "Structures", Requirements: {["Matter Refiner"]: 100}},
+        CoinGalaxies = {Name: "Coin Galaxies", Description: "You shaped this universe in your vision. [100 Planets]", Type: "Structures", Requirements: {Planet: 100}},
+        AgentCoin = {Name: "Agent Coin", Description: "That's you! [100 The Matrixes]", Type: "Structures", Requirements: {["The Matrix"]: 100}},
+        ExtinctAtoms = {Name: "ExtinctAtoms", Description: "...You monster. [100 Atomizers]", Type: "Structures", Requirements: {Atomizer: 100}},
+        // SumStructs
+        Builder = {Name: "Builder", Description: "Keep going... [100 Structures]", Type: "SumStructs", Requirement: 100},
+        Entrepreneur = {Name: "Entrepreneur", Description: "That's a lot to keep track of... [250 Structures]", Type: "SumStructs", Requirement: 250},
+        YourOwnCountry = {Name: "Your Own Country", Description: "Wow! You're a proud Queen or King of a whole lot! [500 Structures]", Type: "SumStructs", Requirement: 500},
+        YourOwnGalaxy = {Name: "Your Own Galaxy", Description: "Honorable coin Queen or King of a whole Galaxy of structures! [1K Structures]", Type: "SumStructs", Requirement: 1000},
+        // SumUpgrades
+        Experimentalist = {Name: "Experimentalist", Description: "Hard to keep pace with all these upgrades requiring brilliance... [100 Upgrades]", Type: "SumUpgrades", Requirement: 100}
    ]
 }
 const fancynames = { // Any string you want to look fancy
@@ -250,6 +276,11 @@ function refresh() {
    else {
        document.title = "Passionyte's Coinsssss!"
    }
+}
+
+function award(acv) {
+    stats.Achievements[acv] = true
+    effect("Text", {lifetime: 4, position: {x: 40, y: 75, pc: true}, text: `Unlocked: ${acv}!`})
 }
 
 function effect(type, args) {
@@ -744,9 +775,31 @@ setInterval(_ => {
             if (acv.Type == "Stat") {
                 for (const req in acv.Requirements) {
                     if (stats[req] >= acv.Requirements[req]) {
-                        stats.Achievements[acv.Name] = true
-                        effect("Text", {lifetime: 4, position: {x: 40, y: 75, pc: true}, text: `Unlocked: ${acv.Name}!`})
+                        award(acv.Name)
                     }
+                }
+            }
+            else if (acv.Type == "Structures") {
+                for (const req in acv.Requirements) {
+                    if (stats.Structures[req].Amount >= acv.Requirements[req]) {
+                        award(acv.Name)
+                    }
+                }
+            }
+            else if (acv.Type == "SumStructs") {
+                let sum = 0 
+
+                for (const struct of stats.Structures) {
+                    sum += struct.Amount
+                }
+
+                if (sum >= acv.Requirement) {
+                    award(acv.Name)
+                }
+            }
+            else if (acv.Type == "SumUpgrades") {
+                if (stats.Upgrades.length >= acv.Requirement) {
+                    award(acv.Name)
                 }
             }
         }
