@@ -420,8 +420,8 @@ function load() {
             else if (acv.Type == "SumStructs") {
                 let sum = 0 
 
-                for (const struct of stats.Structures) {
-                    sum += struct.Amount
+                for (const struct in stats.Structures) {
+                    sum += stats.Structures[struct].Amount
                 }
 
                 if (sum >= acv.Requirement) {
