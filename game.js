@@ -429,7 +429,13 @@ function load() {
                 }
             }
             else if (acv.Type == "SumUpgrades") {
-                if (stats.Upgrades.length >= acv.Requirement) {
+                let len = 0
+
+                for (const i in stats.Upgrades) {
+                    len++
+                }
+
+                if (len >= acv.Requirement) {
                     award(acv.Name)
                 }
             }
