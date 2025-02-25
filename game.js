@@ -487,8 +487,10 @@ function available(reqs) {
    for (const type in reqs) {
        if (type == "Structures") {
            for (const struct in reqs[type]) {
-               if (stats.Structures[struct].Amount < reqs[type][struct]) {
-                   return false
+               if (stats.Structures[struct]) {
+                   if (stats.Structures[struct].Amount < reqs[type][struct]) {
+                       return false
+                   }
                }
            }
        }
