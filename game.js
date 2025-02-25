@@ -399,6 +399,43 @@ function load() {
            save()
        }, 30000)
    }
+
+   setInterval(_ => {
+    for (const acv of items.achievements) {
+        if (!stats.Achievements[acv.Name]) {
+            if (acv.Type == "Stat") {
+                for (const req in acv.Requirements) {
+                    if (stats[req] >= acv.Requirements[req]) {
+                        award(acv.Name)
+                    }
+                }
+            }
+            else if (acv.Type == "Structures") {
+                for (const req in acv.Requirements) {
+                    if (stats.Structures[req].Amount >= acv.Requirements[req]) {
+                        award(acv.Name)
+                    }
+                }
+            }
+            else if (acv.Type == "SumStructs") {
+                let sum = 0 
+
+                for (const struct of stats.Structures) {
+                    sum += struct.Amount
+                }
+
+                if (sum >= acv.Requirement) {
+                    award(acv.Name)
+                }
+            }
+            else if (acv.Type == "SumUpgrades") {
+                if (stats.Upgrades.length >= acv.Requirement) {
+                    award(acv.Name)
+                }
+            }
+        }
+    }
+}, 2000)
 }
 
 function save() {
@@ -768,42 +805,5 @@ setInterval(_ => {
    stats.TotalCoins += x
    refresh()
 }, fps)
-
-setInterval(_ => {
-    for (const acv of items.achievements) {
-        if (!stats.Achievements[acv.Name]) {
-            if (acv.Type == "Stat") {
-                for (const req in acv.Requirements) {
-                    if (stats[req] >= acv.Requirements[req]) {
-                        award(acv.Name)
-                    }
-                }
-            }
-            else if (acv.Type == "Structures") {
-                for (const req in acv.Requirements) {
-                    if (stats.Structures[req].Amount >= acv.Requirements[req]) {
-                        award(acv.Name)
-                    }
-                }
-            }
-            else if (acv.Type == "SumStructs") {
-                let sum = 0 
-
-                for (const struct of stats.Structures) {
-                    sum += struct.Amount
-                }
-
-                if (sum >= acv.Requirement) {
-                    award(acv.Name)
-                }
-            }
-            else if (acv.Type == "SumUpgrades") {
-                if (stats.Upgrades.length >= acv.Requirement) {
-                    award(acv.Name)
-                }
-            }
-        }
-    }
-}, 2000)
 
 setTimeout(load, 1000)
