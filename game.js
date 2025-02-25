@@ -162,7 +162,7 @@ const items = {
         Insanity = {Name: "Insanity", Description: "You're insane. You should stop playing... [1M cps]", Type: "Stat", Requirements: {CoinsPs: 1e6}},
         GalacticProduction = {Name: "Galactic Production", Description: "Endless amounts of coins... You have truly realized they are infinite now. [1B cps]", Type: "Stat", Requirements: {CoinsPs: 1e9}},
         Outrageous = {Name: "Outrageous", Description: "That's what you are. [1T cps]", Type: "Stat", Requirements: {CoinsPs: 1e12}},
-        How = {Name: "How?!", Description: "Absolutely insane... just... How?! [1qd cps]", Type: "Stat", Requirements: {CoinsPs: 1e15}}
+        How = {Name: "How?!", Description: "Absolutely insane... just... How?! [1qd cps]", Type: "Stat", Requirements: {CoinsPs: 1e15}},
         // Structures
         ClickOlympics = {Name: "Click Olympics", Description: "Clclclclclclclclclcl- [100 Cursors]", Type: "Structures", Requirements: {Clicker: 100}},
         MiningUniverse = {Name: "Mining Universe", Description: "So, you want to give us excavators and mining trucks yet? [100 Miners]", Type: "Structures", Requirements: {Miner: 100}},
