@@ -34,7 +34,7 @@ let shopopen
 let menurf
 let coinmpos
 
-const version = "0.044 Alpha"
+const version = "0.044_1 Alpha"
 const fps = 30
 
 const items = {
@@ -142,7 +142,7 @@ const items = {
        PureDuplication = {Name: "Pure Duplication", Cost: 14000000000000, StructName: "Atomizer", Description: "Pure optimization allows for pure duplication. Atomizers are twice as efficient!", Requirements: {Structures: {Atomizer: 10}}},
        UberImplementation = {Name: "Uber Implementation", Cost: 40000000000000, StructName: "Atomizer", Description: "Yeah, Atomic power isn't the best. Get with the times. Atomizers are twice as efficient!", Requirements: {Structures: {Atomizer: 25}}},
        UnobtainiumFortune = {Name: "Unobtainium Fortune", Cost: 6000000000000, CoinsPsMult: 3.5, Description: "A mysterious 'unobtainable' mineral from a different period in time and space... Gives 350% production multiplier.", Requirements: {Stats: {CoinsPsMult: 7.5}}},
-       MeteoriteMouse = {Name: "Meteorite Mouse", Cost: 16500000000, StructName: "Planet", OtherBoosts: {Cursor: 12}, Description: "Make the most of your Planets by making Cursors more competent! Planets are twice as efficient, Cursors are 12 times as efficient!", Requirements: {Structures: {Cursor: 150, Planet: 25}}},
+       MeteoriteMouse = {Name: "Meteorite Mouse", Cost: 16500000000, StructName: "Planet", OtherBoosts: {Clicker: 12}, Description: "Make the most of your Planets by making Cursors more competent! Planets are twice as efficient, Cursors are 12 times as efficient!", Requirements: {Structures: {Cursor: 150, Planet: 25}}},
        OverExploration = {Name: "Over-Exploration", Cost: 40000000000, StructName: "Planet", OtherBoosts: {["Research Facility"]: 2}, Description: "Discover absolutely everything on your Planets with advanced nerds and astronauts. Planets and Research Facilities are twice as efficient!", Requirements: {Structures: {Planet: 50, ["Research Facility"]: 100}}}
     ],
    achievements: [
@@ -164,7 +164,7 @@ const items = {
         Outrageous = {Name: "Outrageous", Description: "That's what you are. [1T cps]", Type: "Stat", Requirements: {CoinsPs: 1e12}},
         How = {Name: "How?!", Description: "Absolutely insane... just... How?! [1qd cps]", Type: "Stat", Requirements: {CoinsPs: 1e15}},
         // Structures
-        ClickOlympics = {Name: "Click Olympics", Description: "Clclclclclclclclclcl- [100 Cursors]", Type: "Structures", Requirements: {Clicker: 100}},
+        ClickOlympics = {Name: "Click Olympics", Description: "Clclclclclclclclclcl- [100 Clickers]", Type: "Structures", Requirements: {Clicker: 100}},
         MiningUniverse = {Name: "Mining Universe", Description: "So, you want to give us excavators and mining trucks yet? [100 Miners]", Type: "Structures", Requirements: {Miner: 100}},
         TrueEconomist = {Name: "True Economist", Description: "Now do it with currencies ;) [100 Traders]", Type: "Structures", Requirements: {Trader: 100}},
         ExpertEmployer = {Name: "Expert Employer", Description: "You could rival Wal-Mart. Maybe. Regardless, you're better than K-mart. [100 Businesses]", Type: "Structures", Requirements: {Business: 100}},
