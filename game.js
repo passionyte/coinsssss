@@ -34,7 +34,7 @@ let shopopen
 let menurf
 let coinmpos
 
-const version = "0.04_2 Alpha"
+const version = "0.041 Alpha"
 const fps = 30
 
 const items = {
@@ -140,6 +140,8 @@ const items = {
        MaxedOutCoins = {Name: "Maxed Out Coins", Cost: 2147483648, CoinsPc: 32, Multiply: true, Description: "The cost is as much as the 32 bit limit! Base coins per click is multiplied by 32.", Requirements: {Stats: {CoinsPc: 1022976}}},
        AtomicImplementation = {Name: "Atomic Implementation", Cost: 1600000000000, StructName: "Atomizer", Description: "You're telling me you have found the solution to turning atoms into coins but you are still using Nuclear mechanics??? Come on now... Atomizers are twice as efficient!", Requirements: {Structures: {Atomizer: 1}}},
        PureDuplication = {Name: "Pure Duplication", Cost: 14000000000000, StructName: "Atomizer", Description: "Pure optimization allows for pure duplication. Atomizers are twice as efficient!", Requirements: {Structures: {Atomizer: 10}}},
+       UberImplementation = {Name: "Uber Implementation", Cost: 40000000000000, StructName: "Atomizer", Description: "Yeah, Atomic power isn't the best. Get with the times. Atomizers are twice as efficient!", Requirements: {Structures: {Atomizer: 25}}},
+       UnobtainiumFortune = {Name: "Unobtainium Fortune", Cost: 6000000000000, CoinsPsMult: 3.5, Description: "A mysterious 'unobtainable' mineral from a different period in time and space... Gives 350% production multiplier.", Requirements: {Stats: {CoinsPsMult: 7.5}}}
     ],
    achievements: [
         FirstCoin = {Name: "First Coin", Description: "Your first coin of hundreds, thousands, millions... hopefully.", Type: "Stat", Requirements: {TotalCoins: 1}},
