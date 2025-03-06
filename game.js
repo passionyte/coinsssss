@@ -34,7 +34,7 @@ let shopopen
 let menurf
 let coinmpos
 
-const version = "0.045 Alpha"
+const version = "0.045_1 Alpha"
 const fps = 30
 
 const items = {
@@ -201,9 +201,7 @@ const settings = {
            location.reload()
        }
    },
-   ["Save game"]: function() {
-       save()
-   },
+   ["Save game"]: save(),
 
    // Boolean types
    ["Auto saving"]: true,
