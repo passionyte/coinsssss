@@ -13,7 +13,7 @@ const effs = document.getElementById("effects")
 
 // Variables
 
-let stats = {
+var stats = {
    Coins: 0,
    CoinsPs: 0,
    CoinsPc: 1,
@@ -27,14 +27,14 @@ let stats = {
    Achievements: {},
    Settings: {}
 }
-let loaded = false
-let savecd = false
-let menuopen
-let shopopen
-let menurf
-let coinmpos
+var loaded = false
+var savecd = false
+var menuopen
+var shopopen
+var menurf
+var coinmpos
 
-const version = "0.045_1 Alpha"
+const version = "0.045_2 Alpha"
 const fps = 30
 
 const items = {
@@ -101,7 +101,7 @@ const items = {
        TitaniumMouse = {Name: "Titanium Mouse", Cost: 4800000, StructName: "Clicker", Description: "A material perfect for endless rapid clicking. Clickers are twice as efficient.", Requirements: {Structures: {Clicker: 100}}},
        BloodstonePickaxe = {Name: "Bloodstone Pickaxe", Cost: 2100000, StructName: "Miner", Description: "Upgrade pickaxes from Diamond to Bloodstone, a very very hard material harvested from the depths of the underworld beating out the power of even diamonds. Miners are twice as efficient.", Requirements: {Structures: {Miner: 100}}},
        TheTruth = {Name: "The Truth", Cost: 92000000000, StructName: "The Matrix", Description: "All I can offer is the truth about coins. Nothing more. The Matrixes are twice as efficient!", Requirements: {Structures: {["The Matrix"]: 10}}},
-       HandsOnHeadsOn = {Name: "Hands on, Heads on.", Cost: 240000000, StructName: "Research Facility", Description: "Name explains it completely. Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 25}}},
+       HandsOnHeadsOn = {Name: "Hands on, Heads on.", Cost: 240000000, StructName: "Research Facility", Description: "Name explains it compvarely. Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 25}}},
        Superscience = {Name: "Superscience", Cost: 1600000000, StructName: "Research Facility", Description: "Extremely fast science. No need to distract others with YEAH SCIENCE! Research Facilities are twice as efficient!", Requirements: {Structures: {["Research Facility"]: 50}}},
        LearningProgress = {Name: "Learning Progress", Cost: 1200000000, StructName: "Matter Refiner", OtherBoosts: {["Research Facility"]: 2}, Description: "You know what they say, practice makes perfect. Research Facilities and Matter Refiners are twice as efficient.", Requirements: {Structures: {["Matter Refiner"]: 5, ["Research Facility"]: 10}}},
        Industrialization = {Name: "Industrialization", Cost: 2900000000, StructName: "Matter Refiner", OtherBoosts: {Factory : 8}, Description: "Incorporate Matter Refiners into Factories. Matter Refiners are twice as efficient, Factories are 8 times as efficient!", Requirements: {Structures: {["Matter Refiner"]: 10, Factory: 50}}},
@@ -201,7 +201,9 @@ const settings = {
            location.reload()
        }
    },
-   ["Save game"]: save(),
+   ["Save game"]: function() {
+        save()
+   },
 
    // Boolean types
    ["Auto saving"]: true,
@@ -230,7 +232,7 @@ function abbreviate(x) {
        return x
    }
 
-   let largest
+   var largest
 
    for (const i in abbrs) {
        if (x >= i && (!largest || i > largest)) {
@@ -291,8 +293,8 @@ function effect(type, args) {
        const text = document.getElementById("textdummy").cloneNode()
 
        const st = text.style
-       let y
-       let pc = false
+       var y
+       var pc = false
        if (args.click) {
             text.innerText = `+${abbreviate(smartround((stats.CoinsPc + stats.CoinsMPc)))}`
             y = (coinmpos.y + randInt(-48, 48))
@@ -370,7 +372,7 @@ function load() {
        else {
            const amt = stats.Structures[data.Name].Amount
            if (amt > 0) {
-               for (let i = 0; (i < amt); i++) {
+               for (var i = 0; (i < amt); i++) {
                    data.Cost = Math.floor((data.Cost * 1.1))
                }
            }
@@ -417,7 +419,7 @@ function load() {
                 }
             }
             else if (acv.Type == "SumStructs") {
-                let sum = 0 
+                var sum = 0 
 
                 for (const struct in stats.Structures) {
                     sum += stats.Structures[struct].Amount
@@ -428,7 +430,7 @@ function load() {
                 }
             }
             else if (acv.Type == "SumUpgrades") {
-                let len = 0
+                var len = 0
 
                 for (const i in stats.Upgrades) {
                     len++
@@ -455,7 +457,7 @@ function save() {
 }
 
 function find(array, string) {
-   let result = false
+   var result = false
 
    for (const i in array) {
        if (i == string) {
@@ -468,9 +470,9 @@ function find(array, string) {
 }
 
 function findfromiv(array, i, v) {
-    let result
+    var result
 
-    for (let x in array) {
+    for (var x in array) {
         x = array[x]
 
         if (x[i] == v) {
@@ -683,7 +685,7 @@ function doSettings() {
            entry.style.display = "block"
            ui.appendChild(entry)
            c[2].addEventListener("click", _ => {
-               let input = c[1].value
+               var input = c[1].value
 
                if (mytype == "number") {
                    input = Number(input)
