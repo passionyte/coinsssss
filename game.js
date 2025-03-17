@@ -175,7 +175,7 @@ const items = {
         IsThereAnyMatterLeft = { Name: "Is there any matter left?", Description: "No, seriously. [100 Matter Refiners]", Type: "Structures", Requirements: { ["Matter Refiner"]: 100 } },
         CoinGalaxies = { Name: "Coin Galaxies", Description: "You shaped this universe in your vision. [100 Planets]", Type: "Structures", Requirements: { Planet: 100 } },
         AgentCoin = { Name: "Agent Coin", Description: "That's you! [100 The Matrixes]", Type: "Structures", Requirements: { ["The Matrix"]: 100 } },
-        ExtinctAtoms = { Name: "ExtinctAtoms", Description: "...You monster. [100 Atomizers]", Type: "Structures", Requirements: { Atomizer: 100 } },
+        ExtinctAtoms = { Name: "Extinct Atoms", Description: "...You monster. [100 Atomizers]", Type: "Structures", Requirements: { Atomizer: 100 } },
         // SumStructs
         Builder = { Name: "Builder", Description: "Keep going... [100 Structures]", Type: "SumStructs", Requirement: 100 },
         Entrepreneur = { Name: "Entrepreneur", Description: "That's a lot to keep track of... [250 Structures]", Type: "SumStructs", Requirement: 250 },
