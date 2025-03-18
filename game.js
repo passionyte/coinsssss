@@ -211,6 +211,9 @@ const settings = {
     ["Save game"]: function () {
         save()
     },
+    ["Go to Wii U"]: function () {
+        window.location.replace("https://passionyte.github.io/coinssssswiiu");
+    },
 
     // Boolean types
     ["Auto saving"]: true,
@@ -229,7 +232,8 @@ const abbrs = { // Number abbreviations
     [1e6]: "million",
 }
 const changelog = {
-    [version]: "- More upgrades and achievements",
+    [version]: "- Added redirect button between versions",
+    ["0.048 Alpha"]: "- More upgrades and achievements",
     ["0.046 Alpha"]: "- Added changelog \n - Minor fixes to scaling issues until I become the opposite of a newbie at CSS",
     ["0.045_2 Alpha"]: "- Experimental Wii U port now exists at coinssssswiiu extension! \n - Minor bug fix."
 }
