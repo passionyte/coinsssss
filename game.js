@@ -34,7 +34,7 @@ var shopopen
 var menurf
 var coinmpos
 
-const version = "0.052_1 Alpha"
+const version = "0.055 Alpha"
 const fps = 30
 
 const items = {
@@ -151,6 +151,8 @@ const items = {
         Neopolitan = { Name: "Neopolitan", Cost: 7900000000000, StructName: "The Matrix", Description: "An absurdly expensive joke. The Matrixes are twice as efficient!", Requirements: { Structures: { ["The Matrix"]: 200 } } },
         Decaclick = { Name: "Decaclick", Cost: 365000000000, CoinsPcPs: 0.08, Description: "Finally. Clicking earns 8% of your coins per second!", Requirements: { Stats: { CoinsPcPs: 0.17 } } },
         BeyondTheLimits = { Name: "Beyond The Limits", Cost: 128000000000, CoinsPc: 32, Multiply: true, Description: "Yeah, that's indeed beyond the limits of the 32 bit... Base coins per click is multiplied by 32.", Requirements: { Stats: { CoinsPc: 32735232 } } },
+        LunarImplementation = { Name: "Lunar Implementation", Cost: 100000000000000, StructName: "Atomizer", Description: "Lunar power is expensive. But why should you care? You are literally using star power to manipulate the fabric of reality. Atomizers are twice as efficient!", Requirements: { Structures: { Atomizer: 200 } } },
+        EightBallRandomFactor = { Name: "8-Ball Random Factor", Cost: 88888888888, StructName: "Matter Refiner", StructMult: 3, OtherBoosts: { ["8-Ball"]: 88 }, Description: "This is safe! Hey 8-Ball, should I destroy the universe? Matter Refiners are 3 times as efficient, 8-Balls are 88 times as efficient!", Requirements: { Structures: { ["Matter Refiner"]: 8, ["8-Ball"]: 88 } } }
     ],
     achievements: [
         // TotalCoins
@@ -184,7 +186,17 @@ const items = {
         CoinGalaxies = { Name: "Coin Galaxies", Description: "You shaped this universe in your vision. [100 Planets]", Type: "Structures", Requirements: { Planet: 100 } },
         AgentCoin = { Name: "Agent Coin", Description: "That's you! [100 The Matrixes]", Type: "Structures", Requirements: { ["The Matrix"]: 100 } },
         ExtinctAtoms = { Name: "Extinct Atoms", Description: "...You monster. [100 Atomizers]", Type: "Structures", Requirements: { Atomizer: 100 } },
-        Clickageddon = { Name: "Clickageddon", Description: "Enough clicks to end the world. [200 Clickers]", Type: "Structures", Requirements: { Clicker: 200 } },
+        Clickageddon = { Name: "Clickageddon", Description: "Enough clicks to end the world. [250 Clickers]", Type: "Structures", Requirements: { Clicker: 250 } },
+        MinedEverything = { Name: "Mined Everything", Description: "I'd hope so. [250 Miners]", Type: "Structures", Requirements: { Miner: 250 } },
+        ScammingConnoisseur = { Name: "Scamming Connoisseur", Description: "You know the ways of a villager. [250 Traders]", Type: "Structures", Requirements: { Trader: 250 } },
+        Globalism = { Name: "Globalism", Description: "As with the Currency upgrade. [250 Businesses]", Type: "Structures", Requirements: { Business: 250 } },
+        ProductionLineOverload = { Name: "Production Line Overload", Description: "Way too much. Also, see what I did there? [250 Factories]", Type: "Structures", Requirements: { Factory: 250 } },
+        BilliardsObsession = { Name: "Billiards Obsession", Description: "What's the matter with you? [250 8-Balls]", Type: "Structures", Requirements: { ["8-Ball"]: 250 } },
+        MostExpensiveStock = { Name: "Most Expensive Stock", Description: "Anybody who was a early supporter is rolling in millions... [250 Currencies]", Type: "Structures", Requirements: { Currency: 250 } },
+        NerdCloning = { Name: "Nerd Cloning", Description: "Must be what you're doing. [250 Research Facilities]", Type: "Structures", Requirements: { ["Research Facility"]: 250 } },
+        NopeSeemsLikeTheresNoneLeft = { Name: "Nope Seems Like Theres None Left", Description: "That's not good. [250 Matter Refiners]", Type: "Structures", Requirements: { ["Matter Refiner"]: 250 } },
+        RealityIsALie = { Name: "Reality is a lie", Description: "Finally for once it's not the cake. [250 The Matrixes]", Type: "Structures", Requirements: { ["The Matrix"]: 250 } },
+        EverythingIsCoins = { Name: "Everything is Coins", Description: "What is wrong with you? [250 Atomizers]", Type: "Structures", Requirements: { Atomizer: 250 } },
         // SumStructs
         Builder = { Name: "Builder", Description: "Keep going... [100 Structures]", Type: "SumStructs", Requirement: 100 },
         Entrepreneur = { Name: "Entrepreneur", Description: "That's a lot to keep track of... [250 Structures]", Type: "SumStructs", Requirement: 250 },
@@ -194,7 +206,7 @@ const items = {
         // SumUpgrades
         Experimentalist = { Name: "Experimentalist", Description: "Hard to keep pace with all these upgrades requiring brilliance... [100 Upgrades]", Type: "SumUpgrades", Requirement: 100 },
         // Special
-        WiiU = { Name: "Wii U", Description: "You're officially cooler than all other players. [Play on Wii U]", Type: "Special" }
+        WiiU = { Name: "Wii U", Description: "You're officially cooler than all other players. [Play on Wii U]", Type: "Special", Shadow: true }
     ]
 }
 const fancynames = { // Any string you want to look fancy
@@ -237,7 +249,8 @@ const abbrs = { // Number abbreviations
     [1e6]: "million",
 }
 const changelog = {
-    [version]: "The save file won't exist on Wii U consoles so forget that last note",
+    [version]: "- Added more upgrades and achievements \n - Added achievement counter to title on stats page \n - Added shadow achivements which don't count towards your total",
+    ["0.052_1 Alpha"]: "The save file won't exist on Wii U consoles so forget that last note",
     ["0.052 Alpha"]: "- Added Wii U achievement for people who actually play this on a Wii U. It is also given to your primary save file if it exists.",
     ["0.05 Alpha"]: "- 2 new CPC upgrades to help bridge the progression gap... need more...",
     ["0.049 Alpha"]: "- Added redirect button between versions",
@@ -247,6 +260,25 @@ const changelog = {
 }
 
 // Functions
+
+function numacvs(owned) {
+    var num = 0
+
+    if (owned) {
+        for (_ in stats.Achievements) {
+            num++
+        }
+    }
+    else {
+        for (const acv of items.achievements) {
+            if (!acv.Shadow) {
+                num++
+            }
+        }
+    }
+
+    return num
+}
 
 function bool(a) {
     return ((a) && "ON") || "OFF"
@@ -643,6 +675,8 @@ function doStats() {
     const aui = document.getElementById("achievements")
     aui.innerHTML = null
 
+    document.getElementById("acvtitle").innerText = `ACHIEVEMENTS - (${numacvs(true)} / ${numacvs()})` 
+
     for (const stat in stats) {
         const me = stats[stat]
 
@@ -661,7 +695,10 @@ function doStats() {
         const c = entry.children
 
         c[0].innerText = acv
-        c[2].innerText = findfromiv(items.achievements, "Name", acv).Description
+
+        const data = findfromiv(items.achievements, "Name", acv)
+        c[0].style.color = data.Shadow && "rgb(120, 25, 170)" || "rgb(0, 0, 0)"
+        c[2].innerText = data.Description
 
         entry.style.display = "block"
         aui.appendChild(entry)
