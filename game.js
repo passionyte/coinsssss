@@ -34,7 +34,7 @@ var shopopen
 var menurf
 var coinmpos
 
-const version = "0.052 Alpha"
+const version = "0.052_1 Alpha"
 const fps = 30
 
 const items = {
@@ -237,7 +237,8 @@ const abbrs = { // Number abbreviations
     [1e6]: "million",
 }
 const changelog = {
-    [version]: "- Added Wii U achievement for people who actually play this on a Wii U. It is also given to your primary save file if it exists.",
+    [version]: "The save file won't exist on Wii U consoles so forget that last note",
+    ["0.052 Alpha"]: "- Added Wii U achievement for people who actually play this on a Wii U. It is also given to your primary save file if it exists.",
     ["0.05 Alpha"]: "- 2 new CPC upgrades to help bridge the progression gap... need more...",
     ["0.049 Alpha"]: "- Added redirect button between versions",
     ["0.048 Alpha"]: "- More upgrades and achievements",
