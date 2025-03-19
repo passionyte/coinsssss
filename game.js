@@ -34,7 +34,7 @@ var shopopen
 var menurf
 var coinmpos
 
-const version = "0.05 Alpha"
+const version = "0.052 Alpha"
 const fps = 30
 
 const items = {
@@ -192,7 +192,9 @@ const items = {
         YourOwnGalaxy = { Name: "Your Own Galaxy", Description: "Honorable coin Queen or King of a whole Galaxy of structures! [1K Structures]", Type: "SumStructs", Requirement: 1000 },
         DontYouOwnEverything = { Name: "Don't You Own Everything?", Description: "Sure sounds like it. [2.5K Structures]", Type: "SumStructs", Requirement: 2500 },
         // SumUpgrades
-        Experimentalist = { Name: "Experimentalist", Description: "Hard to keep pace with all these upgrades requiring brilliance... [100 Upgrades]", Type: "SumUpgrades", Requirement: 100 }
+        Experimentalist = { Name: "Experimentalist", Description: "Hard to keep pace with all these upgrades requiring brilliance... [100 Upgrades]", Type: "SumUpgrades", Requirement: 100 },
+        // Special
+        WiiU = { Name: "Wii U", Description: "You're officially cooler than all other players. [Play on Wii U]", Type: "Special" }
     ]
 }
 const fancynames = { // Any string you want to look fancy
@@ -235,7 +237,8 @@ const abbrs = { // Number abbreviations
     [1e6]: "million",
 }
 const changelog = {
-    [version]: "- 2 new CPC upgrades to help bridge the progression gap... need more...",
+    [version]: "- Added Wii U achievement for people who actually play this on a Wii U. It is also given to your primary save file if it exists.",
+    ["0.05 Alpha"]: "- 2 new CPC upgrades to help bridge the progression gap... need more...",
     ["0.049 Alpha"]: "- Added redirect button between versions",
     ["0.048 Alpha"]: "- More upgrades and achievements",
     ["0.046 Alpha"]: "- Added changelog \n - Minor fixes to scaling issues until I become the opposite of a newbie at CSS",
