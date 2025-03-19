@@ -34,7 +34,7 @@ var shopopen
 var menurf
 var coinmpos
 
-const version = "0.055 Alpha"
+const version = "0.056 Alpha"
 const fps = 30
 
 const items = {
@@ -151,9 +151,11 @@ const items = {
         Neopolitan = { Name: "Neopolitan", Cost: 7900000000000, StructName: "The Matrix", Description: "An absurdly expensive joke. The Matrixes are twice as efficient!", Requirements: { Structures: { ["The Matrix"]: 200 } } },
         Decaclick = { Name: "Decaclick", Cost: 365000000000, CoinsPcPs: 0.08, Description: "Finally. Clicking earns 8% of your coins per second!", Requirements: { Stats: { CoinsPcPs: 0.17 } } },
         BeyondTheLimits = { Name: "Beyond The Limits", Cost: 128000000000, CoinsPc: 32, Multiply: true, Description: "Yeah, that's indeed beyond the limits of the 32 bit... Base coins per click is multiplied by 32.", Requirements: { Stats: { CoinsPc: 32735232 } } },
-        LunarImplementation = { Name: "Lunar Implementation", Cost: 100000000000000, StructName: "Atomizer", Description: "Lunar power is expensive. But why should you care? You are literally using star power to manipulate the fabric of reality. Atomizers are twice as efficient!", Requirements: { Structures: { Atomizer: 200 } } },
+        LunarImplementation = { Name: "Lunar Implementation", Cost: 100000000000000, StructName: "Atomizer", Description: "Lunar power is expensive. But why should you care? You are literally using star power to manipulate the fabric of reality. Atomizers are twice as efficient!", Requirements: { Structures: { Atomizer: 50 } } },
         EightBallRandomFactor = { Name: "8-Ball Random Factor", Cost: 88888888888, StructName: "Matter Refiner", StructMult: 3, OtherBoosts: { ["8-Ball"]: 88 }, Description: "This is safe! Hey 8-Ball, should I destroy the universe? Matter Refiners are 3 times as efficient, 8-Balls are 88 times as efficient!", Requirements: { Structures: { ["Matter Refiner"]: 8, ["8-Ball"]: 88 } } },
-        AtomizerBundle = { Name: "Atomizer Bundle", Cost: 4800000000000, StructName: "Atomizer", OtherBoosts: { Currency: 60 }, Description: "Bundle a Atomizer with your stock! Atomizers are twice as efficient, Currencies are 60 times as efficient!", Requirements: { Structures: { Atomizer: 15, Currency: 75 } } }
+        AtomizerBundle = { Name: "Atomizer Bundle", Cost: 4800000000000, StructName: "Atomizer", OtherBoosts: { Currency: 60 }, Description: "Bundle a Atomizer with your stock! Atomizers are twice as efficient, Currencies are 60 times as efficient!", Requirements: { Structures: { Atomizer: 15, Currency: 75 } } },
+        Compatibility = { Name: "Compatibility", Cost: 85000000000000, StructName: "Atomizer", OtherBoosts: { ["Matter Refiner"]: 8 }, Description: "Make your Atomizers compatible with your old Matter Refiners. Atomizers are twice as efficient, Matter Refiners are 8 times as efficient!", Requirements: { Structures: { Atomizer: 50, ["Matter Refiner"]: 100} } },
+        FabricManipulators = { Name: "Fabric Manipulators", Cost: 210000000000000, StructName: "Atomizer", Description: "No, not as in carpets.. the fabric of reality. Atomizers are twice as efficient!", Requirements: { Structures: { Atomizer: 100 } } }
     ],
     achievements: [
         // TotalCoins
@@ -250,7 +252,8 @@ const abbrs = { // Number abbreviations
     [1e6]: "million",
 }
 const changelog = {
-    [version]: "- Added more upgrades and achievements \n - Added achievement counter to title on stats page \n - Added shadow achivements which don't count towards your total",
+    [version]: "- More upgrades",
+    ["0.05 Alpha"]: "- Added more upgrades and achievements \n - Added achievement counter to title on stats page \n - Added shadow achivements which don't count towards your total",
     ["0.052_1 Alpha"]: "The save file won't exist on Wii U consoles so forget that last note",
     ["0.052 Alpha"]: "- Added Wii U achievement for people who actually play this on a Wii U. It is also given to your primary save file if it exists.",
     ["0.05 Alpha"]: "- 2 new CPC upgrades to help bridge the progression gap... need more...",
