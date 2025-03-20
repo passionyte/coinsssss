@@ -857,9 +857,6 @@ function menu(type) {
         else if (type == "changelog") {
             doChangelog()
         }
-        else if (type == "prestige") {
-            openPrestige()
-        }
     }
     else {
         aui.hidden = true
@@ -932,12 +929,10 @@ document.getElementById("bcontinue").addEventListener("click", _ => {
     stats.Continues++
 
     pmenu.hidden = true
-    menuopen = null
 })
 
 document.getElementById("bnevermind").addEventListener("click", _ => {
     pmenu.hidden = true
-    menuopen = null
 })
 
 // Buttons
@@ -963,7 +958,7 @@ document.getElementById("settingsbutton").addEventListener("click", _ => {
 })
 
 document.getElementById("prestigebutton").addEventListener("click", _ => {
-    menu("prestige")
+    openPrestige()
 })
 
 // Hard coded crap
