@@ -25,6 +25,8 @@ var stats = {
     Clicks: 0,
     PrestigeCoins: 0,
     PrestigeLevel: 0,
+    PrestigeBalance: 0,
+    Prestiges: 0,
     NextContinue: 0,
     Continues: 0,
     Purchased: {},
@@ -35,9 +37,11 @@ var stats = {
 var blank = {
     Coins: 0,
     CoinsPs: 0,
-    CoinsPc: 0,
+    CoinsPc: 1,
+    CoinsPcPs: 0,
     CoinsMPc: 0,
     CoinsPsMult: 1,
+    PrestigeCoins: 0,
     Purchased: {},
     Structures: {}
 }
@@ -48,7 +52,7 @@ var shopopen
 var menurf
 var coinmpos
 
-const version = "0.06 Alpha"
+const version = "0.063 Alpha"
 const fps = 30
 
 const items = {
@@ -169,7 +173,9 @@ const items = {
         EightBallRandomFactor = { Name: "8-Ball Random Factor", Cost: 88888888888, StructName: "Matter Refiner", StructMult: 3, OtherBoosts: { ["8-Ball"]: 88 }, Description: "This is safe! Hey 8-Ball, should I destroy the universe? Matter Refiners are 3 times as efficient, 8-Balls are 88 times as efficient!", Requirements: { Structures: { ["Matter Refiner"]: 8, ["8-Ball"]: 88 } } },
         AtomizerBundle = { Name: "Atomizer Bundle", Cost: 4800000000000, StructName: "Atomizer", OtherBoosts: { Currency: 60 }, Description: "Bundle a Atomizer with your stock! Atomizers are twice as efficient, Currencies are 60 times as efficient!", Requirements: { Structures: { Atomizer: 15, Currency: 75 } } },
         Compatibility = { Name: "Compatibility", Cost: 85000000000000, StructName: "Atomizer", OtherBoosts: { ["Matter Refiner"]: 8 }, Description: "Make your Atomizers compatible with your old Matter Refiners. Atomizers are twice as efficient, Matter Refiners are 8 times as efficient!", Requirements: { Structures: { Atomizer: 50, ["Matter Refiner"]: 100} } },
-        FabricManipulators = { Name: "Fabric Manipulators", Cost: 210000000000000, StructName: "Atomizer", Description: "No, not as in carpets.. the fabric of reality. Atomizers are twice as efficient!", Requirements: { Structures: { Atomizer: 100 } } }
+        FabricManipulators = { Name: "Fabric Manipulators", Cost: 210000000000000, StructName: "Atomizer", Description: "No, not as in carpets.. the fabric of reality. Atomizers are twice as efficient!", Requirements: { Structures: { Atomizer: 100 } } },
+        BinaryFortune = { Name: "Binary Fortune", Cost: 10100000000000, CoinsPsMult: 4, Description: "01010100 01110101 01110010 01101110 01110011 00100000 01100001 01101110 01111001 01110100 01101000 01101001 01101110 01100111 00100000 01101001 01101110 00100000 01110100 01101000 01100101 00100000 01100111 01100001 01101101 01100101 00100000 01101001 01101110 01110100 01101111 00100000 01100011 01101111 01101001 01101110 01110011. Gives 400% production multiplier.", Requirements: { Stats: { Continues: 1 } } },
+        EverythingIsBinary = { Name: "Everything Is Binary", Cost: 101010101010101, StructName: "The Matrix", StructMult: 10, OtherBoosts: {["Matter Refiner"]: 2, ["8-Ball"]: 101, Clicker: 11, Miner: 1010, Trader: 500, Business: 404, Factory: 333, ["Research Facility"]: 20, Planet: 11, Atomizer: 2 }, Description: "Realizing everything is not as it seems grants you massively exponential boosts. All structures are marginally more efficient.", Requirements: { Stats: { Continues: 3, Clicks: 10101, CoinsPsMult: 15 } } }
     ],
     achievements: [
         // TotalCoins
@@ -181,6 +187,10 @@ const items = {
         Trillionaire = { Name: "Trillionaire", Description: "You should stop playing now...", Type: "Stat", Requirements: { TotalCoins: 1e12 } },
         Quadrillionaire = { Name: "Quadrillionaire", Description: "Absolute insanity.", Type: "Stat", Requirements: { TotalCoins: 1e15 } },
         Quintillionaire = { Name: "Quintillionaire", Description: "When this was added it wasn't even possible to reach...", Type: "Stat", Requirements: { TotalCoins: 1e18 } },
+        // Continues
+        BackSoSoon = { Name: "Back So Soon?", Description: "Good luck out there. [1 continue]", Type: "Stat", Requirements: { Continues: 1 } },
+        // Prestiges
+        Reborn = { Name: "Reborn", Description: "Hey, you're here again. [1 prestige]", Type: "Stat", Requirements: { Prestiges: 1 } },
         // CoinsPs
         AMintASecond = { Name: "A Mint A Second", Description: "Every second: [Insert coin sound effect here] [1 cps]", Type: "Stat", Requirements: { CoinsPs: 1 } },
         CoinFlow = { Name: "Coin Flow", Description: "Sweet!!! [10 cps]", Type: "Stat", Requirements: { CoinsPs: 10 } },
@@ -233,9 +243,10 @@ const fancynames = { // Any string you want to look fancy
     CoinsPcPs: "Coins per click (% of PS)",
     CoinsMPc: "Coins per click PS bonus",
     TotalCoins: "Total coins",
-    PrestigeCoins: "Prestige coins",
+    PrestigeCoins: "Current prestige coins",
     PrestigeLevel: "Prestige level (+1% of PS)",
-    NextContinue: "Time until next continue (seconds)"
+    PrestigeBalance: "Prestige coin balance",
+    NextContinue: "Seconds until next continue"
 }
 const settings = {
     // Function button types
@@ -269,7 +280,8 @@ const abbrs = { // Number abbreviations
     [1e6]: "million",
 }
 const changelog = {
-    [version]: "- Added prestige system, you can prestige and forfeit everything for a CPS boost or continue with new structures and upgrades \n - No additional content for it... yet",
+    [version]: "- Prestige coins can now be kept as a currency (currently nothing to buy though) \n - Prestige count is now tracked \n - Added more achievements and upgrades \n - Fixed it so you can actually prestige (lol)",
+    ["0.06 Alpha"]: "- Added prestige system, you can prestige and forfeit everything for a CPS boost or continue with new structures and upgrades \n - No additional content for it... yet \n - UI improvements",
     ["0.056 Alpha"]: "- More upgrades",
     ["0.055 Alpha"]: "- Added more upgrades and achievements \n - Added achievement counter to title on stats page \n - Added shadow achivements which don't count towards your total",
     ["0.052_1 Alpha"]: "The save file won't exist on Wii U consoles so forget that last note",
@@ -348,7 +360,7 @@ function refresh() {
     const coins = abbreviate(Math.floor(stats.Coins))
 
     clicks.innerText = `${coins} coins`
-    prod.innerText = `${abbreviate(smartround(stats.CoinsPs * stats.CoinsPsMult))} coins/s`
+    prod.innerText = `${abbreviate(smartround(stats.CoinsPs * (stats.CoinsPsMult + (stats.PrestigeLevel / 100))))} coins/s`
 
     if (stats.Settings["Dynamic site title"]) {
         document.title = `${coins} coins - Passionyte's Coinsssss!`
@@ -527,8 +539,8 @@ function load() {
     }, 2000)
 }
 
-function save() {
-    if (stats.Coins > 0 && loaded && !savecd) {
+function save(force) {
+    if ((stats.Coins > 0 && loaded && !savecd) || (force)) {
         localStorage.setItem("Data", JSON.stringify(stats))
         savecd = true
         setTimeout(_ => {
@@ -819,7 +831,7 @@ function openPrestige() {
     if (stats.PrestigeCoins >= 1 && stats.NextContinue == 0) {
         const c = pmenu.children
 
-        c[2].children[1].innerText = `You have ${Math.round(stats.PrestigeCoins)} prestige levels at your disposal.`
+        c[2].children[1].innerText = `You will gain ${Math.round(stats.PrestigeCoins)} prestige levels and coin balance, however you have to forfeit everything.`
         pmenu.hidden = false
     }
 }
@@ -910,8 +922,11 @@ bigbutton.addEventListener("mouseleave", _ => {
 const prestiged = false
 document.getElementById("bprestige").addEventListener("click", _ => {
     if (!prestiged) {
-        stats.PrestigeLevel += Math.round(stats.PrestigeCoins)
-        stats.PrestigeCoins = 0
+        stats.Prestiges++
+
+        const pcoins = Math.round(stats.PrestigeCoins)
+        stats.PrestigeLevel += pcoins
+        stats.PrestigeBalance += pcoins
     
         for (const def in blank) {
             if (stats[def]) {
@@ -919,10 +934,10 @@ document.getElementById("bprestige").addEventListener("click", _ => {
             }
         }
     
-        save()
+        save(true)
         setTimeout(_ => {
             location.reload()
-        }, 2000)
+        }, 1000)
     }
 })
 
