@@ -914,7 +914,9 @@ document.getElementById("bprestige").addEventListener("click", _ => {
         stats.PrestigeCoins = 0
     
         for (const def in blank) {
-            stats[def] = blank[def]
+            if (stats[def]) {
+                stats[def] = blank[def]
+            }
         }
     
         save()
