@@ -10,6 +10,7 @@ const itemdummy = document.getElementById("itemdummy")
 const structb = document.getElementById("structures")
 const upgb = document.getElementById("upgrades")
 const effs = document.getElementById("effects")
+const pmenu = document.getElementById("choice")
 
 // Variables
 
@@ -23,10 +24,22 @@ var stats = {
     TotalCoins: 0,
     Clicks: 0,
     PrestigeCoins: 0,
+    PrestigeLevel: 0,
+    NextContinue: 0,
+    Continues: 0,
     Purchased: {},
     Structures: {},
     Achievements: {},
     Settings: {}
+}
+var blank = {
+    Coins: 0,
+    CoinsPs: 0,
+    CoinsPc: 0,
+    CoinsMPc: 0,
+    CoinsPsMult: 1,
+    Purchased: {},
+    Structures: {}
 }
 var loaded = false
 var savecd = false
@@ -220,7 +233,9 @@ const fancynames = { // Any string you want to look fancy
     CoinsPcPs: "Coins per click (% of PS)",
     CoinsMPc: "Coins per click PS bonus",
     TotalCoins: "Total coins",
-    PrestigeCoins: "Prestige coins"
+    PrestigeCoins: "Prestige coins",
+    PrestigeLevel: "Prestige level (+1% of PS)",
+    NextContinue: "Time until next continue (seconds)"
 }
 const settings = {
     // Function button types
@@ -341,6 +356,9 @@ function refresh() {
     else {
         document.title = "Passionyte's Coinsssss!"
     }
+
+    document.getElementById("prestigecontainer").style.display = ((stats.PrestigeCoins >= 1 && stats.NextContinue == 0) && "inline-block") || "none"        
+    document.getElementById("prestigebar").style.width = `${((1 - Math.abs((stats.PrestigeCoins - (Math.round((stats.PrestigeCoins + 0.5)))))) * 100)}%`
 }
 
 function award(acv) {
@@ -659,7 +677,7 @@ function shop(type, force) {
                                     }
                                 }
 
-                                stats.CoinsMPc = (stats.CoinsPs * stats.CoinsPcPs)
+                                stats.CoinsMPc = ((stats.CoinsPs * (stats.CoinsPsMult + (stats.PrestigeLevel / 100))) * stats.CoinsPcPs)
 
                                 refresh()
                                 shop(type, true)
@@ -797,6 +815,15 @@ function doSettings() {
     }
 }
 
+function openPrestige() {
+    if (stats.PrestigeCoins >= 1 && stats.NextContinue == 0) {
+        const c = pmenu.children
+
+        c[2].children[1].innerText = `You have ${Math.round(stats.PrestigeCoins)} prestige levels at your disposal.`
+        pmenu.hidden = false
+    }
+}
+
 function menu(type) {
     const ui = document.getElementById(type)
 
@@ -830,6 +857,9 @@ function menu(type) {
         else if (type == "changelog") {
             doChangelog()
         }
+        else if (type == "prestige") {
+            openPrestige()
+        }
     }
     else {
         aui.hidden = true
@@ -850,6 +880,7 @@ bigbutton.addEventListener("click", _ => {
     const x = (stats.CoinsPc + stats.CoinsMPc)
     stats.Coins += x
     stats.TotalCoins += x
+    stats.PrestigeCoins += (x / 1e12)
     stats.Clicks++
     refresh()
     effect("Text", { click: true, lifetime: 1 })
@@ -877,6 +908,40 @@ bigbutton.addEventListener("mouseleave", _ => {
     bigbutton.style.top = 0
 })
 
+// Prestige menu
+
+const prestiged = false
+document.getElementById("bprestige").addEventListener("click", _ => {
+    if (!prestiged) {
+        stats.PrestigeLevel += Math.round(stats.PrestigeCoins)
+        stats.PrestigeCoins = 0
+    
+        for (const def in blank) {
+            stats[def] = blank[def]
+        }
+    
+        save()
+        setTimeout(_ => {
+            location.reload()
+        }, 2000)
+    }
+})
+
+document.getElementById("bcontinue").addEventListener("click", _ => {
+    stats.NextContinue = 3600 // 1 hour
+    stats.Continues++
+
+    pmenu.hidden = true
+    menuopen = null
+})
+
+document.getElementById("bnevermind").addEventListener("click", _ => {
+    pmenu.hidden = true
+    menuopen = null
+})
+
+// Buttons
+
 structb.addEventListener("click", _ => {
     shop("structures")
 })
@@ -897,6 +962,10 @@ document.getElementById("settingsbutton").addEventListener("click", _ => {
     menu("settings")
 })
 
+document.getElementById("prestigebutton").addEventListener("click", _ => {
+    menu("prestige")
+})
+
 // Hard coded crap
 
 document.getElementById("version").innerText = `v${version}`
@@ -910,9 +979,15 @@ for (const nm in settings) {
 }
 
 setInterval(_ => {
-    const x = ((stats.CoinsPs * stats.CoinsPsMult) / fps)
+    const x = ((stats.CoinsPs * (stats.CoinsPsMult + (stats.PrestigeLevel / 100))) / fps)
     stats.Coins += x
     stats.TotalCoins += x
+    stats.PrestigeCoins += (x / 1e12)
+
+    if (stats.NextContinue > 0) {
+        stats.NextContinue -= (1 / fps)
+    }
+
     refresh()
 }, fps)
 

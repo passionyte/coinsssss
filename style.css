@@ -40,6 +40,8 @@ body {
     font-family: 'Kavoon', 'Courier New', Courier, monospace;
     background-color: rgb(255, 208, 0);
     border-color: rgb(190, 140, 45);
+    aspect-ratio: 4/1;
+    width: 20%;
     cursor: pointer
  }
  
