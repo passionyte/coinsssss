@@ -48,7 +48,7 @@ var shopopen
 var menurf
 var coinmpos
 
-const version = "0.057 Alpha"
+const version = "0.06 Alpha"
 const fps = 30
 
 const items = {
@@ -269,7 +269,7 @@ const abbrs = { // Number abbreviations
     [1e6]: "million",
 }
 const changelog = {
-    [version]: "In progress, this log will be updated later",
+    [version]: "- Added prestige system, you can prestige and forfeit everything for a CPS boost or continue with new structures and upgrades \n - No additional content for it... yet",
     ["0.056 Alpha"]: "- More upgrades",
     ["0.055 Alpha"]: "- Added more upgrades and achievements \n - Added achievement counter to title on stats page \n - Added shadow achivements which don't count towards your total",
     ["0.052_1 Alpha"]: "The save file won't exist on Wii U consoles so forget that last note",
