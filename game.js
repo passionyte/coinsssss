@@ -942,6 +942,7 @@ document.getElementById("bprestige").addEventListener("click", _ => {
 })
 
 document.getElementById("bcontinue").addEventListener("click", _ => {
+    stats.PrestigeCoins = 0
     stats.NextContinue = 3600 // 1 hour
     stats.Continues++
 
