@@ -22,6 +22,7 @@ var stats = {
     CoinsPsMult: 1,
     TotalCoins: 0,
     Clicks: 0,
+    PrestigeCoins: 0,
     Purchased: {},
     Structures: {},
     Achievements: {},
@@ -34,7 +35,7 @@ var shopopen
 var menurf
 var coinmpos
 
-const version = "0.056 Alpha"
+const version = "0.057 Alpha"
 const fps = 30
 
 const items = {
@@ -218,7 +219,8 @@ const fancynames = { // Any string you want to look fancy
     CoinsPc: "Coins per click",
     CoinsPcPs: "Coins per click (% of PS)",
     CoinsMPc: "Coins per click PS bonus",
-    TotalCoins: "Total coins"
+    TotalCoins: "Total coins",
+    PrestigeCoins: "Prestige coins"
 }
 const settings = {
     // Function button types
@@ -252,8 +254,9 @@ const abbrs = { // Number abbreviations
     [1e6]: "million",
 }
 const changelog = {
-    [version]: "- More upgrades",
-    ["0.05 Alpha"]: "- Added more upgrades and achievements \n - Added achievement counter to title on stats page \n - Added shadow achivements which don't count towards your total",
+    [version]: "In progress, this log will be updated later",
+    ["0.056 Alpha"]: "- More upgrades",
+    ["0.055 Alpha"]: "- Added more upgrades and achievements \n - Added achievement counter to title on stats page \n - Added shadow achivements which don't count towards your total",
     ["0.052_1 Alpha"]: "The save file won't exist on Wii U consoles so forget that last note",
     ["0.052 Alpha"]: "- Added Wii U achievement for people who actually play this on a Wii U. It is also given to your primary save file if it exists.",
     ["0.05 Alpha"]: "- 2 new CPC upgrades to help bridge the progression gap... need more...",

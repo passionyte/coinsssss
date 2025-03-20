@@ -61,3 +61,35 @@ body {
     font-weight: bold;
     color:antiquewhite
  }
+
+ .basicbg {
+   background-color: rgb(255, 210, 100);
+   border-color: rgb(200, 160, 65);
+   border-style: solid;
+   border-width: thick;
+ }
+
+ .fakecoin {
+   background-image: url(images/coin.png);
+   aspect-ratio: 1/1; 
+   background-repeat: no-repeat; 
+   background-size: 100% 100%;
+   background-color: transparent;
+   border-color: transparent;
+   position: absolute;
+ }
+
+ .centerwtext {
+   font-family: 'Kavoon', 'Courier New', Courier, monospace;
+   position: absolute;
+   width: 100%;
+   right: 0%;
+   text-align: center
+ }
+
+ .centerytext {
+   font-family: 'Kavoon', 'Courier New', Courier, monospace;
+   position: absolute;
+   bottom: 0%;
+   text-align: center
+ }
