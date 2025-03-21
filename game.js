@@ -52,7 +52,7 @@ var shopopen
 var menurf
 var coinmpos
 
-const version = "0.063 Alpha"
+const version = "0.063_1 Alpha"
 const fps = 30
 
 const items = {
@@ -280,7 +280,8 @@ const abbrs = { // Number abbreviations
     [1e6]: "million",
 }
 const changelog = {
-    [version]: "- Prestige coins can now be kept as a currency (currently nothing to buy though) \n - Prestige count is now tracked \n - Added more achievements and upgrades \n - Fixed it so you can actually prestige (lol)",
+    [version]: "- Adjusted delay between continues from 1 hour to 30 minutes for less pain to the player",
+    ["0.063 Alpha"]: "- Prestige coins can now be kept as a currency (currently nothing to buy though) \n - Prestige count is now tracked \n - Added more achievements and upgrades \n - Fixed it so you can actually prestige (lol)",
     ["0.06 Alpha"]: "- Added prestige system, you can prestige and forfeit everything for a CPS boost or continue with new structures and upgrades \n - No additional content for it... yet \n - UI improvements",
     ["0.056 Alpha"]: "- More upgrades",
     ["0.055 Alpha"]: "- Added more upgrades and achievements \n - Added achievement counter to title on stats page \n - Added shadow achivements which don't count towards your total",
@@ -943,7 +944,7 @@ document.getElementById("bprestige").addEventListener("click", _ => {
 
 document.getElementById("bcontinue").addEventListener("click", _ => {
     stats.PrestigeCoins = 0
-    stats.NextContinue = 3600 // 1 hour
+    stats.NextContinue = 1800 // 30 minutes
     stats.Continues++
 
     pmenu.hidden = true
