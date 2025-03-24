@@ -52,7 +52,7 @@ var shopopen
 var menurf
 var coinmpos
 
-const version = "0.063_1 Alpha"
+const version = "0.063_2 Alpha"
 const fps = 30
 
 const items = {
@@ -273,6 +273,11 @@ const settings = {
     ["Decimals"]: 2
 }
 const abbrs = { // Number abbreviations
+    [1e33]: "decillion",
+    [1e30]: "nonillion",
+    [1e27]: "octillion",
+    [1e24]: "septillion",
+    [1e21]: "sextillion",
     [1e18]: "quintillion",
     [1e15]: "quadrillion",
     [1e12]: "trillion",
@@ -280,7 +285,8 @@ const abbrs = { // Number abbreviations
     [1e6]: "million",
 }
 const changelog = {
-    [version]: "- Adjusted delay between continues from 1 hour to 30 minutes for less pain to the player",
+    [version]: "- More number abbreviations \n - More balancing to prestiging will come soon",
+    ["0.063_1 Alpha"]: "- Adjusted delay between continues from 1 hour to 30 minutes for less pain to the player",
     ["0.063 Alpha"]: "- Prestige coins can now be kept as a currency (currently nothing to buy though) \n - Prestige count is now tracked \n - Added more achievements and upgrades \n - Fixed it so you can actually prestige (lol)",
     ["0.06 Alpha"]: "- Added prestige system, you can prestige and forfeit everything for a CPS boost or continue with new structures and upgrades \n - No additional content for it... yet \n - UI improvements",
     ["0.056 Alpha"]: "- More upgrades",
