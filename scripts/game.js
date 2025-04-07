@@ -52,9 +52,9 @@ var shopopen
 var menurf
 var coinmpos
 
-const version = "0.063_2 Alpha"
 const fps = 30
 
+import { changelog, version } from "./changelog.js"
 import { items } from "./items.js"
 
 const fancynames = { // Any string you want to look fancy
@@ -105,21 +105,6 @@ const abbrs = { // Number abbreviations
     [1e9]: "billion",
     [1e6]: "million",
 }
-const changelog = {
-    [version]: "- More number abbreviations \n - More balancing to prestiging will come soon",
-    ["0.063_1 Alpha"]: "- Adjusted delay between continues from 1 hour to 30 minutes for less pain to the player",
-    ["0.063 Alpha"]: "- Prestige coins can now be kept as a currency (currently nothing to buy though) \n - Prestige count is now tracked \n - Added more achievements and upgrades \n - Fixed it so you can actually prestige (lol)",
-    ["0.06 Alpha"]: "- Added prestige system, you can prestige and forfeit everything for a CPS boost or continue with new structures and upgrades \n - No additional content for it... yet \n - UI improvements",
-    ["0.056 Alpha"]: "- More upgrades",
-    ["0.055 Alpha"]: "- Added more upgrades and achievements \n - Added achievement counter to title on stats page \n - Added shadow achivements which don't count towards your total",
-    ["0.052_1 Alpha"]: "The save file won't exist on Wii U consoles so forget that last note",
-    ["0.052 Alpha"]: "- Added Wii U achievement for people who actually play this on a Wii U. It is also given to your primary save file if it exists.",
-    ["0.05 Alpha"]: "- 2 new CPC upgrades to help bridge the progression gap... need more...",
-    ["0.049 Alpha"]: "- Added redirect button between versions",
-    ["0.048 Alpha"]: "- More upgrades and achievements",
-    ["0.046 Alpha"]: "- Added changelog \n - Minor fixes to scaling issues until I become the opposite of a newbie at CSS",
-    ["0.045_2 Alpha"]: "- Experimental Wii U port now exists at coinssssswiiu extension! \n - Minor bug fix."
-}
 
 // Functions
 
@@ -127,13 +112,13 @@ function numacvs(owned) {
     var num = 0
 
     if (owned) {
-        for (_ in stats.Achievements) {
+        for (const i in stats.Achievements) {
             num++
         }
     }
     else {
         for (const acv of items.achievements) {
-            if (!acv.Shadow) {
+            if (!acv.shadow) {
                 num++
             }
         }
@@ -163,7 +148,7 @@ function abbreviate(x) {
 }
 
 function smartround(x) { // For when you don't want a billion decimals in a number
-    d = stats.Settings.Decimals
+    let d = stats.Settings.Decimals
 
     if (d) {
         if (d > 0) {
@@ -284,18 +269,17 @@ function load() {
     }
 
     for (const data of items.structures) {
-        if (!stats.Structures[data.Name]) {
-            stats.Structures[data.Name] = {
+        if (!stats.Structures[data.name]) {
+            stats.Structures[data.name] = {
                 Amount: 0,
-                Ps: data.CoinsPs,
-                Mult: 1
+                Ps: data.ps,
             }
         }
         else {
-            const amt = stats.Structures[data.Name].Amount
+            const amt = stats.Structures[data.name].Amount
             if (amt > 0) {
                 for (var i = 0; (i < amt); i++) {
-                    data.Cost = Math.floor((data.Cost * 1.1))
+                    data.cost = Math.floor((data.cost * 1.1))
                 }
             }
         }
@@ -325,18 +309,18 @@ function load() {
 
     setInterval(_ => {
         for (const acv of items.achievements) {
-            if (!stats.Achievements[acv.Name]) {
-                if (acv.Type == "Stat") {
-                    for (const req in acv.Requirements) {
-                        if (stats[req] >= acv.Requirements[req]) {
-                            award(acv.Name)
+            if (!stats.Achievements[acv.name]) {
+                if (acv.type == "Stat") {
+                    for (const req in acv.reqs) {
+                        if (stats[req] >= acv.reqs[req]) {
+                            award(acv.name)
                         }
                     }
                 }
                 else if (acv.Type == "Structures") {
-                    for (const req in acv.Requirements) {
-                        if (stats.Structures[req].Amount >= acv.Requirements[req]) {
-                            award(acv.Name)
+                    for (const req in acv.reqs) {
+                        if (stats.Structures[req].Amount >= acv.reqs[req]) {
+                            award(acv.name)
                         }
                     }
                 }
@@ -347,8 +331,8 @@ function load() {
                         sum += stats.Structures[struct].Amount
                     }
 
-                    if (sum >= acv.Requirement) {
-                        award(acv.Name)
+                    if (sum >= acv.reqs) {
+                        award(acv.name)
                     }
                 }
                 else if (acv.Type == "SumUpgrades") {
@@ -358,8 +342,8 @@ function load() {
                         len++
                     }
 
-                    if (len >= acv.Requirement) {
-                        award(acv.Name)
+                    if (len >= acv.reqs) {
+                        award(acv.name)
                     }
                 }
             }
@@ -441,79 +425,64 @@ function shop(type, force) {
             else {
                 shopopen = type
 
-                for (const item in list) {
-                    const data = list[item]
-
-                    if ((data.Hidden == null) && (type == "structures" || !find(stats.Purchased, data.Name)) && (data.Cost != null) && (available(data.Requirements))) {
+                for (const data of list) {
+                    if ((data.hidden == null) && (type == "structures" || !find(stats.Purchased, data.name)) && (data.cost != null) && (available(data.reqs))) {
                         const clone = itemdummy.cloneNode(true)
                         const c = clone.children
 
-                        c[0].src = data.Icon || ""
+                        c[0].src = data.icon || ""
 
-                        const sdata = stats.Structures[data.Name]
+                        const sdata = stats.Structures[data.name]
                         if (sdata) {
-                            c[1].innerText = `${data.Name} - ${stats.Structures[data.Name].Amount}` || "???"
+                            c[1].innerText = `${data.name} - ${stats.Structures[data.name].Amount}` || "???"
                         }
                         else {
-                            c[1].innerText = data.Name || "???"
+                            c[1].innerText = data.name || "???"
                         }
-                        c[2].innerText = data.Description || "???"
+                        c[2].innerText = data.desc || "???"
 
                         const button = c[3]
-                        button.innerText = `Purchase for ${abbreviate(data.Cost)} coins`
+                        button.innerText = `Purchase for ${abbreviate(data.cost)} coins`
                         button.addEventListener("click", _ => {
-                            if (stats.Coins >= data.Cost) {
-                                stats.Coins -= data.Cost
+                            if (stats.Coins >= data.cost) {
+                                stats.Coins -= data.cost
 
                                 if (type != "upgrades") {
-                                    data.Cost = Math.floor(data.Cost * 1.1)
-                                    stats.Structures[data.Name].Amount++
+                                    data.cost = Math.floor(data.cost * 1.1)
+                                    stats.CoinsPs += stats.Structures[data.name].Ps
+                                    stats.Structures[data.name].Amount++
                                 }
                                 else {
-                                    stats.Purchased[data.Name] = true
+                                    stats.Purchased[data.name] = true
                                 }
 
-                                if (data.StructName) {
-                                    const sdata = stats.Structures[data.StructName]
-                                    const prod = (sdata.Ps * sdata.Amount)
-                                    const mult = data.StructMult || 2
+                                if (data.stats && (data.stats.length > 0)) {
+                                    for (const i in data.stats) {
+                                        const v = data.stats[i]
 
-                                    stats.CoinsPs += ((prod * mult) - prod)
-                                    sdata.Ps *= mult
-                                }
-                                else {
-                                    for (const buff in data) {
-                                        if (find(stats, buff)) {
-                                            if (data.Multiply) {
-                                                stats[buff] *= data[buff]
+                                        const sdata = stats.Structures[i]
+
+                                        if (sdata) {
+                                            const prod = (sdata.Ps * sdata.Amount)
+                                            
+                                            stats.CoinsPs += ((prod * v) - prod)
+                                            sdata.Ps *= v
+                                        }
+
+                                        console.log(stats[i])
+                                        if (find(stats, i)) {
+                                            if (data.mults[i]) {
+                                                stats[i] *= v
                                             }
                                             else {
-                                                if (type == "structures" && buff == "CoinsPs") {
-                                                    stats[buff] += stats.Structures[data.Name].Ps
-                                                }
-                                                else if (buff == "CoinsPcPs") {
-                                                    stats.CoinsPcPs += data[buff]
+                                                if (type == "structures" && i == "CoinsPs") {
+                                                    stats[i] += stats.Structures[data.name].Ps
                                                 }
                                                 else {
-                                                    stats[buff] += data[buff]
+                                                    stats[i] += v
                                                 }
                                             }
                                         }
-                                    }
-                                }
-
-                                const otherboosts = data.OtherBoosts
-                                if (otherboosts) {
-                                    for (const name in otherboosts) {
-                                        const boost = otherboosts[name]
-
-                                        const sdata = stats.Structures[name]
-
-                                        sdata.Mult += boost
-
-                                        const prod = sdata.Ps
-                                        sdata.Ps = ((prod * sdata.Mult) - prod)
-                                        stats.CoinsPs += (sdata.Ps - prod)
                                     }
                                 }
 
@@ -561,9 +530,9 @@ function doStats() {
 
         c[0].innerText = acv
 
-        const data = findfromiv(items.achievements, "Name", acv)
-        c[0].style.color = data.Shadow && "rgb(120, 25, 170)" || "rgb(0, 0, 0)"
-        c[2].innerText = data.Description
+        const data = findfromiv(items.achievements, "name", acv)
+        c[0].style.color = data.shadow && "rgb(120, 25, 170)" || "rgb(0, 0, 0)"
+        c[2].innerText = data.desc
 
         entry.style.display = "block"
         aui.appendChild(entry)
