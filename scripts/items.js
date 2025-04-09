@@ -75,7 +75,7 @@ export const items = {
         new Upgrade("Iron Pickaxe", "Upgrade pickaxes from Stone to Iron. Miners are twice as efficient!", 2000, {Structures: {Miner: 1}}, {Miner: 2}, true),
         new Upgrade("Quad Click", "Increases your coins per click to 4!", 1337, {Stats: {CoinsPc: 3}}, {CoinsPc: 1}),
         new Upgrade("Scamming", "Scam rich people! Traders are twice as efficient!", 7777, {Structures: {Trader: 1}}, {Trader: 2}, true),
-        new Upgrade("8-Ball Click", "Magic 8 Ball... Give me more coins... Doubles your coins per click!", 8888, {Stats: {CoinsPc: 4}}, {CoinsPc: 2}),
+        new Upgrade("8-Ball Click", "Magic 8 Ball... Give me more coins... Doubles your coins per click!", 8888, {Stats: {CoinsPc: 4}}, {CoinsPc: 2}, true),
         new Upgrade("Enterprise", "Surely giving your businesses a fancy name will attract more customers... Businesses are twice as efficient!", 25000, {Structures: {Business: 1}}, {Business: 2}, true),
         new Upgrade("Well-Oiled Machines", "Upgrade the machines in your factories to industry standard. Factories are twice as efficient!", 70000, {Structures: {Factory: 1}}, {Factory: 2}, true),
         new Upgrade("Stone Mouse", "Clonk clonk clonk... Clickers are twice as efficient!", 1000, {Structures: {Clicker: 10}}, {Clicker: 2}, true),

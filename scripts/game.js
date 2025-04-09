@@ -14,7 +14,7 @@ const pmenu = document.getElementById("choice")
 
 // Variables
 
-var stats = {
+let stats = {
     Coins: 0,
     CoinsPs: 0,
     CoinsPc: 1,
@@ -34,7 +34,7 @@ var stats = {
     Achievements: {},
     Settings: {}
 }
-var blank = {
+let blank = {
     Coins: 0,
     CoinsPs: 0,
     CoinsPc: 1,
@@ -45,12 +45,12 @@ var blank = {
     Purchased: {},
     Structures: {}
 }
-var loaded = false
-var savecd = false
-var menuopen
-var shopopen
-var menurf
-var coinmpos
+let loaded = false
+let savecd = false
+let menuopen
+let shopopen
+let menurf
+let coinmpos
 
 const fps = 30
 
@@ -109,7 +109,7 @@ const abbrs = { // Number abbreviations
 // Functions
 
 function numacvs(owned) {
-    var num = 0
+    let num = 0
 
     if (owned) {
         for (const i in stats.Achievements) {
@@ -136,7 +136,7 @@ function abbreviate(x) {
         return x
     }
 
-    var largest
+    let largest
 
     for (const i in abbrs) {
         if (x >= i && (!largest || i > largest)) {
@@ -200,8 +200,8 @@ function effect(type, args) {
         const text = document.getElementById("textdummy").cloneNode()
 
         const st = text.style
-        var y
-        var pc = false
+        let y
+        let pc = false
         if (args.click) {
             text.innerText = `+${abbreviate(smartround((stats.CoinsPc + stats.CoinsMPc)))}`
             y = (coinmpos.y + randInt(-48, 48))
@@ -278,7 +278,7 @@ function load() {
         else {
             const amt = stats.Structures[data.name].Amount
             if (amt > 0) {
-                for (var i = 0; (i < amt); i++) {
+                for (let i = 0; (i < amt); i++) {
                     data.cost = Math.floor((data.cost * 1.1))
                 }
             }
@@ -325,7 +325,7 @@ function load() {
                     }
                 }
                 else if (acv.Type == "SumStructs") {
-                    var sum = 0
+                    let sum = 0
 
                     for (const struct in stats.Structures) {
                         sum += stats.Structures[struct].Amount
@@ -336,7 +336,7 @@ function load() {
                     }
                 }
                 else if (acv.Type == "SumUpgrades") {
-                    var len = 0
+                    let len = 0
 
                     for (const i in stats.Upgrades) {
                         len++
@@ -363,7 +363,7 @@ function save(force) {
 }
 
 function find(array, string) {
-    var result = false
+    let result = false
 
     for (const i in array) {
         if (i == string) {
@@ -376,9 +376,9 @@ function find(array, string) {
 }
 
 function findfromiv(array, i, v) {
-    var result
+    let result
 
-    for (var x in array) {
+    for (let x in array) {
         x = array[x]
 
         if (x[i] == v) {
@@ -456,9 +456,15 @@ function shop(type, force) {
                                     stats.Purchased[data.name] = true
                                 }
 
-                                if (data.stats && (data.stats.length > 0)) {
+                                for (const v in data) {
+                                    console.log(v)
+                                }
+
+                                if (data.stats) {
                                     for (const i in data.stats) {
                                         const v = data.stats[i]
+
+                                        console.log(`${i}: ${v}`)
 
                                         const sdata = stats.Structures[i]
 
@@ -471,7 +477,7 @@ function shop(type, force) {
 
                                         console.log(stats[i])
                                         if (find(stats, i)) {
-                                            if (data.mults[i]) {
+                                            if ((data.mult && ((data.mult == true) || (data.mult[i])))) {
                                                 stats[i] *= v
                                             }
                                             else {
@@ -606,7 +612,7 @@ function doSettings() {
             entry.style.display = "block"
             ui.appendChild(entry)
             c[2].addEventListener("click", _ => {
-                var input = c[1].value
+                let input = c[1].value
 
                 if (mytype == "number") {
                     input = Number(input)
@@ -777,6 +783,10 @@ document.getElementById("prestigebutton").addEventListener("click", _ => {
 })
 
 // Hard coded crap
+
+document.addEventListener("contextmenu", mouse => {
+    mouse.preventDefault()
+})
 
 document.getElementById("version").innerText = `v${version}`
 

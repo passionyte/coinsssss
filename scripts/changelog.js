@@ -1,7 +1,8 @@
-export const version = "0.07 Alpha"
+export const version = "0.072 Alpha"
 
 export const changelog = {
-    [version]: "- Seperated items and changelog & version from game.js \n - New, more organized and streamlined factoring for items such as structures, upgrades and achievements \n - Some things *may* be broken and idk if this will make it to Wii U :(",
+    [version]: "- Improved scaling on other devices \n - Fixed all bugs with new factored item code(?) \n - Wii U Version may be remade or receive limited improvements from 0.07 and this version \n - There may still be issues so please keep that in mind <3",
+    ["0.07 Alpha"]: "- Seperated items and changelog & version from game.js \n - New, more organized and streamlined factoring for items such as structures, upgrades and achievements \n - Some things *may* be broken and idk if this will make it to Wii U :(",
     ["0.063_2 Alpha"]: "- More number abbreviations \n - More balancing to prestiging will come soon",
     ["0.063_1 Alpha"]: "- Adjusted delay between continues from 1 hour to 30 minutes for less pain to the player",
     ["0.063 Alpha"]: "- Prestige coins can now be kept as a currency (currently nothing to buy though) \n - Prestige count is now tracked \n - Added more achievements and upgrades \n - Fixed it so you can actually prestige (lol)",
