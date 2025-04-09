@@ -1,7 +1,8 @@
-export const version = "0.073 Alpha"
+export const version = "0.073_1 Alpha"
 
 export const changelog = {
-    [version]: "- Split globals from the main script \n - Fixed a good 30 upgrades missing",
+    [version]: "- Fixed achievements not awarding if they aren't 'Stat' type",
+    ["0.073 Alpha"]: "- Split globals from the main script \n - Fixed a good 30 upgrades missing",
     ["0.072 Alpha"]: "- Improved scaling on other devices \n - Fixed all bugs with new factored item code(?) \n - Wii U Version may be remade or receive limited improvements from 0.07 and this version \n - There may still be issues so please keep that in mind <3",
     ["0.07 Alpha"]: "- Seperated items and changelog & version from game.js \n - New, more organized and streamlined factoring for items such as structures, upgrades and achievements \n - Some things *may* be broken and idk if this will make it to Wii U :(",
     ["0.063_2 Alpha"]: "- More number abbreviations \n - More balancing to prestiging will come soon",

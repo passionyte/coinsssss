@@ -254,14 +254,14 @@ function load() {
                         }
                     }
                 }
-                else if (acv.Type == "Structures") {
+                else if (acv.type == "Structures") {
                     for (const req in acv.reqs) {
                         if (stats.Structures[req].Amount >= acv.reqs[req]) {
                             award(acv.name)
                         }
                     }
                 }
-                else if (acv.Type == "SumStructs") {
+                else if (acv.type == "SumStructs") {
                     let sum = 0
 
                     for (const struct in stats.Structures) {
@@ -272,7 +272,7 @@ function load() {
                         award(acv.name)
                     }
                 }
-                else if (acv.Type == "SumUpgrades") {
+                else if (acv.type == "SumUpgrades") {
                     let len = 0
 
                     for (const i in stats.Upgrades) {
@@ -395,9 +395,7 @@ function shop(type, force) {
 
                                 if (data.stats) {
                                     for (const i in data.stats) {
-                                        const v = data.stats[i]
-
-                                        console.log(`${i}: ${v}`)
+                                        const v = data.stats[i] 
 
                                         const sdata = stats.Structures[i]
 
