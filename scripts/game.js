@@ -34,17 +34,6 @@ let stats = {
     Achievements: {},
     Settings: {}
 }
-let blank = {
-    Coins: 0,
-    CoinsPs: 0,
-    CoinsPc: 1,
-    CoinsPcPs: 0,
-    CoinsMPc: 0,
-    CoinsPsMult: 1,
-    PrestigeCoins: 0,
-    Purchased: {},
-    Structures: {}
-}
 let loaded = false
 let savecd = false
 let menuopen
@@ -52,59 +41,9 @@ let shopopen
 let menurf
 let coinmpos
 
-const fps = 30
-
 import { changelog, version } from "./changelog.js"
 import { items } from "./items.js"
-
-const fancynames = { // Any string you want to look fancy
-    CoinsPs: "Coins per sec.",
-    CoinsPsMult: "Coins per sec. multiplier",
-    CoinsPc: "Coins per click",
-    CoinsPcPs: "Coins per click (% of PS)",
-    CoinsMPc: "Coins per click PS bonus",
-    TotalCoins: "Total coins",
-    PrestigeCoins: "Current prestige coins",
-    PrestigeLevel: "Prestige level (+1% of PS)",
-    PrestigeBalance: "Prestige coin balance",
-    NextContinue: "Seconds until next continue"
-}
-const settings = {
-    // Function button types
-    ["Reset game"]: function () {
-        if (confirm("Are you sure you want to reset your game?")) {
-            localStorage.clear()
-            location.reload()
-        }
-    },
-    ["Save game"]: function () {
-        save()
-    },
-    ["Go to Wii U"]: function () {
-        window.location.replace("https://passionyte.github.io/coinssssswiiu");
-    },
-
-    // Boolean types
-    ["Auto saving"]: true,
-    ["Short numbers"]: true,
-    ["Dynamic site title"]: true,
-    ["Text effects"]: true,
-
-    // Input types
-    ["Decimals"]: 2
-}
-const abbrs = { // Number abbreviations
-    [1e33]: "decillion",
-    [1e30]: "nonillion",
-    [1e27]: "octillion",
-    [1e24]: "septillion",
-    [1e21]: "sextillion",
-    [1e18]: "quintillion",
-    [1e15]: "quadrillion",
-    [1e12]: "trillion",
-    [1e9]: "billion",
-    [1e6]: "million",
-}
+import { abbrs, fps, debug, settings, blank, fancynames } from "./globals.js"
 
 // Functions
 
@@ -192,9 +131,7 @@ function award(acv) {
 }
 
 function effect(type, args) {
-    if (!stats.Settings[`${type} effects`]) {
-        return
-    }
+    if (!stats.Settings[`${type} effects`]) return
 
     if (type == "Text") {
         const text = document.getElementById("textdummy").cloneNode()
@@ -456,10 +393,6 @@ function shop(type, force) {
                                     stats.Purchased[data.name] = true
                                 }
 
-                                for (const v in data) {
-                                    console.log(v)
-                                }
-
                                 if (data.stats) {
                                     for (const i in data.stats) {
                                         const v = data.stats[i]
@@ -475,7 +408,6 @@ function shop(type, force) {
                                             sdata.Ps *= v
                                         }
 
-                                        console.log(stats[i])
                                         if (find(stats, i)) {
                                             if ((data.mult && ((data.mult == true) || (data.mult[i])))) {
                                                 stats[i] *= v
@@ -558,9 +490,7 @@ function doChangelog() {
 
         c[0].innerText = vers
 
-        if (vers == version) {
-            c[0].style.color = "rgb(0, 100, 0)"
-        }
+        if (vers == version) c[0].style.color = "rgb(0, 100, 0)"
 
         c[2].innerText = log
 
@@ -804,11 +734,13 @@ setInterval(_ => {
     stats.TotalCoins += x
     stats.PrestigeCoins += (x / 1e12)
 
-    if (stats.NextContinue > 0) {
-        stats.NextContinue -= (1 / fps)
-    }
+    if (stats.NextContinue > 0) stats.NextContinue -= (1 / fps)
 
     refresh()
+
+    if (debug) {
+        globalThis.stats = stats
+    }
 }, fps)
 
 setTimeout(load, 1000)
