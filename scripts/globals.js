@@ -1,4 +1,4 @@
-export const debug = true // Is game in debug mode
+export const debug = false // Is game in debug mode
 export const fps = 30 // 'Frame rate' for ticks
 
 export const blank = { // Blank save file (for rebirths, etc.)
