@@ -2,15 +2,15 @@
 
 // Elements
 
-const bigbutton = document.getElementById("bigbutton")
-const clicks = document.getElementById("clicks")
-const prod = document.getElementById("clicksps")
-const itemlist = document.getElementById("items")
-const itemdummy = document.getElementById("itemdummy")
-const structb = document.getElementById("structures")
-const upgb = document.getElementById("upgrades")
-const effs = document.getElementById("effects")
-const pmenu = document.getElementById("choice")
+const bigbutton = g("bigbutton")
+const clicks = g("clicks")
+const prod = g("clicksps")
+const itemlist = g("items")
+const itemdummy = g("itemdummy")
+const structb = g("structures")
+const upgb = g("upgrades")
+const effs = g("effects")
+const pmenu = g("choice")
 
 // Variables
 
@@ -36,6 +36,7 @@ let stats = {
 }
 let loaded = false
 let savecd = false
+let bulkbuy = 1
 let menuopen
 let shopopen
 let menurf
@@ -46,6 +47,10 @@ import { items } from "./items.js"
 import { abbrs, fps, debug, settings, blank, fancynames } from "./globals.js"
 
 // Functions
+
+function g(id) {
+    return document.getElementById(id)
+}
 
 function numacvs(owned) {
     let num = 0
@@ -121,8 +126,8 @@ function refresh() {
         document.title = "Passionyte's Coinsssss!"
     }
 
-    document.getElementById("prestigecontainer").style.display = ((stats.PrestigeCoins >= 1 && stats.NextContinue == 0) && "inline-block") || "none"        
-    document.getElementById("prestigebar").style.width = `${((1 - Math.abs((stats.PrestigeCoins - (Math.round((stats.PrestigeCoins + 0.5)))))) * 100)}%`
+    g("prestigecontainer").style.display = ((stats.PrestigeCoins >= 1 && stats.NextContinue == 0) && "inline-block") || "none"        
+    g("prestigebar").style.width = `${((1 - Math.abs((stats.PrestigeCoins - (Math.round((stats.PrestigeCoins + 0.5)))))) * 100)}%`
 }
 
 function award(acv) {
@@ -134,7 +139,7 @@ function effect(type, args) {
     if (!stats.Settings[`${type} effects`]) return
 
     if (type == "Text") {
-        const text = document.getElementById("textdummy").cloneNode()
+        const text = g("textdummy").cloneNode()
 
         const st = text.style
         let y
@@ -210,6 +215,7 @@ function load() {
             stats.Structures[data.name] = {
                 Amount: 0,
                 Ps: data.ps,
+                Mult: 1
             }
         }
         else {
@@ -231,10 +237,10 @@ function load() {
     }
 
     // Interface
-    document.getElementById("loading").hidden = true
-    document.getElementById("main").style.display = "inline"
-    document.getElementById("main2").style.display = "inline"
-    document.getElementById("main3").style.display = "inline"
+    g("loading").hidden = true
+    g("main").style.display = "inline"
+    g("main2").style.display = "inline"
+    g("main3").style.display = "inline"
 
     loaded = true
 
@@ -275,7 +281,7 @@ function load() {
                 else if (acv.type == "SumUpgrades") {
                     let len = 0
 
-                    for (const i in stats.Upgrades) {
+                    for (_ in stats.Upgrades) {
                         len++
                     }
 
@@ -350,6 +356,55 @@ function available(reqs) {
     return true
 }
 
+function purchase(data, type) {
+    if (stats.Coins >= data.cost) {
+        stats.Coins -= data.cost
+
+        if (type != "upgrades") {
+            data.cost = Math.floor(data.cost * 1.1)
+
+            const s = stats.Structures[data.name]
+
+            stats.CoinsPs += (s.Ps * s.Mult)
+            s.Amount++
+        }
+        else {
+            stats.Purchased[data.name] = true
+        }
+
+        if (data.stats) {
+            for (const i in data.stats) {
+                const v = data.stats[i] 
+
+                const sdata = stats.Structures[i]
+
+                if (sdata) {
+                    const prod = ((sdata.Ps * sdata.Mult) * sdata.Amount)
+                    
+                    stats.CoinsPs += ((prod * v) - prod)
+                    sdata.Mult += v
+                }
+
+                if (find(stats, i)) {
+                    if ((data.mult && ((data.mult == true) || (data.mult[i])))) {
+                        stats[i] *= v
+                    }
+                    else {
+                        if (type == "structures" && i == "CoinsPs") {
+                            stats[i] += stats.Structures[data.name].Ps
+                        }
+                        else {
+                            stats[i] += v
+                        }
+                    }
+                }
+            }
+        }
+
+        stats.CoinsMPc = ((stats.CoinsPs * (stats.CoinsPsMult + (stats.PrestigeLevel / 100))) * stats.CoinsPcPs)
+    }
+}
+
 function shop(type, force) {
     if (type) {
         const list = items[type]
@@ -381,52 +436,13 @@ function shop(type, force) {
                         const button = c[3]
                         button.innerText = `Purchase for ${abbreviate(data.cost)} coins`
                         button.addEventListener("click", _ => {
-                            if (stats.Coins >= data.cost) {
-                                stats.Coins -= data.cost
-
-                                if (type != "upgrades") {
-                                    data.cost = Math.floor(data.cost * 1.1)
-                                    stats.CoinsPs += stats.Structures[data.name].Ps
-                                    stats.Structures[data.name].Amount++
-                                }
-                                else {
-                                    stats.Purchased[data.name] = true
-                                }
-
-                                if (data.stats) {
-                                    for (const i in data.stats) {
-                                        const v = data.stats[i] 
-
-                                        const sdata = stats.Structures[i]
-
-                                        if (sdata) {
-                                            const prod = (sdata.Ps * sdata.Amount)
-                                            
-                                            stats.CoinsPs += ((prod * v) - prod)
-                                            sdata.Ps *= v
-                                        }
-
-                                        if (find(stats, i)) {
-                                            if ((data.mult && ((data.mult == true) || (data.mult[i])))) {
-                                                stats[i] *= v
-                                            }
-                                            else {
-                                                if (type == "structures" && i == "CoinsPs") {
-                                                    stats[i] += stats.Structures[data.name].Ps
-                                                }
-                                                else {
-                                                    stats[i] += v
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                stats.CoinsMPc = ((stats.CoinsPs * (stats.CoinsPsMult + (stats.PrestigeLevel / 100))) * stats.CoinsPcPs)
-
-                                refresh()
-                                shop(type, true)
+                            let v = ((type == "structures") && bulkbuy) || 1
+                            for (let i = 0; (i < v); i++) {
+                                purchase(data, type)
                             }
+
+                            refresh()
+                            shop(type, true)
                         })
 
                         clone.hidden = false
@@ -434,24 +450,25 @@ function shop(type, force) {
                     }
                 }
             }
+            g("bulks").hidden = (!shopopen || type != "structures")
         }
     }
 }
 
 function doStats() {
-    const sui = document.getElementById("stats")
+    const sui = g("stats")
     sui.innerHTML = null
 
-    const aui = document.getElementById("achievements")
+    const aui = g("achievements")
     aui.innerHTML = null
 
-    document.getElementById("acvtitle").innerText = `ACHIEVEMENTS - (${numacvs(true)} / ${numacvs()})` 
+    g("acvtitle").innerText = `ACHIEVEMENTS - (${numacvs(true)} / ${numacvs()})` 
 
     for (const stat in stats) {
         const me = stats[stat]
 
         if (typeof (me) == "number") {
-            const entry = document.getElementById("statdummy").cloneNode(true)
+            const entry = g("statdummy").cloneNode(true)
             const c = entry.children
             c[0].innerText = `${fancynames[stat] || stat} : `
             c[1].innerText = abbreviate(smartround(me))
@@ -461,7 +478,7 @@ function doStats() {
     }
 
     for (const acv in stats.Achievements) {
-        const entry = document.getElementById("acvdummy").cloneNode(true)
+        const entry = g("acvdummy").cloneNode(true)
         const c = entry.children
 
         c[0].innerText = acv
@@ -476,13 +493,13 @@ function doStats() {
 }
 
 function doChangelog() {
-    const ui = document.getElementById("changelog")
+    const ui = g("changelog")
     ui.innerHTML = null
 
     for (const vers in changelog) {
         const log = changelog[vers]
 
-        const entry = document.getElementById("logdummy").cloneNode(true)
+        const entry = g("logdummy").cloneNode(true)
 
         const c = entry.children
 
@@ -499,14 +516,14 @@ function doChangelog() {
 }
 
 function doSettings() {
-    const ui = document.getElementById("settings")
+    const ui = g("settings")
     ui.innerHTML = null
 
     for (const nm in settings) {
         const set = settings[nm]
 
         if (typeof (set) == "function") {
-            const entry = document.getElementById("buttondummy").cloneNode(true)
+            const entry = g("buttondummy").cloneNode(true)
 
             const b = entry.children[0]
             b.innerText = nm
@@ -516,7 +533,7 @@ function doSettings() {
             b.addEventListener("click", set)
         }
         else if (typeof (set) == "boolean") {
-            const entry = document.getElementById("booldummy").cloneNode(true)
+            const entry = g("booldummy").cloneNode(true)
 
             const b = entry.children[0]
             b.innerText = `${nm} : ${bool(stats.Settings[nm])}`
@@ -533,7 +550,7 @@ function doSettings() {
         }
         else {
             const mytype = typeof (set)
-            const entry = document.getElementById("inputdummy").cloneNode(true)
+            const entry = g("inputdummy").cloneNode(true)
 
             const c = entry.children
             c[0].innerText = `${nm} : `
@@ -562,26 +579,26 @@ function openPrestige() {
     if (stats.PrestigeCoins >= 1 && stats.NextContinue == 0) {
         const c = pmenu.children
 
-        c[2].children[1].innerText = `You will gain ${Math.round(stats.PrestigeCoins)} prestige levels and coin balance, however you have to forfeit everything.`
+        c[2].children[1].innerText = `You will gain ${abbreviate(Math.round(stats.PrestigeCoins))} prestige levels and coin balance, however you have to forfeit everything.`
         pmenu.hidden = false
     }
 }
 
 function menu(type) {
-    const ui = document.getElementById(type)
+    const ui = g(type)
 
     if (menuopen && menuopen != type) {
-        document.getElementById(menuopen).hidden = true
+        g(menuopen).hidden = true
         if (menurf) {
             clearInterval(menurf)
             menurf = null
         }
     }
 
-    const aui = document.getElementById("achievements")
-    const at = document.getElementById("acvtitle")
+    const aui = g("achievements")
+    const at = g("acvtitle")
     if (ui && ui.hidden) {
-        document.getElementById("menulabel").innerText = type.toUpperCase()
+        g("menulabel").innerText = type.toUpperCase()
 
         menuopen = type
         ui.hidden = false
@@ -604,7 +621,7 @@ function menu(type) {
     else {
         aui.hidden = true
         at.hidden = true
-        document.getElementById("menulabel").innerText = ""
+        g("menulabel").innerText = ""
         ui.hidden = true
 
         if (menurf) {
@@ -648,10 +665,30 @@ bigbutton.addEventListener("mouseleave", _ => {
     bigbutton.style.top = 0
 })
 
+// Bulk buyers
+
+g("buy1").addEventListener("click", e => {
+    g(`buy${bulkbuy}`).style["font-weight"] = null
+    e.target.style["font-weight"] = "bold"
+    bulkbuy = 1
+})
+
+g("buy10").addEventListener("click", e => {
+    g(`buy${bulkbuy}`).style["font-weight"] = null
+    e.target.style["font-weight"] = "bold"
+    bulkbuy = 10
+})
+
+g("buy25").addEventListener("click", e => {
+    g(`buy${bulkbuy}`).style["font-weight"] = null
+    e.target.style["font-weight"] = "bold"
+    bulkbuy = 25
+})
+
 // Prestige menu
 
 const prestiged = false
-document.getElementById("bprestige").addEventListener("click", _ => {
+g("bprestige").addEventListener("click", _ => {
     if (!prestiged) {
         stats.Prestiges++
 
@@ -672,7 +709,7 @@ document.getElementById("bprestige").addEventListener("click", _ => {
     }
 })
 
-document.getElementById("bcontinue").addEventListener("click", _ => {
+g("bcontinue").addEventListener("click", _ => {
     stats.PrestigeCoins = 0
     stats.NextContinue = 1800 // 30 minutes
     stats.Continues++
@@ -680,7 +717,7 @@ document.getElementById("bcontinue").addEventListener("click", _ => {
     pmenu.hidden = true
 })
 
-document.getElementById("bnevermind").addEventListener("click", _ => {
+g("bnevermind").addEventListener("click", _ => {
     pmenu.hidden = true
 })
 
@@ -694,19 +731,19 @@ upgb.addEventListener("click", _ => {
     shop("upgrades")
 })
 
-document.getElementById("statsbutton").addEventListener("click", _ => {
+g("statsbutton").addEventListener("click", _ => {
     menu("stats")
 })
 
-document.getElementById("changelogbutton").addEventListener("click", _ => {
+g("changelogbutton").addEventListener("click", _ => {
     menu("changelog")
 })
 
-document.getElementById("settingsbutton").addEventListener("click", _ => {
+g("settingsbutton").addEventListener("click", _ => {
     menu("settings")
 })
 
-document.getElementById("prestigebutton").addEventListener("click", _ => {
+g("prestigebutton").addEventListener("click", _ => {
     openPrestige()
 })
 
@@ -716,7 +753,7 @@ document.addEventListener("contextmenu", mouse => {
     mouse.preventDefault()
 })
 
-document.getElementById("version").innerText = `v${version}`
+g("version").innerText = `v${version}`
 
 for (const nm in settings) {
     const def = settings[nm]
