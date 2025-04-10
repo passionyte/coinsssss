@@ -1,7 +1,8 @@
-export const version = "0.075 Alpha"
+export const version = "0.076 Alpha"
 
 export const changelog = {
-    [version]: "- Added bulk buying",
+    [version]: "- Code improvements",
+    ["0.075 Alpha"]: "- Added bulk buying",
     ["0.073_1 Alpha"]: "- Fixed achievements not awarding if they aren't 'Stat' type",
     ["0.073 Alpha"]: "- Split globals from the main script \n - Fixed a good 30 upgrades missing",
     ["0.072 Alpha"]: "- Improved scaling on other devices \n - Fixed all bugs with new factored item code(?) \n - Wii U Version may be remade or receive limited improvements from 0.07 and this version \n - There may still be issues so please keep that in mind <3",

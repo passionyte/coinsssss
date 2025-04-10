@@ -2,7 +2,7 @@
 
 // Elements
 
-const bigbutton = g("bigbutton")
+const bigcoin = g("bigcoin")
 const clicks = g("clicks")
 const prod = g("clicksps")
 const itemlist = g("items")
@@ -48,15 +48,23 @@ import { abbrs, fps, debug, settings, blank, fancynames } from "./globals.js"
 
 // Functions
 
+function getCPS() {
+    return (stats.CoinsPs * (stats.CoinsPsMult + (stats.PrestigeLevel / 100)))
+}
+
 function g(id) {
     return document.getElementById(id)
+}
+
+function s(o, i, v) {
+    o.style[i] = v
 }
 
 function numacvs(owned) {
     let num = 0
 
     if (owned) {
-        for (const i in stats.Achievements) {
+        for (let i in stats.Achievements) {
             num++
         }
     }
@@ -117,7 +125,7 @@ function refresh() {
     const coins = abbreviate(Math.floor(stats.Coins))
 
     clicks.innerText = `${coins} coins`
-    prod.innerText = `${abbreviate(smartround(stats.CoinsPs * (stats.CoinsPsMult + (stats.PrestigeLevel / 100))))} coins/s`
+    prod.innerText = `${abbreviate(smartround(getCPS()))} coins/s`
 
     if (stats.Settings["Dynamic site title"]) {
         document.title = `${coins} coins - Passionyte's Coinsssss!`
@@ -125,9 +133,9 @@ function refresh() {
     else {
         document.title = "Passionyte's Coinsssss!"
     }
-
-    g("prestigecontainer").style.display = ((stats.PrestigeCoins >= 1 && stats.NextContinue == 0) && "inline-block") || "none"        
-    g("prestigebar").style.width = `${((1 - Math.abs((stats.PrestigeCoins - (Math.round((stats.PrestigeCoins + 0.5)))))) * 100)}%`
+  
+    s(g("prestigecontainer"), "display", ((stats.PrestigeCoins >= 1 && stats.NextContinue == 0) && "inline-block") || "none")     
+    s(g("prestigebar"), "width", `${((1 - Math.abs((stats.PrestigeCoins - (Math.round((stats.PrestigeCoins + 0.5)))))) * 100)}%`)
 }
 
 function award(acv) {
@@ -180,6 +188,9 @@ function effect(type, args) {
 
         const anim = setInterval(_ => {
             st.opacity -= 0.01
+
+            if (st.opacity <= 0) return
+
             if (!pc) {
                 st.top = `${(y - ((1 - st.opacity) * 100))}px`
             }
@@ -238,9 +249,7 @@ function load() {
 
     // Interface
     g("loading").hidden = true
-    g("main").style.display = "inline"
-    g("main2").style.display = "inline"
-    g("main3").style.display = "inline"
+    g("game").hidden = false
 
     loaded = true
 
@@ -281,7 +290,7 @@ function load() {
                 else if (acv.type == "SumUpgrades") {
                     let len = 0
 
-                    for (_ in stats.Upgrades) {
+                    for (let i in stats.Upgrades) {
                         len++
                     }
 
@@ -401,7 +410,7 @@ function purchase(data, type) {
             }
         }
 
-        stats.CoinsMPc = ((stats.CoinsPs * (stats.CoinsPsMult + (stats.PrestigeLevel / 100))) * stats.CoinsPcPs)
+        stats.CoinsMPc = (getCPS() * stats.CoinsPcPs)
     }
 }
 
@@ -577,9 +586,7 @@ function doSettings() {
 
 function openPrestige() {
     if (stats.PrestigeCoins >= 1 && stats.NextContinue == 0) {
-        const c = pmenu.children
-
-        c[2].children[1].innerText = `You will gain ${abbreviate(Math.round(stats.PrestigeCoins))} prestige levels and coin balance, however you have to forfeit everything.`
+        pmenu.querySelector("desc").innerText = `You will gain ${abbreviate(Math.round(stats.PrestigeCoins))} prestige levels and coin balance, however you have to forfeit everything.`
         pmenu.hidden = false
     }
 }
@@ -631,9 +638,27 @@ function menu(type) {
     }
 }
 
+function setBulk(x = 1) {
+    let b = x // Can be both a number or a event if it is registered from a button
+    
+    s(g(`buy${bulkbuy}`), "font-weight", null)
+
+    let t = x.target
+    if (t) { // Easy.
+        b = Number(t.id.replace("buy", ""))
+    }
+    else { // IT'S A NUMBER. Find the button associated with it!
+        t = g(`buy${b}`)
+    }
+
+    s(t, "font-weight", "bold")
+
+    bulkbuy = b
+}
+
 // Listeners
 
-bigbutton.addEventListener("click", _ => {
+bigcoin.addEventListener("click", _ => {
     const x = (stats.CoinsPc + stats.CoinsMPc)
     stats.Coins += x
     stats.TotalCoins += x
@@ -643,70 +668,53 @@ bigbutton.addEventListener("click", _ => {
     effect("Text", { click: true, lifetime: 1 })
 })
 
-bigbutton.addEventListener("mousemove", ev => {
+bigcoin.addEventListener("mousemove", ev => {
     coinmpos = { x: ev.clientX, y: ev.clientY }
 })
 
-bigbutton.addEventListener("mousedown", _ => {
-    bigbutton.style.width = 48 + "%"
-    bigbutton.style.left = 1 + "%"
-    bigbutton.style.top = 1 + "%"
+bigcoin.addEventListener("mousedown", _ => {
+    s(bigcoin, "width", (48 + "%"))
+    s(bigcoin, "left", (1 + "%"))
+    s(bigcoin, "top", (1 + "%"))
 })
 
-bigbutton.addEventListener("mouseup", _ => {
-    bigbutton.style.width = 50 + "%"
-    bigbutton.style.left = 0
-    bigbutton.style.top = 0
+bigcoin.addEventListener("mouseup", _ => {
+    s(bigcoin, "width", (50 + "%"))
+    s(bigcoin, "left", 0)
+    s(bigcoin, "top", 0)
 })
 
-bigbutton.addEventListener("mouseleave", _ => {
-    bigbutton.style.width = 50 + "%"
-    bigbutton.style.left = 0
-    bigbutton.style.top = 0
+bigcoin.addEventListener("mouseleave", _ => {
+    s(bigcoin, "width", (50 + "%"))
+    s(bigcoin, "left", 0)
+    s(bigcoin, "top", 0)
 })
 
 // Bulk buyers
 
-g("buy1").addEventListener("click", e => {
-    g(`buy${bulkbuy}`).style["font-weight"] = null
-    e.target.style["font-weight"] = "bold"
-    bulkbuy = 1
-})
-
-g("buy10").addEventListener("click", e => {
-    g(`buy${bulkbuy}`).style["font-weight"] = null
-    e.target.style["font-weight"] = "bold"
-    bulkbuy = 10
-})
-
-g("buy25").addEventListener("click", e => {
-    g(`buy${bulkbuy}`).style["font-weight"] = null
-    e.target.style["font-weight"] = "bold"
-    bulkbuy = 25
-})
+g("buy1").addEventListener("click", setBulk)
+g("buy10").addEventListener("click", setBulk)
+g("buy25").addEventListener("click", setBulk)
 
 // Prestige menu
 
-const prestiged = false
 g("bprestige").addEventListener("click", _ => {
-    if (!prestiged) {
-        stats.Prestiges++
+    stats.Prestiges++
 
-        const pcoins = Math.round(stats.PrestigeCoins)
-        stats.PrestigeLevel += pcoins
-        stats.PrestigeBalance += pcoins
-    
-        for (const def in blank) {
-            if (stats[def]) {
-                stats[def] = blank[def]
-            }
+    const pcoins = Math.round(stats.PrestigeCoins)
+    stats.PrestigeLevel += pcoins
+    stats.PrestigeBalance += pcoins
+
+    for (const def in blank) {
+        if (stats[def]) {
+            stats[def] = blank[def]
         }
-    
-        save(true)
-        setTimeout(_ => {
-            location.reload()
-        }, 1000)
     }
+
+    save(true)
+    setTimeout(_ => {
+        location.reload()
+    }, 1000)
 })
 
 g("bcontinue").addEventListener("click", _ => {
@@ -765,7 +773,7 @@ for (const nm in settings) {
 }
 
 setInterval(_ => {
-    const x = ((stats.CoinsPs * (stats.CoinsPsMult + (stats.PrestigeLevel / 100))) / fps)
+    const x = (getCPS() / fps)
     stats.Coins += x
     stats.TotalCoins += x
     stats.PrestigeCoins += (x / 1e12)
@@ -774,9 +782,7 @@ setInterval(_ => {
 
     refresh()
 
-    if (debug) {
-        globalThis.stats = stats
-    }
+    if (debug) globalThis.stats = stats
 }, fps)
 
 setTimeout(load, 1000)
