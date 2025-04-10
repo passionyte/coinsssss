@@ -751,6 +751,7 @@ g("prestigebutton").addEventListener("click", _ => {
 
 document.addEventListener("contextmenu", mouse => {
     mouse.preventDefault()
+    return false
 })
 
 g("version").innerText = `v${version}`

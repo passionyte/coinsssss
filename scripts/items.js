@@ -64,7 +64,7 @@ export const items = {
         new Structure("Currency", "Now you must mean serious business. Convince people to start paying solely in coins.", 5e5, 2800),
         new Structure("Research Facility", "Research facilities which prioritize finding new ways to make coins.", 3.2e6, 12000),
         new Structure("Matter Refiner", "Developed by your research facilities, you can now refine matter to the point where it turns into coins.", 48e6, 50000),
-        new Structure("Planet", "Why rely on mere objects when you can just create new planets filled to the brim with coins?", 256000000, 2e5),
+        new Structure("Planet", "Why rely on mere objects when you can just create new planets filled to the brim with coins?", 256e6, 2e5),
         new Structure("The Matrix", "Didn't see this coming, did you? Now choose a coin... red or blue...", 6e9, 1.999e6),
         new Structure("Atomizer", "A massive advancement over the Matter Refiners, Atomizers can bend literally anything, Matrix or not, into millions of coins.", 3e11, 4.4e7)
     ],

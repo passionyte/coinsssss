@@ -112,4 +112,16 @@ body {
    margin: auto; 
    padding: 10px; 
    font-weight: bold; 
+   border-color: rgb(200, 160, 65);
+   border-style: solid;
+   border-width: thick;
+}
+
+img {
+   -webkit-user-drag: none;
+	/* user-drag: none; */
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
