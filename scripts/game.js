@@ -586,7 +586,9 @@ function doSettings() {
 
 function openPrestige() {
     if (stats.PrestigeCoins >= 1 && stats.NextContinue == 0) {
-        pmenu.querySelector("desc").innerText = `You will gain ${abbreviate(Math.round(stats.PrestigeCoins))} prestige levels and coin balance, however you have to forfeit everything.`
+        const c = pmenu.children
+
+        c[2].children[1].innerText = `You will gain ${Math.round(stats.PrestigeCoins)} prestige levels and coin balance, however you have to forfeit everything.`
         pmenu.hidden = false
     }
 }
